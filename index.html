@@ -95,9 +95,9 @@
   .vid{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:rgba(18,9,32,.3);transition:transform .4s var(--ease),border-color .4s}
   .vid:hover{transform:translateY(-6px);border-color:rgba(167,139,250,.5)}
   .vthumb{position:relative;aspect-ratio:16/10;display:grid;place-items:center;overflow:hidden;background:#1a0b33 center/cover}
-  .vid:nth-child(3n+1) .vthumb{background-image:url('assets/neuron1.png')}
-  .vid:nth-child(3n+2) .vthumb{background-image:url('assets/neuron2.png')}
-  .vid:nth-child(3n) .vthumb{background-image:url('assets/neuron1.png')}
+  .vid:nth-child(3n+1) .vthumb{background-image:url('assets/neuron1.webp')}
+  .vid:nth-child(3n+2) .vthumb{background-image:url('assets/neuron2.webp')}
+  .vid:nth-child(3n) .vthumb{background-image:url('assets/neuron1.webp')}
   .vthumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,5,24,.1),rgba(10,5,24,.75))}
   .vthumb .logo3{position:absolute;left:16px;top:14px;z-index:2;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:'Manrope';font-weight:800;font-size:18px;color:#fff;background:conic-gradient(from 30deg,#f0abfc,#8b5cf6,#d946ef,#f0abfc);box-shadow:0 0 20px rgba(217,70,239,.6)}
   .vthumb .cap{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;font-family:'Manrope';font-weight:800;font-size:13px;line-height:1.25;text-transform:uppercase;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
@@ -126,14 +126,15 @@
   .scene-title{position:relative;z-index:6;padding-top:96px;pointer-events:none}
   .scene-title h2{font-family:'Manrope';font-weight:800;font-size:clamp(26px,4.4vw,56px);line-height:1.04;letter-spacing:-.02em;max-width:19ch;margin-top:14px}
   .scene-title h2 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
-  #brain-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+  .head-wrap{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:108vh;z-index:1;pointer-events:none;display:flex;align-items:flex-end}
+  .head-wrap img{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 0 50px rgba(217,70,239,.35));will-change:transform}
+  @media(max-width:760px){.head-wrap{height:80vh}}
   .bubbles{position:absolute;inset:0;z-index:3;pointer-events:none}
   .bubble{position:absolute;transform:translate(-50%,-50%);will-change:transform,opacity}
   .bubble .pill{display:inline-block;padding:11px 17px;border-radius:14px;background:rgba(18,9,32,.6);border:1px solid rgba(242,236,251,.16);backdrop-filter:blur(6px);font-size:14px;color:var(--ink);white-space:nowrap;box-shadow:0 10px 30px -14px rgba(0,0,0,.7);animation:float 6s var(--ease) infinite alternate}
   @keyframes float{to{transform:translateY(-9px)}}
   .resolve{position:absolute;right:28px;bottom:60px;max-width:32ch;z-index:6;opacity:0;text-align:right;pointer-events:none}
   .resolve p{font-size:14.5px;color:var(--ink-d)}.resolve p b{color:var(--pink);font-weight:600}
-  .brain-loading{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:2;color:var(--ink-dd);font-size:13px;letter-spacing:.1em}
 
   .comma{text-align:center;padding:40px 0 10px}
   .comma .lead{font-size:15px;color:var(--ink-d)}
@@ -248,7 +249,7 @@
         <a href="#approach" class="btn btn-ghost">Как это работает</a>
       </div>
     </div>
-    <div class="hero-photo"><img src="assets/igor.png" alt="Игорь Стрельников"></div>
+    <div class="hero-photo"><img src="assets/igor.webp" alt="Игорь Стрельников"></div>
   </section>
 
   <!-- PAINS -->
@@ -315,8 +316,7 @@
         <span class="eyebrow">Терапия и действие</span>
         <h2>Решение проблем через терапию и&nbsp;<em>действие</em>, а не душевные разговоры</h2>
       </div>
-      <canvas id="brain-canvas"></canvas>
-      <div class="brain-loading" id="brainLoading">загрузка 3D-модели…</div>
+      <div class="head-wrap"><img src="assets/head.webp" id="headImg" alt=""></div>
       <div class="bubbles" id="bubbles"></div>
       <div class="resolve" id="resolve"><p><b>Сверхсознание</b> перенастраивает внутренние программы, создавая новую реальность, свободную от ограничений прошлого.</p></div>
     </div>
@@ -331,17 +331,17 @@
   <!-- ABOUT -->
   <section class="blk" id="about">
     <div class="wrap cred">
-      <div class="portrait rv"><img src="assets/igor.png" alt="Игорь Стрельников"><div class="name">Игорь Стрельников</div></div>
+      <div class="portrait rv"><img src="assets/igor.webp" alt="Игорь Стрельников"><div class="name">Игорь Стрельников</div></div>
       <div class="cred-right">
         <span class="eyebrow rv">Обо мне</span>
         <h2 class="rv d1">Проводник к Вашему сверхсознанию, Высшему&nbsp;Я, гипнолог, нейрокоуч</h2>
         <div class="stat-grid">
           <div class="stat c1 rv"><div class="fig"><img src="assets/fig1.webp" alt=""></div><div class="big">5 лет</div><p>Регулярной практики и изучения гипнотических и нейропсихологических методик.</p></div>
-          <div class="stat c2 rv d1"><div class="fig"><img src="assets/gfig1.png" alt=""></div><div class="big">300+</div><p>Довольных клиентов, повысивших качество жизни благодаря работе со мной.</p></div>
+          <div class="stat c2 rv d1"><div class="fig"><img src="assets/gfig1.webp" alt=""></div><div class="big">300+</div><p>Довольных клиентов, повысивших качество жизни благодаря работе со мной.</p></div>
           <div class="stat c3 rv d2"><div class="fig"><img src="assets/fig2.webp" alt=""></div><div class="big">∞</div><p>Эффект от терапии сохраняется навсегда. Негативные программы никогда не вернутся.</p></div>
-          <div class="stat c4 rv"><div class="fig"><img src="assets/gfig2.png" alt=""></div><div class="big">Эксперт</div><p>По работе со сверхсознанием, подсознанием и сознанием одновременно.</p></div>
+          <div class="stat c4 rv"><div class="fig"><img src="assets/gfig2.webp" alt=""></div><div class="big">Эксперт</div><p>По работе со сверхсознанием, подсознанием и сознанием одновременно.</p></div>
           <div class="stat c5 rv d1"><div class="fig"><img src="assets/fig3.webp" alt=""></div><div class="big">Автор методики</div><p>«Бенефактор». Каждого клиента довожу до желаемого результата.</p></div>
-          <div class="stat c6 rv d2"><div class="fig"><img src="assets/gfig3.png" alt=""></div><div class="big">Сертификат</div><p>Сертифицированный специалист Американской академии гипноза.</p></div>
+          <div class="stat c6 rv d2"><div class="fig"><img src="assets/gfig3.webp" alt=""></div><div class="big">Сертификат</div><p>Сертифицированный специалист Американской академии гипноза.</p></div>
         </div>
       </div>
     </div>
@@ -412,7 +412,6 @@
 </script>
 <script type="module">
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 /* ---- gradient env for chrome reflections ---- */
@@ -447,37 +446,6 @@ function makeEnv(R){
   }catch(e){cvs.style.display='none';}
 })();
 
-/* ---- 2) real GLB brain in scatter scene ---- */
-let brainObj=null, brainGroup=null;
-(function(){
-  const cvs=document.getElementById('brain-canvas'); const stage=cvs.parentElement;
-  try{
-    const R=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true});
-    R.setPixelRatio(Math.min(devicePixelRatio,2)); R.toneMapping=THREE.ACESFilmicToneMapping; R.outputColorSpace=THREE.SRGBColorSpace;
-    const scene=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(38,1,0.1,100); cam.position.set(0,0,3.2);
-    scene.environment=makeEnv(R);
-    scene.add(new THREE.AmbientLight(0xffffff,.85));
-    const l1=new THREE.PointLight(0xd946ef,45,30,2); l1.position.set(4,3,5); scene.add(l1);
-    const l2=new THREE.PointLight(0x7c3aed,40,30,2); l2.position.set(-4,-2,3); scene.add(l2);
-    const l3=new THREE.DirectionalLight(0xffffff,1.1); l3.position.set(0,4,4); scene.add(l3);
-    brainGroup=new THREE.Group(); scene.add(brainGroup);
-    new GLTFLoader().load('assets/brain.glb',(gltf)=>{
-      brainObj=gltf.scene;
-      const box=new THREE.Box3().setFromObject(brainObj); const sz=box.getSize(new THREE.Vector3()); const ctr=box.getCenter(new THREE.Vector3());
-      brainObj.position.sub(ctr); const s=2.6/Math.max(sz.x,sz.y,sz.z); brainObj.scale.setScalar(s);
-      brainObj.traverse(o=>{ if(o.isMesh&&o.material){ o.material.emissive=new THREE.Color(0x6d28d9); o.material.emissiveIntensity=0.35; o.material.envMapIntensity=1.2; } });
-      brainGroup.add(brainObj);
-      const bl=document.getElementById('brainLoading'); if(bl) bl.style.display='none';
-    },undefined,()=>{ const bl=document.getElementById('brainLoading'); if(bl) bl.textContent='3D-модель не загрузилась'; });
-    function size(){const r=stage.getBoundingClientRect();R.setSize(r.width,r.height,false);cam.aspect=r.width/r.height;cam.updateProjectionMatrix();}
-    size(); addEventListener('resize',size);
-    const m={x:0,y:0,tx:0,ty:0}; addEventListener('pointermove',e=>{m.tx=(e.clientX/innerWidth-.5);m.ty=(e.clientY/innerHeight-.5);},{passive:true});
-    const cl=new THREE.Clock();
-    (function loop(){const t=cl.getElapsedTime();m.x+=(m.tx-m.x)*.05;m.y+=(m.ty-m.y)*.05;
-      if(brainGroup){brainGroup.rotation.y=t*.28+m.x*1.0; brainGroup.rotation.x=Math.sin(t*.4)*.12+m.y*.6;}
-      R.render(scene,cam);requestAnimationFrame(loop);})();
-  }catch(e){cvs.style.display='none'; const bl=document.getElementById('brainLoading'); if(bl) bl.style.display='none';}
-})();
 </script>
 
 <script>
@@ -487,7 +455,10 @@ const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 if(fine){
   const c=document.getElementById('cursor'); let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
   addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
-  (function a(){cx+=(mx-cx)*.22;cy+=(my-cy)*.22;c.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(a);})();
+  (function a(){cx+=(mx-cx)*.22;cy+=(my-cy)*.22;
+    const t=performance.now()*0.018;
+    const jx=Math.sin(t)*1.1+Math.sin(t*2.3)*0.7, jy=Math.cos(t*1.4)*1.1+Math.cos(t*2.7)*0.6;
+    c.style.transform=`translate(${cx+jx}px,${cy+jy}px) translate(-50%,-50%)`;requestAnimationFrame(a);})();
   const big='a,button,.btn,h1,h2,h3,p,.pcard,.vid,.price,.plead,.stat,.pillar,.qa .q,.cred-card';
   document.querySelectorAll(big).forEach(el=>{el.addEventListener('pointerenter',()=>c.classList.add('big'));el.addEventListener('pointerleave',()=>c.classList.remove('big'));});
 }
@@ -534,7 +505,7 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
     b.el.style.transform=`translate(-50%,-50%) translate(${tx}px,${ty}px) rotate(${b.rot*fly}deg) scale(${1-0.25*fly})`;
     b.el.style.opacity=(1-smooth(0.2,0.7,p)).toFixed(3);
   });
-  if(brainGroup) brainGroup.scale.setScalar(1+fly*0.12);
+  const hi=document.getElementById('headImg'); if(hi) hi.style.transform=`scale(${1+fly*0.05})`;
   resolve.style.opacity=smooth(0.6,0.95,p).toFixed(3);
   requestAnimationFrame(render);
 })();

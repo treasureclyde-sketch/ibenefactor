@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Бенефактор — Игорь Стрельников · терапия, гипноз, нейрокоучинг</title>
-<meta name="description" content="Решение проблем через терапию и действие. Авторская система «Бенефактор»: соединяем Высшее Я, сознание и подсознание для глубокой трансформации.">
+<title>Бенефактор — Игорь Стрельников · работа с подсознанием, гипноз, нейрокоучинг</title>
+<meta name="description" content="Помогаю выйти из негативных сценариев и стать счастливее и богаче. Авторская система «Бенефактор»: работа с подсознанием, гипноз и нейрокоучинг.">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
-
   :root{
     --bg:#060310;--bg2:#0A0520;--ink:#F2ECFB;--ink-d:rgba(242,236,251,.62);--ink-dd:rgba(242,236,251,.40);
     --line:rgba(242,236,251,.10);--violet:#8B5CF6;--violet-2:#A78BFA;--magenta:#D946EF;--pink:#F0ABFC;--chrome:#E9D5FF;
@@ -24,24 +23,20 @@
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--violet-2);font-weight:600}
   .eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--magenta),transparent)}
 
-  /* ambient */
   .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
   .aurora b{position:absolute;border-radius:50%;filter:blur(100px);opacity:.42;mix-blend-mode:screen}
   .aurora .a1{width:48vw;height:48vw;left:-14vw;top:-10vw;background:radial-gradient(circle,#6d28d9,transparent 62%)}
-  .aurora .a2{width:44vw;height:44vw;right:-12vw;top:60vh;background:radial-gradient(circle,#d946ef,transparent 62%)}
+  .aurora .a2{width:44vw;height:44vw;right:-12vw;top:64vh;background:radial-gradient(circle,#d946ef,transparent 62%)}
   .aurora .a3{width:40vw;height:40vw;left:26vw;bottom:-16vw;background:radial-gradient(circle,#4c1d95,transparent 62%)}
-  .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   main,header,footer{position:relative;z-index:3}
 
-  /* cursor */
   .cur{position:fixed;top:0;left:0;z-index:61;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%);will-change:transform;mix-blend-mode:screen}
   #cur-dot{width:6px;height:6px;background:#fff}
   #cur-ring{width:32px;height:32px;border:1.5px solid rgba(240,171,252,.55);transition:width .3s var(--ease),height .3s var(--ease),background .3s,border-color .3s}
   #cur-ring.hot{width:50px;height:50px;background:rgba(217,70,239,.10);border-color:var(--pink)}
   @media(hover:none),(pointer:coarse){.cur{display:none}body{cursor:auto}}
 
-  /* buttons */
   .btn{display:inline-flex;align-items:center;gap:11px;cursor:none;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
   .btn .arw{transition:transform .3s var(--ease)}.btn:hover .arw{transform:translateX(4px)}
   .btn-primary{background:linear-gradient(105deg,var(--violet),var(--magenta));color:#fff;box-shadow:0 12px 38px -12px rgba(217,70,239,.6)}
@@ -49,70 +44,46 @@
   .btn-ghost{background:rgba(242,236,251,.05);color:var(--ink);border:1px solid var(--line)}
   .btn-ghost:hover{background:rgba(242,236,251,.09);transform:translateY(-2px)}
 
-  /* nav */
   header#nav{position:fixed;top:0;left:0;right:0;z-index:40;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
   header#nav.scrolled{background:rgba(6,3,16,.72);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
   .nav-in{max-width:var(--maxw);margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:11px;font-family:'Manrope';font-weight:800;font-size:22px;letter-spacing:-.01em}
   .brand .dot{width:12px;height:12px;border-radius:50%;background:conic-gradient(from 0deg,var(--magenta),var(--violet),var(--pink),var(--magenta));box-shadow:0 0 16px 2px rgba(217,70,239,.7);animation:spin 6s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links{display:flex;gap:28px;align-items:center}
   .nav-links a{font-size:14.5px;color:var(--ink-d);transition:color .25s;font-weight:500;cursor:none}
   .nav-links a:hover{color:var(--ink)}
   .nav-cta{padding:11px 20px;font-size:14px !important}
-  @media(max-width:900px){.nav-links a:not(.nav-cta){display:none}}
+  @media(max-width:1000px){.nav-links a:not(.nav-cta){display:none}}
 
-  /* ===== HERO / scatter ===== */
-  .stage{position:relative;height:230vh}
-  .stage-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:radial-gradient(130% 100% at 50% 52%,#09040f 0%,#09040f 46%,#140826 100%)}
-  .hero-title{position:relative;z-index:6;padding-top:118px;pointer-events:none}
-  .hero-title h1{font-family:'Manrope';font-weight:800;font-size:clamp(28px,4.6vw,60px);line-height:1.04;letter-spacing:-.02em;max-width:19ch;margin-top:16px}
-  .hero-title h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
+  /* ===== HERO ===== */
+  .hero{min-height:100svh;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:140px 0 80px}
+  @media(max-width:900px){.hero{grid-template-columns:1fr;padding:130px 0 60px}}
+  .hero h1{font-family:'Manrope';font-weight:800;font-size:clamp(34px,5.2vw,66px);line-height:1.02;letter-spacing:-.02em;max-width:17ch;margin-top:18px}
+  .hero h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
+  .hero .sub{margin-top:24px;font-size:clamp(16px,2vw,19px);color:var(--ink-d);max-width:40ch}
+  .hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+  .hero .who{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:14.5px;color:var(--ink-d);max-width:44ch}
+  .hero .who b{color:var(--ink)}
+  .hero-visual{position:relative;aspect-ratio:1/1;display:grid;place-items:center}
+  .hero-visual img{width:78%;filter:drop-shadow(0 30px 80px rgba(217,70,239,.35));animation:floaty 7s var(--ease) infinite alternate}
+  @keyframes floaty{to{transform:translateY(-22px) rotate(4deg)}}
+  @media(max-width:900px){.hero-visual{max-width:380px;margin:0 auto}}
 
-  .mind{position:absolute;inset:0;z-index:2;pointer-events:none}
-  .head-backer{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);width:min(78vh,640px);height:min(78vh,640px);
-    background:radial-gradient(circle,#06040f 0%,#06040f 36%,rgba(6,4,15,0) 72%);z-index:1}
-  .head-wrap{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);width:min(46vh,380px);aspect-ratio:1/1;z-index:2}
-  .head-wrap img{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen;will-change:transform}
-  .glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;filter:blur(46px);will-change:opacity}
-  .glow.g-chaos{width:56%;height:56%;background:radial-gradient(circle,var(--magenta),transparent 68%);opacity:.7}
-  .glow.g-calm{width:70%;height:70%;background:radial-gradient(circle,#22d3ee,transparent 66%);opacity:0}
-  .freedom{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);font-family:'Manrope';font-weight:800;font-size:clamp(26px,4vw,50px);letter-spacing:-.01em;color:#fff;opacity:0;text-shadow:0 0 34px rgba(240,171,252,.75);white-space:nowrap;z-index:4}
-  .bubble{position:absolute;transform:translate(-50%,-50%);will-change:transform,opacity;z-index:3}
-  .bubble .pill{display:inline-block;padding:11px 17px;border-radius:14px;background:rgba(18,9,32,.62);border:1px solid rgba(242,236,251,.14);backdrop-filter:blur(6px);font-size:14px;color:var(--ink-d);white-space:nowrap;box-shadow:0 10px 30px -14px rgba(0,0,0,.7);animation:float 6s var(--ease) infinite alternate}
-  @keyframes float{to{transform:translateY(-9px)}}
-  .resolve{position:absolute;right:28px;bottom:70px;max-width:32ch;z-index:6;opacity:0;text-align:right;pointer-events:none}
-  .resolve p{font-size:14.5px;color:var(--ink-d)}.resolve p b{color:var(--pink);font-weight:600}
-  .scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--ink-dd);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase}
-  .scroll-hint .m{width:22px;height:34px;border:1.5px solid var(--line);border-radius:12px;position:relative}
-  .scroll-hint .m::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:7px;border-radius:2px;background:var(--magenta);animation:sc 1.7s var(--ease) infinite}
-  @keyframes sc{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}70%{opacity:1}100%{opacity:0;transform:translate(-50%,10px)}}
-  @media(max-width:760px){.head-wrap{width:min(40vh,260px);top:64%}.head-backer{top:64%}.bubble:nth-child(n+7){display:none}}
-
-  /* sections */
-  section.blk{padding:130px 0;position:relative}
-  .sec-head{max-width:680px;margin-bottom:56px}
+  section.blk{padding:120px 0;position:relative}
+  .sec-head{max-width:720px;margin-bottom:52px}
   .sec-head h2{font-family:'Manrope';font-weight:800;font-size:clamp(28px,4.4vw,52px);line-height:1.04;margin-top:16px;letter-spacing:-.02em}
   .sec-head p{margin-top:16px;color:var(--ink-d);font-size:17px}
-
-  /* method */
-  .method{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-  @media(max-width:920px){.method{grid-template-columns:1fr;gap:36px}}
-  .chrome-stage{position:relative;aspect-ratio:1/1;width:100%}
-  #chrome-canvas{position:absolute;inset:0;width:100%;height:100%}
-  .orbit{position:absolute;padding:15px 21px;border-radius:999px;background:rgba(18,9,32,.42);border:1px solid rgba(242,236,251,.14);backdrop-filter:blur(10px);font-family:'Manrope';font-weight:700;font-size:14.5px;white-space:nowrap;box-shadow:0 14px 40px -16px rgba(0,0,0,.7)}
-  .orbit.o1{top:10%;left:-3%;color:var(--chrome)}.orbit.o2{top:40%;right:-5%;color:var(--pink)}.orbit.o3{bottom:11%;left:9%;color:var(--violet-2)}
-  .method .txt h2{font-family:'Manrope';font-weight:800;font-size:clamp(26px,4vw,46px);line-height:1.05;margin-top:16px;letter-spacing:-.02em}
-  .method .txt p{color:var(--ink-d);font-size:16.5px;margin-top:20px;max-width:44ch}.method .txt p b{color:var(--ink)}
+  .sec-head .note{margin-top:10px;font-size:14px;color:var(--ink-dd)}
 
   /* pains */
-  .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 26px}
+  .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 24px}
   @media(max-width:900px){.pains{grid-template-columns:1fr}}
   .pcard{position:relative;padding:30px 28px;border-radius:20px;border:1px solid rgba(242,236,251,.14);overflow:hidden;background:linear-gradient(160deg,rgba(139,92,246,.14),rgba(18,9,32,.3));backdrop-filter:blur(10px);box-shadow:0 26px 60px -34px rgba(0,0,0,.8);transition:transform .5s var(--ease),border-color .5s,box-shadow .5s;transform:rotate(var(--tilt,0deg))}
   .pcard::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .5s;background:radial-gradient(80% 60% at 50% 0%,rgba(217,70,239,.22),transparent 70%)}
   .pcard:hover{transform:rotate(0deg) translateY(-8px);border-color:rgba(240,171,252,.5);box-shadow:0 36px 80px -30px rgba(217,70,239,.4)}
   .pcard:hover::before{opacity:1}
-  .pcard h3{font-family:'Manrope';font-weight:800;font-size:23px;margin-bottom:12px}.pcard p{font-size:14.5px;color:var(--ink-d);position:relative}
+  .pcard h3{font-family:'Manrope';font-weight:800;font-size:22px;margin-bottom:12px}.pcard p{font-size:14.5px;color:var(--ink-d);position:relative}
 
   /* video */
   .vids{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
@@ -129,39 +100,91 @@
   .play::before{content:"";width:0;height:0;border-left:15px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
   .vmeta{padding:18px 20px}.vmeta .who{font-family:'Manrope';font-weight:700;font-size:15px;margin-bottom:6px}.vmeta p{font-size:13.5px;color:var(--ink-d)}
 
-  /* credentials / about */
+  /* approach: chrome + pillars */
+  .method{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  @media(max-width:920px){.method{grid-template-columns:1fr;gap:36px}}
+  .chrome-stage{position:relative;aspect-ratio:1/1;width:100%}
+  #chrome-canvas{position:absolute;inset:0;width:100%;height:100%}
+  .orbit{position:absolute;padding:14px 20px;border-radius:999px;background:rgba(18,9,32,.5);border:1px solid rgba(242,236,251,.14);backdrop-filter:blur(10px);font-family:'Manrope';font-weight:700;font-size:14px;white-space:nowrap;box-shadow:0 14px 40px -16px rgba(0,0,0,.7)}
+  .orbit.o1{top:6%;left:2%;color:var(--chrome)}.orbit.o2{top:44%;right:0%;color:var(--pink)}.orbit.o3{bottom:7%;left:10%;color:var(--violet-2)}
+  .method .txt h2{font-family:'Manrope';font-weight:800;font-size:clamp(26px,4vw,46px);line-height:1.05;margin-top:16px;letter-spacing:-.02em}
+  .method .txt p{color:var(--ink-d);font-size:16.5px;margin-top:20px;max-width:46ch}.method .txt p b{color:var(--ink)}
+  .brain-note{margin-top:22px;padding:18px 22px;border:1px dashed var(--line);border-radius:16px;background:rgba(139,92,246,.06);font-size:15px;color:var(--ink-d)}
+  .brain-note b{color:var(--pink)}
+
+  /* freedom scatter scene */
+  .scene{position:relative;height:230vh}
+  .scene-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:radial-gradient(130% 100% at 50% 54%,#09040f 0%,#09040f 46%,#140826 100%)}
+  .scene-title{position:relative;z-index:6;padding-top:96px;pointer-events:none}
+  .scene-title h2{font-family:'Manrope';font-weight:800;font-size:clamp(26px,4.4vw,56px);line-height:1.04;letter-spacing:-.02em;max-width:19ch;margin-top:14px}
+  .scene-title h2 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
+  .mind{position:absolute;inset:0;z-index:2;pointer-events:none}
+  .head-wrap{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);width:min(46vh,380px);aspect-ratio:1/1;z-index:2}
+  .head-wrap img{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen;will-change:transform}
+  .glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;filter:blur(46px);will-change:opacity}
+  .glow.g-chaos{width:56%;height:56%;background:radial-gradient(circle,var(--magenta),transparent 68%);opacity:.7}
+  .glow.g-calm{width:70%;height:70%;background:radial-gradient(circle,#22d3ee,transparent 66%);opacity:0}
+  .freedom{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);font-family:'Manrope';font-weight:800;font-size:clamp(26px,4vw,50px);letter-spacing:-.01em;color:#fff;opacity:0;text-shadow:0 0 34px rgba(240,171,252,.75);white-space:nowrap;z-index:4}
+  .bubble{position:absolute;transform:translate(-50%,-50%);will-change:transform,opacity;z-index:3}
+  .bubble .pill{display:inline-block;padding:11px 17px;border-radius:14px;background:rgba(18,9,32,.62);border:1px solid rgba(242,236,251,.14);backdrop-filter:blur(6px);font-size:14px;color:var(--ink-d);white-space:nowrap;box-shadow:0 10px 30px -14px rgba(0,0,0,.7);animation:float 6s var(--ease) infinite alternate}
+  @keyframes float{to{transform:translateY(-9px)}}
+  .resolve{position:absolute;right:28px;bottom:70px;max-width:32ch;z-index:6;opacity:0;text-align:right;pointer-events:none}
+  .resolve p{font-size:14.5px;color:var(--ink-d)}.resolve p b{color:var(--pink);font-weight:600}
+  @media(max-width:760px){.head-wrap{width:min(40vh,240px);top:64%}.bubble:nth-child(n+7){display:none}}
+
+  /* comma cta */
+  .comma{text-align:center;padding:40px 0 10px}
+  .comma .lead{font-size:15px;color:var(--ink-d);letter-spacing:.02em}
+  .comma h3{font-family:'Manrope';font-weight:800;font-size:clamp(30px,5vw,60px);margin:14px 0 6px;letter-spacing:-.02em}
+  .comma h3 .cm{color:var(--magenta)}
+  .comma .btn{margin-top:24px}
+
+  /* about */
   .cred{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:stretch}
   @media(max-width:940px){.cred{grid-template-columns:1fr;gap:34px}}
-  .portrait{position:relative;border-radius:22px;overflow:hidden;min-height:520px;border:1px solid var(--line);
-    background:linear-gradient(120deg,#1a0b33,#3a0a5e 45%,#7c1fa0);}
+  .portrait{position:relative;border-radius:22px;overflow:hidden;min-height:560px;border:1px solid var(--line);background:linear-gradient(120deg,#1a0b33,#3a0a5e 45%,#7c1fa0)}
   .portrait::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 2px,transparent 2px 10px);mix-blend-mode:screen}
   .portrait .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:rgba(255,255,255,.85);font-family:'Manrope';font-weight:700;font-size:15px;padding:24px}
   .portrait .name{position:absolute;left:20px;bottom:18px;z-index:2;font-family:'Manrope';font-weight:800;font-size:20px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.5)}
-  .cred-right{display:flex;flex-direction:column;gap:26px}
+  .cred-right{display:flex;flex-direction:column;gap:24px}
   .cred-right h2{font-family:'Manrope';font-weight:800;font-size:clamp(24px,3.4vw,40px);line-height:1.08;letter-spacing:-.02em}
-  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;flex:1}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   @media(max-width:640px){.stat-row{grid-template-columns:1fr}}
-  .stat{display:flex;flex-direction:column;border-radius:20px;border:1px solid var(--line);padding:24px 22px;background:#0b0618;overflow:hidden}
-  .stat .fig{aspect-ratio:1/1;width:100%;border-radius:14px;background:#000;overflow:hidden;display:grid;place-items:center;margin-bottom:16px}
+  .stat{display:flex;flex-direction:column;border-radius:20px;border:1px solid var(--line);padding:22px 20px;background:#0b0618;overflow:hidden}
+  .stat .fig{aspect-ratio:1/1;width:100%;border-radius:14px;background:#000;overflow:hidden;margin-bottom:14px}
   .stat .fig img{width:100%;height:100%;object-fit:cover}
-  .stat .big{font-family:'Manrope';font-weight:800;font-size:34px;line-height:1;margin-bottom:10px}
-  .stat p{font-size:13.5px;color:var(--ink-d)}
+  .stat .big{font-family:'Manrope';font-weight:800;font-size:32px;line-height:1;margin-bottom:9px}
+  .stat p{font-size:13px;color:var(--ink-d)}
+  .cred-bullets{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .cred-bullets li{display:flex;gap:12px;font-size:15px;color:var(--ink-d);align-items:flex-start}
+  .cred-bullets li .b{color:var(--magenta);flex:none;margin-top:2px}
+  .cred-bullets li b{color:var(--ink);font-weight:600}
 
   /* pricing */
+  .price-lead{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+  @media(max-width:820px){.price-lead{grid-template-columns:1fr}}
+  .plead{padding:28px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(139,92,246,.1),rgba(18,9,32,.3))}
+  .plead.guar{border-color:rgba(217,70,239,.4);background:linear-gradient(160deg,rgba(217,70,239,.14),rgba(18,9,32,.34))}
+  .plead .tag{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dd);font-weight:700}
+  .plead.guar .tag{color:var(--pink)}
+  .plead h3{font-family:'Manrope';font-weight:800;font-size:22px;margin:10px 0 6px}
+  .plead .amt{font-family:'Manrope';font-weight:800;font-size:30px;margin:8px 0}
+  .plead p{font-size:14px;color:var(--ink-d)}
+  .plead ul{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:8px}
+  .plead li{display:flex;gap:9px;font-size:13.5px;color:var(--ink-d)}.plead li .b{color:var(--magenta);flex:none}
   .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
   @media(max-width:900px){.prices{grid-template-columns:1fr}}
-  .price{display:flex;flex-direction:column;padding:32px 28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,rgba(139,92,246,.08),rgba(18,9,32,.3));transition:transform .4s var(--ease),border-color .4s}
+  .price{display:flex;flex-direction:column;padding:30px 26px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,rgba(139,92,246,.08),rgba(18,9,32,.3));transition:transform .4s var(--ease),border-color .4s}
   .price:hover{transform:translateY(-6px);border-color:rgba(167,139,250,.5)}
   .price.feat{border-color:rgba(217,70,239,.5);background:linear-gradient(180deg,rgba(217,70,239,.14),rgba(18,9,32,.34));box-shadow:0 30px 70px -40px rgba(217,70,239,.6)}
   .price .tag{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dd);font-weight:700}.price.feat .tag{color:var(--pink)}
-  .price h3{font-family:'Manrope';font-weight:800;font-size:22px;margin:12px 0 6px}
-  .price .amt{font-family:'Manrope';font-weight:800;font-size:38px;margin:14px 0 4px;line-height:1}
-  .price .per{font-size:13px;color:var(--ink-d);margin-bottom:20px}
-  .price ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px;flex:1}
-  .price li{display:flex;gap:10px;font-size:14px;color:var(--ink-d);align-items:flex-start}.price li .b{color:var(--magenta);flex:none}
+  .price h3{font-family:'Manrope';font-weight:800;font-size:21px;margin:12px 0 4px}
+  .price .amt{font-family:'Manrope';font-weight:800;font-size:36px;margin:12px 0 2px;line-height:1}
+  .price .per{font-size:13px;color:var(--ink-d);margin-bottom:18px}
+  .price ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;flex:1}
+  .price li{display:flex;gap:10px;font-size:13.5px;color:var(--ink-d);align-items:flex-start}.price li .b{color:var(--magenta);flex:none}
   .price .btn{width:100%;justify-content:center}
 
-  /* faq */
   .faq{max-width:900px;margin:0 auto}
   .qa{border-bottom:1px solid var(--line)}
   .qa .q{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:24px 4px;cursor:none;font-family:'Manrope';font-weight:600;font-size:clamp(16px,2vw,20px);transition:color .3s}
@@ -171,25 +194,25 @@
   .qa .ic::after{transform:rotate(90deg)}
   .qa.open .ic{background:linear-gradient(105deg,var(--violet),var(--magenta));border-color:transparent}
   .qa.open .ic::after{transform:rotate(0)}
-  .qa .a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease)}
-  .qa .a p{padding:0 4px 24px;color:var(--ink-d);font-size:15.5px;max-width:70ch}
+  .qa .a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+  .qa .a p{padding:0 4px 24px;color:var(--ink-d);font-size:15.5px;max-width:74ch}
 
   .finale{text-align:center;padding:150px 0}
-  .finale h2{font-family:'Manrope';font-weight:800;font-size:clamp(32px,5.4vw,66px);line-height:1.03;max-width:17ch;margin:20px auto 0;letter-spacing:-.02em}
+  .finale h2{font-family:'Manrope';font-weight:800;font-size:clamp(32px,5.4vw,64px);line-height:1.03;max-width:18ch;margin:20px auto 0;letter-spacing:-.02em}
   .finale h2 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--pink));-webkit-background-clip:text;background-clip:text}
-  .finale p{color:var(--ink-d);margin:22px auto 0;max-width:48ch;font-size:17px}.finale .btn{margin-top:38px}
+  .finale p{color:var(--ink-d);margin:22px auto 0;max-width:48ch;font-size:17px}.finale .btn{margin-top:36px}
 
   footer{border-top:1px solid var(--line);padding:60px 0 40px;background:rgba(10,5,32,.6)}
   .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}.foot .brand{font-size:24px}
   .foot .col h5{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dd);margin-bottom:14px}
   .foot .col a,.foot .col p{display:block;color:var(--ink-d);font-size:14.5px;margin-bottom:9px;transition:color .25s;cursor:none}
-  .foot .col a:hover{color:var(--ink)}.foot-cols{display:flex;gap:70px;flex-wrap:wrap}
+  .foot .col a:hover{color:var(--ink)}.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
   .legal{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-dd)}
 
   .rv{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
   .rv.in{opacity:1;transform:none}
   .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
-  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.bubble .pill{animation:none}}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.bubble .pill,.hero-visual img{animation:none}}
 </style>
 </head>
 <body>
@@ -203,10 +226,11 @@
   <div class="nav-in">
     <a href="#top" class="brand"><span class="dot"></span>Бенефактор</a>
     <nav class="nav-links">
-      <a href="#method">Метод</a>
-      <a href="#help">С чем работаю</a>
+      <a href="#help">С чем помогаю</a>
       <a href="#reviews">Отзывы</a>
-      <a href="#faq">Вопросы</a>
+      <a href="#approach">Подход</a>
+      <a href="#about">Обо мне</a>
+      <a href="#prices">Стоимость</a>
       <a href="#book" class="btn btn-primary nav-cta">Записаться</a>
     </nav>
   </div>
@@ -215,31 +239,62 @@
 <main id="top">
 
   <!-- ===== HERO ===== -->
-  <section class="stage" id="hero">
-    <div class="stage-sticky">
-      <div class="wrap hero-title">
-        <span class="eyebrow">Терапия · гипноз · нейрокоучинг</span>
-        <h1>Решение проблем через терапию и&nbsp;<em>действие</em>,<br>а не душевные разговоры</h1>
+  <section class="wrap hero" id="hero">
+    <div>
+      <span class="eyebrow">Работа с подсознанием · гипноз · нейрокоучинг</span>
+      <h1>Помогаю выйти из негативных сценариев — стать <em>счастливее и богаче</em></h1>
+      <p class="sub">Меняем внутренние программы там, где разговорная терапия не помогает. Устойчиво и навсегда.</p>
+      <div class="hero-cta">
+        <a href="#book" class="btn btn-primary">Записаться на диагностику <span class="arw">→</span></a>
+        <a href="#approach" class="btn btn-ghost">Как это работает</a>
       </div>
+      <p class="who"><b>Игорь Стрельников</b> — эксперт по работе с подсознанием, проводник к Высшему Я, гипнолог, нейрокоуч и создатель авторской системы «Бенефактор».</p>
+    </div>
+    <div class="hero-visual"><img src="assets/fig2.webp" alt=""></div>
+  </section>
 
-      <div class="mind">
-        <div class="head-backer"></div>
-        <div class="head-wrap">
-          <div class="glow g-chaos" id="glowChaos"></div>
-          <div class="glow g-calm" id="glowCalm"></div>
-          <img src="assets/head.png" alt="Разум" id="headImg">
-          <div class="freedom" id="freedom">свобода.</div>
-        </div>
-        <div id="bubbles"></div>
+  <!-- ===== PAINS ===== -->
+  <section class="blk" id="help">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow rv">С чем могу помочь</span>
+        <h2 class="rv d1">Время идёт, но ничего не меняется? Устали бороться?</h2>
+        <p class="rv d2">Все мы иногда теряемся на жизненном пути. Вот какие проблемы решает работа с подсознанием.</p>
+        <p class="note rv d2">Список возможностей при проработке бессознательного гораздо больше — здесь популярные запросы.</p>
       </div>
-
-      <div class="resolve" id="resolve"><p><b>Сверхсознание</b> перенастраивает внутренние программы, создавая новую реальность, свободную от ограничений прошлого.</p></div>
-      <div class="scroll-hint"><div class="m"></div>Листайте — отпустите лишнее</div>
+      <div class="pains">
+        <div class="pcard rv" style="--tilt:-2.5deg"><h3>Финансовые вопросы</h3><p>Постоянная нехватка денег, нелюбимая работа, долги, слив денег, непонимание как вырасти в доходе — всё, что касается денежного мышления.</p></div>
+        <div class="pcard rv d1" style="--tilt:1.5deg"><h3>Отношения</h3><p>Отношения с близкими, с собой, в паре. От поиска партнёра до создания гармоничных отношений или выхода из сложных.</p></div>
+        <div class="pcard rv d2" style="--tilt:-1.5deg"><h3>Яркость жизни</h3><p>«День сурка» и ощущение, что часть жизни прошла впустую. Нет сил что-то менять — кажется, что живёте не свою жизнь.</p></div>
+        <div class="pcard rv" style="--tilt:2deg"><h3>Здоровье</h3><p>Частые болезни, усталость, нет энергии, панические атаки, неврозы, психосоматика, сердцебиение и тремор, зависимости.</p></div>
+        <div class="pcard rv d1" style="--tilt:-2deg"><h3>Поиск себя</h3><p>Постоянный поиск чем заняться, выгорание, сложности с работодателем и бизнесом, нет роста, «не знаю чего хочу», апатия, стресс.</p></div>
+        <div class="pcard rv d2" style="--tilt:1.5deg"><h3>Предназначение</h3><p>Потеря смысла и страх сделать шаг к своему делу. Распутаем клубок и увидим путь истинного решения через подсознание.</p></div>
+      </div>
     </div>
   </section>
 
-  <!-- ===== METHOD ===== -->
-  <section class="blk" id="method">
+  <!-- ===== VIDEO REVIEWS ===== -->
+  <section class="blk" id="reviews">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow rv">Отзывы</span>
+        <h2 class="rv d1">Результат уже после первой сессии — истории моих клиентов</h2>
+        <p class="rv d2">Методика помогает даже тем, кому не дала результата работа с коучами, психологами и другими специалистами.</p>
+      </div>
+      <div class="vids">
+        <div class="vid rv"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Вышла из выгорания и слива финансов<br><b>отзыв Зои</b></div></div><div class="vmeta"><div class="who">Зоя</div><p>После комплексной замены блокирующих и негативных программ вышла из выгорания и слива финансов в потоковое, ресурсное состояние.</p></div></div>
+        <div class="vid rv d1"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Причина срыва запуска бизнеса<br><b>отзыв Александры</b></div></div><div class="vmeta"><div class="who">Александра</div><p>Установили причину срыва запуска бизнеса и тормозящих состояний, программы на пользу отношениям и делу, связь с Духом.</p></div></div>
+        <div class="vid rv d2"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Дал возможность двигаться дальше<br><b>отзыв Василия</b></div></div><div class="vmeta"><div class="who">Василий</div><p>Обратился при организации нового бизнеса. Высшее Я помогло увидеть, какие действия нужно совершить — и он это сделал.</p></div></div>
+        <div class="vid rv"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Установки должника и жертвы<br><b>отзыв Игоря</b></div></div><div class="vmeta"><div class="who">Игорь</div><p>Меняли установки должника и жертвы на программы, соответствующие собственным интересам.</p></div></div>
+        <div class="vid rv d1"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Цена ×2, продажи выросли<br><b>отзыв Владислава</b></div></div><div class="vmeta"><div class="who">Владислав</div><p>Сделки срывались в последний момент. Внутренняя причина устранена — поднял цену вдвое, а продажи только выросли.</p></div></div>
+        <div class="vid rv d2"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Прибыль и отношения в семье<br><b>отзыв клиента</b></div></div><div class="vmeta"><div class="who">Клиент</div><p>Безысходность и психосоматика влияли на бизнес и семью. Всё устранили — дела пошли в гору, выросла прибыль.</p></div></div>
+      </div>
+      <p style="margin-top:22px;font-size:13px;color:var(--ink-dd)" class="rv">* Обложки — образец вёрстки; подключим реальные видео Игоря (YouTube) в один клик.</p>
+    </div>
+  </section>
+
+  <!-- ===== APPROACH: method + chrome ===== -->
+  <section class="blk" id="approach">
     <div class="wrap method">
       <div class="chrome-stage rv">
         <canvas id="chrome-canvas"></canvas>
@@ -248,77 +303,62 @@
         <div class="orbit o3">Работа с нейросвязями</div>
       </div>
       <div class="txt">
-        <span class="eyebrow rv">Как это работает</span>
-        <h2 class="rv d1">Меняем установки на уровне нейросвязей</h2>
-        <p class="rv d2">На сессиях мы заменим ваши старые установки на новые — благодаря чему вы станете <b>творцом своей жизни</b>. Соединим Высшее Я (сверхсознание), душу и тело.</p>
-        <p class="rv d3">Вы удивитесь, как много уже знаете и умеете. И на что способны, чтобы достичь большего.</p>
-        <a href="#book" class="btn btn-primary rv d3" style="margin-top:30px">Начать с диагностики <span class="arw">→</span></a>
+        <span class="eyebrow rv">Подход</span>
+        <h2 class="rv d1">Ваш мозг как компьютер</h2>
+        <p class="rv d2">В нём есть программы, которые включаются автоматически. Некоторые нужные, а некоторые — <b>как вирусы</b> (негативные программы). Мой подход работает с подсознательными убеждениями, эмоциями и шаблонами, которые мешают вам жить желаемой жизнью.</p>
+        <p class="rv d3">На сессиях мы заменим старые установки на новые — благодаря чему вы станете <b>творцом своей жизни</b>. Соединим Высшее Я (сверхсознание), душу и тело.</p>
+        <div class="brain-note rv d3">🧠 <b>3D-модель мозга</b> — по твоей ссылке вставлю живую GLB-модель прямо сюда: будет вращаться и реагировать на курсор.</div>
       </div>
     </div>
   </section>
 
-  <!-- ===== PAINS ===== -->
-  <section class="blk" id="help">
-    <div class="wrap">
-      <div class="sec-head"><span class="eyebrow rv">С чем я работаю</span><h2 class="rv d1">Разные симптомы — один корень в подсознании</h2></div>
-      <div class="pains">
-        <div class="pcard rv" style="--tilt:-2.5deg"><h3>Финансовые вопросы</h3><p>Постоянная нехватка денег, нелюбимая работа, долги, слив денег, непонимание как вырасти в доходе — всё, что касается денежного мышления.</p></div>
-        <div class="pcard rv d1" style="--tilt:1.5deg"><h3>Отношения</h3><p>Отношения с близкими, с собой, в паре. От поиска партнёра до создания гармоничных отношений или выхода из сложных.</p></div>
-        <div class="pcard rv d2" style="--tilt:-1.5deg"><h3>Яркость жизни</h3><p>«День сурка» и ощущение, что часть жизни прошла впустую. Нет сил что-то менять — кажется, что живёте не свою жизнь.</p></div>
-        <div class="pcard rv" style="--tilt:2deg"><h3>Поиск себя</h3><p>Постоянный поиск чем заняться, выгорание, сложности с работой и бизнесом, нет роста, «не знаю чего хочу», апатия, стресс.</p></div>
-        <div class="pcard rv d1" style="--tilt:-2deg"><h3>Здоровье</h3><p>Частые болезни, усталость, нет энергии, панические атаки, неврозы, психосоматика, сердцебиение и тремор, зависимости.</p></div>
-        <div class="pcard rv d2" style="--tilt:1.5deg"><h3>Предназначение</h3><p>Потеря смысла, «занимаюсь не тем», страх сделать шаг к своему делу и реализовать то, ради чего вы здесь.</p></div>
+  <!-- ===== FREEDOM SCATTER SCENE ===== -->
+  <section class="scene" id="approach-scene">
+    <div class="scene-sticky">
+      <div class="wrap scene-title">
+        <span class="eyebrow">Терапия и действие</span>
+        <h2>Решение проблем через терапию и&nbsp;<em>действие</em>, а не душевные разговоры</h2>
       </div>
+      <div class="mind">
+        <div class="head-wrap">
+          <div class="glow g-chaos" id="glowChaos"></div>
+          <div class="glow g-calm" id="glowCalm"></div>
+          <img src="assets/head.png" alt="Разум" id="headImg">
+          <div class="freedom" id="freedom">свобода.</div>
+        </div>
+        <div id="bubbles"></div>
+      </div>
+      <div class="resolve" id="resolve"><p><b>Сверхсознание</b> перенастраивает внутренние программы, создавая новую реальность, свободную от ограничений прошлого.</p></div>
     </div>
   </section>
 
-  <!-- ===== VIDEO REVIEWS ===== -->
-  <section class="blk" id="reviews">
-    <div class="wrap">
-      <div class="sec-head"><span class="eyebrow rv">Видео-отзывы</span><h2 class="rv d1">Истории, которые изменились по-настоящему</h2><p class="rv d2">Реальные клиенты Игоря — до и после работы с системой «Бенефактор».</p></div>
-      <div class="vids">
-        <div class="vid rv"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Вышла из выгорания и слива финансов<br><b>отзыв Зои</b></div></div><div class="vmeta"><div class="who">Зоя</div><p>После замены блокирующих программ вышла из выгорания в ресурсное, потоковое состояние.</p></div></div>
-        <div class="vid rv d1"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Установили причину срыва запуска бизнеса<br><b>отзыв Александры</b></div></div><div class="vmeta"><div class="who">Александра</div><p>Установили причину срыва запуска бизнеса и тормозящих состояний, программы на пользу делу.</p></div></div>
-        <div class="vid rv d2"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Дал возможность двигаться дальше<br><b>отзыв Василия</b></div></div><div class="vmeta"><div class="who">Василий</div><p>Обратился при запуске нового бизнеса. Высшее Я помогло увидеть нужные действия — и он их совершил.</p></div></div>
-        <div class="vid rv"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Меняли установки должника и жертвы<br><b>отзыв Игоря</b></div></div><div class="vmeta"><div class="who">Игорь</div><p>Меняли установки должника и жертвы на программы, соответствующие собственным интересам.</p></div></div>
-        <div class="vid rv d1"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Цена ×2, продажи выросли<br><b>отзыв Владислава</b></div></div><div class="vmeta"><div class="who">Владислав</div><p>Внутренняя причина неудач устранена — поднял цену вдвое, продажи выросли.</p></div></div>
-        <div class="vid rv d2"><div class="vthumb"><div class="logo3">Ƀ</div><div class="play"></div><div class="cap">Выросла прибыль, отношения в семье<br><b>отзыв Владислава</b></div></div><div class="vmeta"><div class="who">Владислав</div><p>Тревога и психосоматика уходили — выросла прибыль и наладились отношения в семье.</p></div></div>
-      </div>
-      <p style="margin-top:22px;font-size:13px;color:var(--ink-dd)" class="rv">* Обложки — образец вёрстки; подключим реальные видео Игоря (YouTube) в один клик.</p>
-    </div>
+  <!-- comma CTA -->
+  <section class="wrap comma">
+    <p class="lead rv">Пора принять решение. Просто поставьте запятую:</p>
+    <h3 class="rv d1">Начать<span class="cm">,</span> нельзя откладывать</h3>
+    <a href="#book" class="btn btn-primary rv d2">Принять решение <span class="arw">→</span></a>
   </section>
 
-  <!-- ===== CREDENTIALS / ABOUT ===== -->
+  <!-- ===== ABOUT ===== -->
   <section class="blk" id="about">
     <div class="wrap cred">
       <div class="portrait rv"><div class="ph">Фото Игоря Стрельникова<br><span style="font-weight:500;opacity:.7">(вставим настоящее)</span></div><div class="name">Игорь Стрельников</div></div>
       <div class="cred-right">
         <div>
-          <span class="eyebrow rv">Об Игоре</span>
+          <span class="eyebrow rv">Обо мне</span>
           <h2 class="rv d1">Проводник к Вашему сверхсознанию, Высшему&nbsp;Я, гипнолог, нейрокоуч</h2>
         </div>
         <div class="stat-row">
           <div class="stat rv"><div class="fig"><img src="assets/fig1.webp" alt=""></div><div class="big">5 лет</div><p>Регулярной практики и изучения гипнотических и нейропсихологических методик.</p></div>
-          <div class="stat rv d1"><div class="fig"><img src="assets/fig2.webp" alt=""></div><div class="big">300+</div><p>Довольных клиентов, повысивших качество жизни благодаря работе со мной.</p></div>
-          <div class="stat rv d2"><div class="fig"><img src="assets/fig3.webp" alt=""></div><div class="big">∞</div><p>Эффект от терапии сохраняется навсегда. Ваши негативные программы никогда не вернутся.</p></div>
+          <div class="stat rv d1"><div class="fig"><img src="assets/fig3.webp" alt=""></div><div class="big">300+</div><p>Довольных клиентов, повысивших качество жизни благодаря работе со мной.</p></div>
+          <div class="stat rv d2"><div class="fig"><img src="assets/fig2.webp" alt=""></div><div class="big">∞</div><p>Эффект от терапии сохраняется навсегда. Ваши негативные программы никогда не вернутся.</p></div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FAQ ===== -->
-  <section class="blk" id="faq">
-    <div class="wrap">
-      <div class="sec-head" style="text-align:center;margin:0 auto 54px"><span class="eyebrow rv">Частые вопросы</span><h2 class="rv d1">Отвечаю на то, что спрашивают чаще всего</h2></div>
-      <div class="faq">
-        <div class="qa"><div class="q">Как часто проводятся сессии?<span class="ic"></span></div><div class="a"><p>Как правило — раз в неделю. Между встречами вы получаете практики и сопровождение, чтобы изменения закреплялись.</p></div></div>
-        <div class="qa"><div class="q">Между сессиями есть задания или общение?<span class="ic"></span></div><div class="a"><p>Да. Вы получаете домашние практики и ежедневную поддержку — работа идёт не только на сессии.</p></div></div>
-        <div class="qa"><div class="q">Почему не работает самогипноз?<span class="ic"></span></div><div class="a"><p>Самостоятельно сложно удержать нужное состояние и обойти защиту сознания. В паре со специалистом доступ к подсознанию глубже и безопаснее.</p></div></div>
-        <div class="qa"><div class="q">Вы будете мне что-то внушать?<span class="ic"></span></div><div class="a"><p>Нет. Мы не навязываем чужое, а находим и меняем ваши собственные ограничивающие программы на те, что служат вам.</p></div></div>
-        <div class="qa"><div class="q">Вы гипнотизируете и погружаете в транс?<span class="ic"></span></div><div class="a"><p>Мы используем мягкие трансовые состояния — вы всё осознаёте и контролируете. Это рабочий инструмент, а не «отключение».</p></div></div>
-        <div class="qa"><div class="q">Сколько сессий мне понадобится?<span class="ic"></span></div><div class="a"><p>Зависит от задачи — это станет ясно на диагностике. Форматы: от 8 до 25 сессий.</p></div></div>
-        <div class="qa"><div class="q">Эффективны ли сессии в формате онлайн?<span class="ic"></span></div><div class="a"><p>Да, вся работа проходит онлайн в Zoom и по эффективности не уступает очной.</p></div></div>
-        <div class="qa"><div class="q">Я уже много пробовал(а), но ничего не работает<span class="ic"></span></div><div class="a"><p>Часто это значит, что работали с симптомом, а не с корнем. «Бенефактор» меняет саму программу — поэтому результат устойчивее.</p></div></div>
+        <ul class="cred-bullets rv d2">
+          <li><span class="b">✦</span> <span><b>Эксперт</b> по работе со сверхсознанием, подсознанием и сознанием одновременно.</span></li>
+          <li><span class="b">✦</span> <span><b>Автор методики «Бенефактор».</b> Каждого клиента довожу до желаемого результата.</span></li>
+          <li><span class="b">✦</span> <span><b>Сертифицированный специалист</b> Американской академии гипноза.</span></li>
+        </ul>
+        <a href="#book" class="btn btn-ghost rv d2" style="align-self:flex-start">Смотреть сертификаты</a>
       </div>
     </div>
   </section>
@@ -326,11 +366,44 @@
   <!-- ===== PRICING ===== -->
   <section class="blk" id="prices">
     <div class="wrap">
-      <div class="sec-head"><span class="eyebrow rv">Форматы работы</span><h2 class="rv d1">С чего начать и как идти к результату</h2><p class="rv d2">Первый шаг — всегда диагностика. По её итогам собираем программу под вашу задачу.</p></div>
+      <div class="sec-head">
+        <span class="eyebrow rv">Стоимость</span>
+        <h2 class="rv d1">Форматы работы со мной</h2>
+        <p class="rv d2">Первый шаг — всегда диагностика. По её итогам собираем программу под вашу задачу.</p>
+      </div>
+      <div class="price-lead">
+        <div class="plead rv"><span class="tag">Шаг 1</span><h3>Диагностическая сессия</h3><div class="amt">$250</div><p>2 часа по видеосвязи в Zoom, провожу лично. Полная конфиденциальность, запись сессии сохраняется у вас.</p>
+          <ul><li><span class="b">✦</span> Разберём причины ваших проблем</li><li><span class="b">✦</span> Полная модель чувств, программ и состояний</li><li><span class="b">✦</span> Индивидуальный план к гарантированному результату</li></ul></div>
+        <div class="plead guar rv d1"><span class="tag">Гарантия</span><h3>Работа с гарантией результата</h3><div class="amt">Возврат 100%</div><p>Если мы не получаем результат, который обговорили на старте, — я возвращаю 100% суммы. Стоимость зависит от итогов диагностики.</p>
+          <ul><li><span class="b">✦</span> Диагностика</li><li><span class="b">✦</span> Ежедневное сопровождение по плану</li><li><span class="b">✦</span> Небольшие домашние задания</li></ul></div>
+      </div>
       <div class="prices">
-        <div class="price rv"><span class="tag">Шаг 1</span><h3>Диагностическая сессия</h3><div class="amt">$250</div><div class="per">2 часа · Zoom · запись сессии</div><ul><li><span class="b">✦</span> Находим корневую причину</li><li><span class="b">✦</span> Персональный план трансформации</li><li><span class="b">✦</span> Запись остаётся у вас</li></ul><a href="#book" class="btn btn-ghost">Записаться</a></div>
-        <div class="price feat rv d1"><span class="tag">Популярно</span><h3>Пакет гипнотерапии</h3><div class="amt">$3 500</div><div class="per">15 сессий · ~4 месяца</div><ul><li><span class="b">✦</span> Еженедельные сессии + диагностика</li><li><span class="b">✦</span> Ежедневная поддержка</li><li><span class="b">✦</span> Практики между встречами</li></ul><a href="#book" class="btn btn-primary">Выбрать пакет</a></div>
-        <div class="price rv d2"><span class="tag">Глубоко</span><h3>Программа с гарантией</h3><div class="amt">$2 000<span style="font-size:20px;color:var(--ink-d)"> – 5 600</span></div><div class="per">8 / 15 / 25 сессий · до 7 месяцев</div><ul><li><span class="b">✦</span> Объём — по итогам диагностики</li><li><span class="b">✦</span> До устойчивого результата</li><li><span class="b">✦</span> Сопровождение на всём пути</li></ul><a href="#book" class="btn btn-ghost">Обсудить</a></div>
+        <div class="price rv"><span class="tag">Пакет 8 сессий</span><h3>Точечный запрос</h3><div class="amt">$2 000</div><div class="per">2 месяца · 1 сессия в неделю</div>
+          <ul><li><span class="b">✦</span> Кардинальные изменения в выбранной сфере (деньги, здоровье, отношения, призвание)</li><li><span class="b">✦</span> Эффект косвенно затронет остальные сферы</li></ul>
+          <a href="#book" class="btn btn-ghost">Записаться на 8 сессий</a></div>
+        <div class="price feat rv d1"><span class="tag">Оптимальный выбор</span><h3>Пакет 15 сессий</h3><div class="amt">$3 500</div><div class="per">4 месяца · 1 сессия в неделю</div>
+          <ul><li><span class="b">✦</span> При большом количестве негативных чувств в сфере жизни</li><li><span class="b">✦</span> Промежуточная диагностика</li></ul>
+          <a href="#book" class="btn btn-primary">Записаться на 15 сессий</a></div>
+        <div class="price rv d2"><span class="tag">Максимум</span><h3>Пакет 25 сессий</h3><div class="amt">$5 600</div><div class="per">7 месяцев · 1 сессия в неделю</div>
+          <ul><li><span class="b">✦</span> Самая выгодная инвестиция — результат во многих сферах жизни</li><li><span class="b">✦</span> 2 промежуточные диагностики</li></ul>
+          <a href="#book" class="btn btn-ghost">Записаться на 25 сессий</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="blk" id="faq">
+    <div class="wrap">
+      <div class="sec-head" style="text-align:center;margin:0 auto 48px"><span class="eyebrow rv">FAQ</span><h2 class="rv d1">Отвечаю на частые вопросы</h2></div>
+      <div class="faq">
+        <div class="qa"><div class="q">Не будет ли эффект от сессий временным?<span class="ic"></span></div><div class="a"><p>Эффект сохраняется навсегда. Когда убирается ненужная нейронная связь, чувства и мысли, связанные с ней, больше не возвращаются.</p></div></div>
+        <div class="qa"><div class="q">Как часто проводятся сессии?<span class="ic"></span></div><div class="a"><p>В среднем 1 раз в неделю, чтобы ваши нейронные связи успели перестроиться.</p></div></div>
+        <div class="qa"><div class="q">Между сессиями есть задания или общение?<span class="ic"></span></div><div class="a"><p>Да. В каждой сессии вы сами узнаёте свой урок и приходите к выводам самостоятельно — я не даю советов. После проработки чувств я даю практики, которые занимают около 5 минут в день.</p></div></div>
+        <div class="qa"><div class="q">Почему не работает самогипноз?<span class="ic"></span></div><div class="a"><p>Вы находитесь в «заражённой системе», и излечить её изнутри самостоятельно не получится — нужно действовать извне. В одиночку сложно добраться до истины, оперируя заведомо неверно работающими программами.</p></div></div>
+        <div class="qa"><div class="q">Вы будете мне что-то внушать?<span class="ic"></span></div><div class="a"><p>Вы всё делаете сами, находитесь в своём подсознании — я вас просто веду. Вы сами выбираете, какие связи убирать, а какие создавать. Большему внушению человек поддаётся у телевизора, чем на сеансе со мной.</p></div></div>
+        <div class="qa"><div class="q">Вы гипнотизируете и погружаете в транс?<span class="ic"></span></div><div class="a"><p>Это не трансовое состояние, а сверхконцентрация. Вы отключаетесь от внешних раздражителей, слышите только мой голос — и начинается работа с подсознанием: старые нейронные связи разрушаются, выстраиваются новые.</p></div></div>
+        <div class="qa"><div class="q">Сколько сессий мне понадобится?<span class="ic"></span></div><div class="a"><p>Каждый запрос индивидуален — зависит от целей и сложности. Видимые изменения в среднем заметны уже на 1-й встрече, реже на 2-3-й. Продолжительность определим на первой встрече. Ваша готовность работать — это 50% успеха.</p></div></div>
+        <div class="qa"><div class="q">Как понять, нужна ли мне терапия?<span class="ic"></span></div><div class="a"><p>Если вы годами возвращаетесь к одним и тем же проблемам, а привычные методы не дают устойчивого результата — стоит поработать с корнем, в подсознании.</p></div></div>
       </div>
     </div>
   </section>
@@ -339,7 +412,7 @@
   <section class="finale" id="book">
     <div class="wrap">
       <span class="eyebrow rv" style="justify-content:center">Первый шаг</span>
-      <h2 class="rv d1">Начните с <em>диагностики</em> — увидите корень, а не симптом</h2>
+      <h2 class="rv d1">Запишитесь на <em>диагностику</em> — увидите корень, а не симптом</h2>
       <p class="rv d2">Два часа, которые показывают, что на самом деле удерживает вас в сценарии — и как из него выйти.</p>
       <a href="mailto:2578577@gmail.com?subject=Запись%20на%20диагностику" class="btn btn-primary rv d3">Записаться на диагностику <span class="arw">→</span></a>
     </div>
@@ -350,9 +423,9 @@
 <footer>
   <div class="wrap">
     <div class="foot">
-      <div><a href="#top" class="brand"><span class="dot"></span>Бенефактор</a><p style="color:var(--ink-d);font-size:14px;margin-top:14px;max-width:34ch">Терапия, гипноз и нейрокоучинг. Игорь Стрельников.</p></div>
+      <div><a href="#top" class="brand"><span class="dot"></span>Бенефактор</a><p style="color:var(--ink-d);font-size:14px;margin-top:14px;max-width:34ch">Работа с подсознанием, гипноз и нейрокоучинг. Игорь Стрельников.</p></div>
       <div class="foot-cols">
-        <div class="col"><h5>Разделы</h5><a href="#method">Метод</a><a href="#help">С чем работаю</a><a href="#reviews">Отзывы</a><a href="#prices">Форматы</a></div>
+        <div class="col"><h5>Разделы</h5><a href="#help">С чем помогаю</a><a href="#reviews">Отзывы</a><a href="#approach">Подход</a><a href="#about">Обо мне</a><a href="#prices">Стоимость</a></div>
         <div class="col"><h5>Контакты</h5><a href="mailto:2578577@gmail.com">2578577@gmail.com</a><p>Пн–Сб · 8:00–20:00</p><a href="#book">Записаться на диагностику</a></div>
       </div>
     </div>
@@ -374,7 +447,7 @@ const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 try{
   const R=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true});
   R.setPixelRatio(Math.min(devicePixelRatio,2)); R.toneMapping=THREE.ACESFilmicToneMapping; R.outputColorSpace=THREE.SRGBColorSpace;
-  const scene=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(35,1,0.1,100); cam.position.set(0,0,4.4);
+  const scene=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(34,1,0.1,100); cam.position.set(0,0,5.6);
   const ec=document.createElement('canvas'); ec.width=512; ec.height=256; const ex=ec.getContext('2d');
   const g=ex.createLinearGradient(0,0,0,256);
   g.addColorStop(0,'#120327');g.addColorStop(.42,'#4c1179');g.addColorStop(.6,'#a021c9');g.addColorStop(.78,'#f0abfc');g.addColorStop(1,'#fde9ff');
@@ -383,7 +456,7 @@ try{
   const eTex=new THREE.CanvasTexture(ec); eTex.mapping=THREE.EquirectangularReflectionMapping;
   const pmrem=new THREE.PMREMGenerator(R); scene.environment=pmrem.fromEquirectangular(eTex).texture; eTex.dispose(); pmrem.dispose();
   const mat=new THREE.MeshPhysicalMaterial({color:0x9b7bff,metalness:1,roughness:0.14,envMapIntensity:1.5,clearcoat:1,clearcoatRoughness:0.1,iridescence:1,iridescenceIOR:1.6});
-  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(1,0.34,220,36,2,3),mat); scene.add(knot);
+  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(1,0.32,220,36,2,3),mat); knot.scale.setScalar(0.78); scene.add(knot);
   scene.add(new THREE.AmbientLight(0xffffff,0.5));
   const l1=new THREE.PointLight(0xd946ef,60,20,2); l1.position.set(3,2,3); scene.add(l1);
   const l2=new THREE.PointLight(0x8b5cf6,40,20,2); l2.position.set(-3,-1,2); scene.add(l2);
@@ -392,27 +465,20 @@ try{
   const m={x:0,y:0,tx:0,ty:0};
   addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect();m.tx=((e.clientX-r.left)/r.width-.5);m.ty=((e.clientY-r.top)/r.height-.5);},{passive:true});
   const clock=new THREE.Clock();
-  (function loop(){const t=clock.getElapsedTime();m.x+=(m.tx-m.x)*.05;m.y+=(m.ty-m.y)*.05;if(!reduce){knot.rotation.y=t*0.35+m.x*1.2;knot.rotation.x=t*0.18+m.y*0.9;}R.render(scene,cam);requestAnimationFrame(loop);})();
+  (function loop(){const t=clock.getElapsedTime();m.x+=(m.tx-m.x)*.05;m.y+=(m.ty-m.y)*.05;if(!reduce){knot.rotation.y=t*0.32+m.x*1.1;knot.rotation.x=t*0.16+m.y*0.8;}R.render(scene,cam);requestAnimationFrame(loop);})();
 }catch(e){ if(cvs) cvs.style.display='none'; }
 </script>
 
 <script>
-const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
-
-/* cursor: dot + lagging ring (clean) */
 if(fine){
   const dot=document.getElementById('cur-dot'), ring=document.getElementById('cur-ring');
   let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
   addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;},{passive:true});
-  document.querySelectorAll('a,button,.btn,.qa .q,.pcard,.vid,.price,.stat').forEach(el=>{
-    el.addEventListener('pointerenter',()=>ring.classList.add('hot'));
-    el.addEventListener('pointerleave',()=>ring.classList.remove('hot'));
-  });
+  document.querySelectorAll('a,button,.btn,.qa .q,.pcard,.vid,.price,.stat,.plead').forEach(el=>{el.addEventListener('pointerenter',()=>ring.classList.add('hot'));el.addEventListener('pointerleave',()=>ring.classList.remove('hot'));});
   (function anim(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(anim);})();
 }
 
-/* hero scatter — problems in a ring around the head, fly outward on scroll */
 const problems=[
   {t:"проживаю не свою жизнь",x:20,y:50},{t:"выгораю",x:29,y:44},{t:"пашу как проклятый",x:16,y:63},
   {t:"не могу найти любовь",x:25,y:75},{t:"партнёр меня не понимает",x:22,y:88},
@@ -420,20 +486,20 @@ const problems=[
   {t:"застрял и не знаю как дальше",x:83,y:62},{t:"я ревную и боюсь расставания",x:78,y:74},{t:"не могу принять себя",x:75,y:86}
 ];
 const bc=document.getElementById('bubbles');
-const cx=50, cy=62; // scatter origin ~ head center
+const cx=50, cy=62;
 const bubbles=problems.map((p,i)=>{
   const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%';
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.55)+'s'; bc.appendChild(b);
   let ax=p.x-cx, ay=p.y-cy; const len=Math.hypot(ax,ay)||1; ax/=len; ay/=len;
   return {el:b, dx:ax, dy:ay, rot:(i%2?1:-1)*(16+i*3)};
 });
-const heroStage=document.getElementById('hero');
+const sceneEl=document.getElementById('approach-scene');
 const glowChaos=document.getElementById('glowChaos'),glowCalm=document.getElementById('glowCalm');
 const freedom=document.getElementById('freedom'),resolve=document.getElementById('resolve'),headImg=document.getElementById('headImg');
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const smooth=(a,b,x)=>{x=clamp((x-a)/(b-a),0,1);return x*x*(3-2*x);};
 let pT=0,pC=0;
-function measure(){const r=heroStage.getBoundingClientRect();const total=heroStage.offsetHeight-innerHeight;pT=clamp((-r.top)/total,0,1);}
+function measure(){const r=sceneEl.getBoundingClientRect();const total=sceneEl.offsetHeight-innerHeight;pT=clamp((-r.top)/total,0,1);}
 addEventListener('scroll',measure,{passive:true}); addEventListener('resize',measure); measure();
 (function render(){
   pC+=(pT-pC)*0.11; const p=pC; const fly=smooth(0,0.92,p);
@@ -451,7 +517,6 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   requestAnimationFrame(render);
 })();
 
-/* faq */
 document.querySelectorAll('.qa').forEach(qa=>{
   qa.querySelector('.q').addEventListener('click',()=>{
     const a=qa.querySelector('.a'), open=qa.classList.contains('open');
@@ -460,10 +525,9 @@ document.querySelectorAll('.qa').forEach(qa=>{
   });
 });
 
-/* nav + reveal */
 const nav=document.getElementById('nav'); const ns=()=>nav.classList.toggle('scrolled',scrollY>40);
 addEventListener('scroll',ns,{passive:true}); ns();
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.16,rootMargin:'0px 0px -8% 0px'});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.14,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
 </body>

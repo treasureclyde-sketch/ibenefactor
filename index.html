@@ -114,13 +114,18 @@
 
   /* freedom scatter scene */
   .scene{position:relative;height:230vh}
-  .scene-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:radial-gradient(130% 100% at 50% 54%,#09040f 0%,#09040f 46%,#140826 100%)}
+  .scene-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:radial-gradient(120% 100% at 50% 55%,#14082a 0%,#0a0518 60%,#070311 100%)}
+  .pillars{display:flex;flex-direction:column;gap:16px}
+  .pillar{padding:24px 26px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(139,92,246,.12),rgba(18,9,32,.3));transition:transform .4s var(--ease),border-color .4s}
+  .pillar:hover{transform:translateX(6px);border-color:rgba(240,171,252,.45)}
+  .pillar h4{font-family:'Manrope';font-weight:800;font-size:19px;margin-bottom:6px}
+  .pillar p{font-size:14px;color:var(--ink-d)}
   .scene-title{position:relative;z-index:6;padding-top:96px;pointer-events:none}
   .scene-title h2{font-family:'Manrope';font-weight:800;font-size:clamp(26px,4.4vw,56px);line-height:1.04;letter-spacing:-.02em;max-width:19ch;margin-top:14px}
   .scene-title h2 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
   .mind{position:absolute;inset:0;z-index:2;pointer-events:none}
   .head-wrap{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);width:min(46vh,380px);aspect-ratio:1/1;z-index:2}
-  .head-wrap img{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen;will-change:transform}
+  .head-wrap img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 46px rgba(217,70,239,.4));will-change:transform}
   .glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;filter:blur(46px);will-change:opacity}
   .glow.g-chaos{width:56%;height:56%;background:radial-gradient(circle,var(--magenta),transparent 68%);opacity:.7}
   .glow.g-calm{width:70%;height:70%;background:radial-gradient(circle,#22d3ee,transparent 66%);opacity:0}
@@ -250,7 +255,7 @@
       </div>
       <p class="who"><b>Игорь Стрельников</b> — эксперт по работе с подсознанием, проводник к Высшему Я, гипнолог, нейрокоуч и создатель авторской системы «Бенефактор».</p>
     </div>
-    <div class="hero-visual"><img src="assets/fig2.webp" alt=""></div>
+    <div class="hero-visual chrome-stage"><canvas id="chrome-canvas"></canvas></div>
   </section>
 
   <!-- ===== PAINS ===== -->
@@ -296,18 +301,17 @@
   <!-- ===== APPROACH: method + chrome ===== -->
   <section class="blk" id="approach">
     <div class="wrap method">
-      <div class="chrome-stage rv">
-        <canvas id="chrome-canvas"></canvas>
-        <div class="orbit o1">Авторская система «Бенефактор»</div>
-        <div class="orbit o2">Соединение с Высшим&nbsp;Я</div>
-        <div class="orbit o3">Работа с нейросвязями</div>
+      <div class="pillars">
+        <div class="pillar rv"><h4>Авторская система «Бенефактор»</h4><p>Соединяет Высшее Я (сверхсознание), сознание и подсознание в одно целое.</p></div>
+        <div class="pillar rv d1"><h4>Соединение с Высшим Я</h4><p>Подключаемся к вашему сверхсознанию — источнику ответов, ресурса и решений.</p></div>
+        <div class="pillar rv d2"><h4>Работа с нейросвязями</h4><p>Убираем «программы-вирусы» и выстраиваем новые нейронные связи — устойчиво.</p></div>
       </div>
       <div class="txt">
         <span class="eyebrow rv">Подход</span>
         <h2 class="rv d1">Ваш мозг как компьютер</h2>
         <p class="rv d2">В нём есть программы, которые включаются автоматически. Некоторые нужные, а некоторые — <b>как вирусы</b> (негативные программы). Мой подход работает с подсознательными убеждениями, эмоциями и шаблонами, которые мешают вам жить желаемой жизнью.</p>
         <p class="rv d3">На сессиях мы заменим старые установки на новые — благодаря чему вы станете <b>творцом своей жизни</b>. Соединим Высшее Я (сверхсознание), душу и тело.</p>
-        <div class="brain-note rv d3">🧠 <b>3D-модель мозга</b> — по твоей ссылке вставлю живую GLB-модель прямо сюда: будет вращаться и реагировать на курсор.</div>
+        <div class="brain-note rv d3">🧠 <b>3D-модель мозга</b> — пришлёшь ссылку на GLB, и я вставлю живую модель (вращение + реакция на курсор) в сцену ниже вместо плоского мозга.</div>
       </div>
     </div>
   </section>

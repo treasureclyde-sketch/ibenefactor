@@ -149,14 +149,15 @@
   .cred-bullets{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:22px}
   .cred-bullets li{display:flex;gap:11px;font-size:14.5px;color:var(--ink-d);align-items:flex-start}
   .cred-bullets li .b{color:var(--magenta);flex:none;margin-top:2px}.cred-bullets li b{color:var(--ink);font-weight:600}
-  .price .pfig{width:58px;height:58px;margin-bottom:8px}.price .pfig img{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen}
+  .price .pfig{position:absolute;top:18px;right:18px;width:92px;height:92px;z-index:2;pointer-events:none}.price .pfig img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 20px rgba(217,70,239,.35))}
+  .price h3,.price .amt{padding-right:70px}
   .cred-right h2{font-family:'Manrope';font-weight:800;font-size:clamp(24px,3.4vw,40px);line-height:1.08;letter-spacing:-.02em;margin-bottom:26px}
   .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   @media(max-width:760px){.stat-grid{grid-template-columns:1fr 1fr}}
   @media(max-width:480px){.stat-grid{grid-template-columns:1fr}}
   .stat{display:flex;flex-direction:column;border-radius:20px;border:1px solid var(--line);padding:22px 20px;overflow:hidden}
   .stat .fig{aspect-ratio:1/1;width:100%;overflow:hidden;margin-bottom:12px;display:grid;place-items:center}
-  .stat .fig img{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen}
+  .stat .fig img{width:100%;height:100%;object-fit:contain}
   .stat .big{font-family:'Manrope';font-weight:800;font-size:26px;line-height:1.05;margin-bottom:8px}
   .stat p{font-size:12.5px;color:var(--ink-d)}
   .stat.c1{background:linear-gradient(165deg,#151021,#0c0716)}
@@ -177,7 +178,7 @@
   .plead li{display:flex;gap:9px;font-size:13.5px;color:var(--ink-d)}.plead li .b{color:var(--magenta);flex:none}
   .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
   @media(max-width:900px){.prices{grid-template-columns:1fr}}
-  .price{display:flex;flex-direction:column;padding:30px 26px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,rgba(139,92,246,.08),rgba(18,9,32,.3));transition:transform .4s var(--ease),border-color .4s}
+  .price{position:relative;display:flex;flex-direction:column;padding:30px 26px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,rgba(139,92,246,.08),rgba(18,9,32,.3));transition:transform .4s var(--ease),border-color .4s}
   .price:hover{transform:translateY(-6px);border-color:rgba(167,139,250,.5)}
   .price.feat{border-color:rgba(217,70,239,.5);background:linear-gradient(180deg,rgba(217,70,239,.14),rgba(18,9,32,.34));box-shadow:0 30px 70px -40px rgba(217,70,239,.6)}
   .price .tag{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dd);font-weight:700}.price.feat .tag{color:var(--pink)}
@@ -437,7 +438,7 @@ function makeEnv(R){
   try{
     const R=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true});
     R.setPixelRatio(Math.min(devicePixelRatio,2)); R.toneMapping=THREE.ACESFilmicToneMapping; R.outputColorSpace=THREE.SRGBColorSpace;
-    const scene=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(38,1,0.1,100); cam.position.set(0,0,3.0);
+    const scene=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(38,1,0.1,100); cam.position.set(0,0,3.9);
     scene.environment=makeEnv(R);
     scene.add(new THREE.AmbientLight(0xffffff,.9));
     const l1=new THREE.PointLight(0xd946ef,40,30,2); l1.position.set(4,3,5); scene.add(l1);
@@ -449,16 +450,15 @@ function makeEnv(R){
     loader.load('assets/brain.glb',(g)=>{
       brain=g.scene;
       const box=new THREE.Box3().setFromObject(brain); const sz=box.getSize(new THREE.Vector3()); const c=box.getCenter(new THREE.Vector3());
-      brain.position.sub(c); brain.scale.setScalar(2.15/Math.max(sz.x,sz.y,sz.z));
+      brain.position.sub(c); brain.scale.setScalar(1.65/Math.max(sz.x,sz.y,sz.z));
       brain.traverse(o=>{ if(o.isMesh&&o.material){ o.material.emissive=new THREE.Color(0x5b21b6); o.material.emissiveIntensity=0.3; o.material.envMapIntensity=1.2; } });
       grp.add(brain);
     });
     function size(){const r=stage.getBoundingClientRect();R.setSize(r.width,r.height,false);cam.aspect=r.width/r.height;cam.updateProjectionMatrix();}
     size(); addEventListener('resize',size);
-    const m={x:0,y:0,tx:0,ty:0}; addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect();m.tx=((e.clientX-r.left)/r.width-.5);m.ty=((e.clientY-r.top)/r.height-.5);},{passive:true});
     const cl=new THREE.Clock();
-    (function loop(){const t=cl.getElapsedTime();m.x+=(m.tx-m.x)*.05;m.y+=(m.ty-m.y)*.05;
-      if(grp&&!reduce){grp.rotation.y=t*.35+m.x*0.9; grp.rotation.x=Math.sin(t*.3)*.1+m.y*.5;}
+    (function loop(){const t=cl.getElapsedTime();
+      if(grp&&!reduce){grp.rotation.y=t*.28; grp.rotation.x=Math.sin(t*.25)*.08;}
       R.render(scene,cam);requestAnimationFrame(loop);})();
   }catch(e){cvs.style.display='none';}
 })();
@@ -495,13 +495,14 @@ if(fine){
 
 /* brain-scene scatter bubbles */
 const problems=[
-  {t:"выгораю",x:60,y:22},{t:"хочу, но не решаюсь",x:80,y:33},{t:"мои границы нарушаются",x:79,y:48},
-  {t:"застрял и не знаю как дальше",x:82,y:63},{t:"я ревную и боюсь расставания",x:70,y:77},
-  {t:"проживаю не свою жизнь",x:22,y:44},{t:"пашу как проклятый",x:16,y:58},
-  {t:"не могу найти любовь",x:24,y:72},{t:"партнёр меня не понимает",x:31,y:86},{t:"не могу принять себя",x:50,y:82}
+  {t:"выгораю",x:45,y:36},{t:"хочу, но не решаюсь",x:62,y:34},
+  {t:"проживаю не свою жизнь",x:33,y:46},{t:"мои границы нарушаются",x:65,y:47},
+  {t:"пашу как проклятый",x:40,y:56},{t:"застрял и не знаю как дальше",x:67,y:58},
+  {t:"не могу найти любовь",x:35,y:66},{t:"я ревную и боюсь расставания",x:61,y:68},
+  {t:"партнёр меня не понимает",x:47,y:73},{t:"не могу принять себя",x:55,y:60}
 ];
 const bc=document.getElementById('bubbles');
-const cx=50, cy=50;
+const cx=50, cy=52;
 const bubbles=problems.map((p,i)=>{
   const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%';
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.5)+'s'; bc.appendChild(b);

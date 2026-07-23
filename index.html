@@ -33,12 +33,9 @@
   main,header,footer{position:relative;z-index:3}
 
   /* difference cursor */
-  #cursor{position:fixed;top:0;left:0;width:22px;height:22px;pointer-events:none;z-index:99999;mix-blend-mode:difference;
-    background:radial-gradient(circle at 38% 34%,#ffffff,#f0abfc 60%,#a5b4fc);
-    transform:translate(-50%,-50%);will-change:transform,width,height;border-radius:47% 53% 46% 54%/52% 46% 54% 48%;
-    animation:blob 8s ease-in-out infinite,hue 11s linear infinite;transition:width .3s var(--ease),height .3s var(--ease)}
-  #cursor.big{width:84px;height:84px}
-  @keyframes blob{0%,100%{border-radius:47% 53% 46% 54%/52% 46% 54% 48%}50%{border-radius:56% 44% 53% 47%/45% 56% 44% 55%}}
+  #cursor{position:fixed;top:0;left:0;z-index:99999;pointer-events:none;mix-blend-mode:difference}
+  #cursor span{position:fixed;top:0;left:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;
+    background:radial-gradient(circle at 38% 34%,#ffffff,#f0abfc 60%,#a5b4fc);will-change:transform;animation:hue 11s linear infinite}
   @keyframes hue{to{filter:hue-rotate(360deg)}}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
@@ -105,18 +102,29 @@
   .play::before{content:"";width:0;height:0;border-left:15px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
   .vmeta{padding:18px 20px}.vmeta .who{font-family:'Manrope';font-weight:700;font-size:15px;margin-bottom:6px}.vmeta p{font-size:13.5px;color:var(--ink-d)}
 
-  /* approach */
-  .method{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-  @media(max-width:920px){.method{grid-template-columns:1fr;gap:36px}}
-  .chrome-stage{position:relative;aspect-ratio:1/1;width:100%}
-  #chrome-canvas{position:absolute;inset:0;width:100%;height:100%}
-  .method .txt h2{font-family:'Manrope';font-weight:800;font-size:clamp(26px,4vw,44px);line-height:1.05;margin-top:16px;letter-spacing:-.02em}
-  .method .txt>p{color:var(--ink-d);font-size:16px;margin-top:18px;max-width:46ch}.method .txt p b{color:var(--ink)}
-  .pillars{display:flex;flex-direction:column;gap:14px;margin-top:26px}
-  .pillar{padding:20px 22px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(139,92,246,.12),rgba(18,9,32,.3));transition:transform .4s var(--ease),border-color .4s}
-  .pillar:hover{transform:translateX(6px);border-color:rgba(240,171,252,.45)}
-  .pillar h4{font-family:'Manrope';font-weight:800;font-size:17px;margin-bottom:4px}
-  .pillar p{font-size:13.5px;color:var(--ink-d)}
+  /* approach — brain diagram */
+  .ap-wrap{position:relative;min-height:82vh}
+  .ap-copy h2{font-family:'Manrope';font-weight:800;font-size:clamp(28px,3.8vw,48px);line-height:1.04;margin-top:14px;letter-spacing:-.02em}
+  .ap-copy p{color:var(--ink-d);font-size:15.5px;margin-top:18px}.ap-copy p b{color:var(--ink)}
+  .ap-diagram{position:relative;height:82vh}
+  .ap-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+  .ap-svg .apl{stroke:url(#lg);stroke-width:1.4;opacity:.55;vector-effect:non-scaling-stroke;stroke-dasharray:5 5;animation:dash 22s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-60}}
+  .ap-svg .apn{fill:#f0abfc;stroke:none}
+  .ap-brain{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(60vh,580px);height:min(60vh,580px);z-index:2}
+  #chrome-canvas{width:100%;height:100%;display:block}
+  .ap-label{position:absolute;z-index:3;max-width:250px;padding:14px 18px;border-radius:14px;background:rgba(18,9,32,.55);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 14px 40px -18px rgba(0,0,0,.7)}
+  .ap-label b{font-family:'Manrope';font-weight:800;font-size:15px;display:block;margin-bottom:3px}
+  .ap-label span{font-size:12.5px;color:var(--ink-d)}
+  .ap-label.a1{left:60%;top:9%}.ap-label.a2{left:70%;top:42%}.ap-label.a3{left:55%;top:75%}
+  @media(min-width:921px){.ap-copy{position:absolute;left:0;top:50%;transform:translateY(-50%);max-width:300px;z-index:5}}
+  @media(max-width:920px){
+    .ap-wrap{min-height:auto}
+    .ap-diagram{height:auto;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:26px}
+    .ap-svg{display:none}
+    .ap-brain{position:relative;left:auto;top:auto;transform:none;width:min(72vw,340px);height:min(72vw,340px)}
+    .ap-label{position:relative;left:auto!important;top:auto!important;max-width:none;width:100%}
+  }
 
   /* brain scatter scene */
   .scene{position:relative;height:250vh}
@@ -129,7 +137,7 @@
   @media(max-width:760px){.head-wrap{height:56vh}}
   .bubbles{position:absolute;inset:0;z-index:3;pointer-events:none}
   .bubble{position:absolute;transform:translate(-50%,-50%);will-change:transform,opacity}
-  .bubble .pill{display:inline-block;padding:11px 17px;border-radius:14px;background:rgba(18,9,32,.6);border:1px solid rgba(242,236,251,.16);backdrop-filter:blur(6px);font-size:14px;color:var(--ink);white-space:nowrap;box-shadow:0 10px 30px -14px rgba(0,0,0,.7);animation:float 6s var(--ease) infinite alternate}
+  .bubble .pill{display:inline-block;padding:11px 17px;border-radius:14px;background:rgba(14,7,26,.82);border:1px solid rgba(242,236,251,.16);backdrop-filter:blur(8px);font-size:14px;color:var(--ink);white-space:nowrap;box-shadow:0 10px 30px -12px rgba(0,0,0,.85);animation:float 6s var(--ease) infinite alternate}
   @keyframes float{to{transform:translateY(-9px)}}
   .resolve{position:absolute;right:28px;bottom:60px;max-width:32ch;z-index:6;opacity:0;text-align:right;pointer-events:none}
   .resolve p{font-size:14.5px;color:var(--ink-d)}.resolve p b{color:var(--pink);font-weight:600}
@@ -297,17 +305,23 @@
 
   <!-- APPROACH -->
   <section class="blk" id="approach">
-    <div class="wrap method">
-      <div class="chrome-stage rv"><canvas id="chrome-canvas"></canvas></div>
-      <div class="txt">
+    <div class="wrap ap-wrap">
+      <div class="ap-copy">
         <span class="eyebrow rv">Подход</span>
-        <h2 class="rv d1">Ваш мозг как компьютер</h2>
+        <h2 class="rv d1">Ваш мозг<br>как компьютер</h2>
         <p class="rv d2">В нём есть программы, которые включаются автоматически. Некоторые нужные, а некоторые — <b>как вирусы</b>. Мы заменим старые установки на новые, чтобы вы стали <b>творцом своей жизни</b>.</p>
-        <div class="pillars">
-          <div class="pillar rv d1"><h4>Авторская система «Бенефактор»</h4><p>Соединяет Высшее Я (сверхсознание), сознание и подсознание в одно целое.</p></div>
-          <div class="pillar rv d2"><h4>Соединение с Высшим Я</h4><p>Подключаемся к вашему сверхсознанию — источнику ответов и ресурса.</p></div>
-          <div class="pillar rv d3"><h4>Работа с нейросвязями</h4><p>Убираем «программы-вирусы» и выстраиваем новые нейронные связи — устойчиво.</p></div>
-        </div>
+      </div>
+      <div class="ap-diagram rv d1">
+        <svg class="ap-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f0abfc"/></linearGradient></defs>
+          <line x1="54" y1="42" x2="62" y2="21" class="apl"/><circle cx="62" cy="21" r="0.7" class="apn"/>
+          <line x1="62" y1="50" x2="72" y2="49" class="apl"/><circle cx="72" cy="49" r="0.7" class="apn"/>
+          <line x1="54" y1="59" x2="59" y2="79" class="apl"/><circle cx="59" cy="79" r="0.7" class="apn"/>
+        </svg>
+        <div class="ap-brain"><canvas id="chrome-canvas"></canvas></div>
+        <div class="ap-label a1"><b>Авторская система «Бенефактор»</b><span>Соединяет Высшее Я, сознание и подсознание</span></div>
+        <div class="ap-label a2"><b>Соединение с Высшим Я</b><span>Источник ответов и ресурса</span></div>
+        <div class="ap-label a3"><b>Работа с нейросвязями</b><span>Убираем «вирусы», строим новые связи</span></div>
       </div>
     </div>
   </section>
@@ -438,7 +452,7 @@ function makeEnv(R){
   try{
     const R=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true});
     R.setPixelRatio(Math.min(devicePixelRatio,2)); R.toneMapping=THREE.ACESFilmicToneMapping; R.outputColorSpace=THREE.SRGBColorSpace;
-    const scene=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(38,1,0.1,100); cam.position.set(0,0,3.9);
+    const scene=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(38,1,0.1,100); cam.position.set(0,0,3.6);
     scene.environment=makeEnv(R);
     scene.add(new THREE.AmbientLight(0xffffff,.9));
     const l1=new THREE.PointLight(0xd946ef,40,30,2); l1.position.set(4,3,5); scene.add(l1);
@@ -450,7 +464,7 @@ function makeEnv(R){
     loader.load('assets/brain.glb',(g)=>{
       brain=g.scene;
       const box=new THREE.Box3().setFromObject(brain); const sz=box.getSize(new THREE.Vector3()); const c=box.getCenter(new THREE.Vector3());
-      brain.position.sub(c); brain.scale.setScalar(1.65/Math.max(sz.x,sz.y,sz.z));
+      brain.position.sub(c); brain.scale.setScalar(1.72/Math.max(sz.x,sz.y,sz.z));
       brain.traverse(o=>{ if(o.isMesh&&o.material){ o.material.emissive=new THREE.Color(0x5b21b6); o.material.emissiveIntensity=0.3; o.material.envMapIntensity=1.2; } });
       grp.add(brain);
     });
@@ -468,13 +482,30 @@ function makeEnv(R){
 <script>
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 
-/* difference cursor */
+/* cursor: trailing sine-dots (his site's movement) + iridescent look */
 if(fine){
-  const c=document.getElementById('cursor'); let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
-  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
-  (function a(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;c.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(a);})();
-  const big='a,button,.btn,h1,h2,h3,p,.pcard,.vid,.price,.plead,.stat,.pillar,.qa .q,.cred-card';
-  document.querySelectorAll(big).forEach(el=>{el.addEventListener('pointerenter',()=>c.classList.add('big'));el.addEventListener('pointerleave',()=>c.classList.remove('big'));});
+  const cursor=document.getElementById('cursor');
+  const amount=20, sineDots=Math.floor(amount*0.3), width=26, idleTimeout=150;
+  let mouse={x:innerWidth/2,y:innerHeight/2}, dots=[], idle=false, timeoutID;
+  class Dot{
+    constructor(i){this.index=i;this.anglespeed=0.05;this.x=0;this.y=0;this.scale=1-0.05*i;
+      this.range=width/2-width/2*this.scale+2;
+      this.el=document.createElement('span');this.el.style.transform=`scale(${this.scale})`;cursor.appendChild(this.el);}
+    lock(){this.lockX=this.x;this.lockY=this.y;this.angleX=Math.PI*2*Math.random();this.angleY=Math.PI*2*Math.random();}
+    draw(){if(!idle||this.index<=sineDots){this.el.style.transform=`translate(${this.x}px,${this.y}px) scale(${this.scale})`;}
+      else{this.angleX+=this.anglespeed;this.angleY+=this.anglespeed;
+        this.y=this.lockY+Math.sin(this.angleY)*this.range;this.x=this.lockX+Math.sin(this.angleX)*this.range;
+        this.el.style.transform=`translate(${this.x}px,${this.y}px) scale(${this.scale})`;}}
+  }
+  for(let i=0;i<amount;i++)dots.push(new Dot(i));
+  function startIdle(){timeoutID=setTimeout(()=>{idle=true;for(const d of dots)d.lock();},idleTimeout);idle=false;}
+  function resetIdle(){clearTimeout(timeoutID);startIdle();}
+  addEventListener('mousemove',e=>{mouse.x=e.clientX-width/2;mouse.y=e.clientY-width/2;resetIdle();},{passive:true});
+  (function render(){let x=mouse.x,y=mouse.y;
+    dots.forEach((dot,i)=>{const next=dots[i+1]||dots[0];dot.x=x;dot.y=y;dot.draw();
+      if(!idle||i<=sineDots){x+=(next.x-dot.x)*0.35;y+=(next.y-dot.y)*0.35;}});
+    requestAnimationFrame(render);})();
+  startIdle();
 }
 
 /* plexus background */
@@ -495,14 +526,14 @@ if(fine){
 
 /* brain-scene scatter bubbles */
 const problems=[
-  {t:"выгораю",x:45,y:36},{t:"хочу, но не решаюсь",x:62,y:34},
-  {t:"проживаю не свою жизнь",x:33,y:46},{t:"мои границы нарушаются",x:65,y:47},
-  {t:"пашу как проклятый",x:40,y:56},{t:"застрял и не знаю как дальше",x:67,y:58},
-  {t:"не могу найти любовь",x:35,y:66},{t:"я ревную и боюсь расставания",x:61,y:68},
-  {t:"партнёр меня не понимает",x:47,y:73},{t:"не могу принять себя",x:55,y:60}
+  {t:"выгораю",x:47,y:46},{t:"хочу, но не решаюсь",x:60,y:44},
+  {t:"проживаю не свою жизнь",x:36,y:50},{t:"мои границы нарушаются",x:63,y:52},
+  {t:"пашу как проклятый",x:45,y:56},{t:"застрял и не знаю как дальше",x:62,y:60},
+  {t:"не могу найти любовь",x:38,y:62},{t:"я ревную и боюсь расставания",x:59,y:66},
+  {t:"партнёр меня не понимает",x:47,y:68},{t:"не могу принять себя",x:52,y:58}
 ];
 const bc=document.getElementById('bubbles');
-const cx=50, cy=52;
+const cx=50, cy=56;
 const bubbles=problems.map((p,i)=>{
   const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%';
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.5)+'s'; bc.appendChild(b);

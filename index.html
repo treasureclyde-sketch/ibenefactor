@@ -33,9 +33,10 @@
   main,header,footer{position:relative;z-index:3}
 
   /* difference cursor */
-  #cursor{position:fixed;top:0;left:0;z-index:99999;pointer-events:none;mix-blend-mode:difference}
-  #cursor span{position:fixed;top:0;left:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;
-    background:radial-gradient(circle at 38% 34%,#ffffff,#f0abfc 60%,#a5b4fc);will-change:transform;animation:hue 11s linear infinite}
+  #cursor{position:fixed;top:0;left:0;z-index:99999;pointer-events:none;mix-blend-mode:screen}
+  #cursor span{position:fixed;top:0;left:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;
+    background:radial-gradient(circle at 40% 36%,rgba(255,255,255,.9),rgba(240,171,252,.55) 55%,rgba(139,92,246,0));
+    will-change:transform;animation:hue 13s linear infinite}
   @keyframes hue{to{filter:hue-rotate(360deg)}}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
@@ -108,12 +109,14 @@
   .ap-copy p{color:var(--ink-d);font-size:15.5px;margin-top:18px}.ap-copy p b{color:var(--ink)}
   .ap-diagram{position:relative;height:82vh}
   .ap-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
-  .ap-svg .apl{stroke:url(#lg);stroke-width:1.4;opacity:.55;vector-effect:non-scaling-stroke;stroke-dasharray:5 5;animation:dash 22s linear infinite}
-  @keyframes dash{to{stroke-dashoffset:-60}}
-  .ap-svg .apn{fill:#f0abfc;stroke:none}
+  .ap-svg .apl{stroke:url(#lg);stroke-width:1.6;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:stroke-dashoffset 1s var(--ease),opacity .5s}
+  .ap-svg .apl.on{stroke-dashoffset:0;opacity:.75}
+  .ap-svg .apn{fill:#f0abfc;stroke:none;opacity:0;transition:opacity .5s}
+  .ap-svg .apn.on{opacity:1}
   .ap-brain{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(60vh,580px);height:min(60vh,580px);z-index:2}
   #chrome-canvas{width:100%;height:100%;display:block}
-  .ap-label{position:absolute;z-index:3;max-width:250px;padding:14px 18px;border-radius:14px;background:rgba(18,9,32,.55);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 14px 40px -18px rgba(0,0,0,.7)}
+  .ap-label{position:absolute;z-index:3;max-width:250px;padding:14px 18px;border-radius:14px;background:rgba(18,9,32,.6);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 14px 40px -18px rgba(0,0,0,.7);opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .ap-label.on{opacity:1;transform:none}
   .ap-label b{font-family:'Manrope';font-weight:800;font-size:15px;display:block;margin-bottom:3px}
   .ap-label span{font-size:12.5px;color:var(--ink-d)}
   .ap-label.a1{left:60%;top:9%}.ap-label.a2{left:70%;top:42%}.ap-label.a3{left:55%;top:75%}
@@ -123,7 +126,7 @@
     .ap-diagram{height:auto;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:26px}
     .ap-svg{display:none}
     .ap-brain{position:relative;left:auto;top:auto;transform:none;width:min(72vw,340px);height:min(72vw,340px)}
-    .ap-label{position:relative;left:auto!important;top:auto!important;max-width:none;width:100%}
+    .ap-label{position:relative;left:auto!important;top:auto!important;max-width:none;width:100%;opacity:1!important;transform:none!important}
   }
 
   /* brain scatter scene */
@@ -132,7 +135,7 @@
   .scene-title{position:relative;z-index:6;padding-top:96px;pointer-events:none}
   .scene-title h2{font-family:'Manrope';font-weight:800;font-size:clamp(26px,4.4vw,56px);line-height:1.04;letter-spacing:-.02em;max-width:19ch;margin-top:14px}
   .scene-title h2 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
-  .head-wrap{position:absolute;left:50%;bottom:-4vh;transform:translateX(-50%);height:74vh;z-index:1;pointer-events:none;display:flex;align-items:flex-end}
+  .head-wrap{position:absolute;left:50%;bottom:-7vh;transform:translateX(-50%);height:78vh;z-index:1;pointer-events:none;display:flex;align-items:flex-end}
   .head-wrap img{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 0 50px rgba(217,70,239,.35));will-change:transform}
   @media(max-width:760px){.head-wrap{height:56vh}}
   .bubbles{position:absolute;inset:0;z-index:3;pointer-events:none}
@@ -314,9 +317,9 @@
       <div class="ap-diagram rv d1">
         <svg class="ap-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f0abfc"/></linearGradient></defs>
-          <line x1="54" y1="42" x2="62" y2="21" class="apl"/><circle cx="62" cy="21" r="0.7" class="apn"/>
-          <line x1="62" y1="50" x2="72" y2="49" class="apl"/><circle cx="72" cy="49" r="0.7" class="apn"/>
-          <line x1="54" y1="59" x2="59" y2="79" class="apl"/><circle cx="59" cy="79" r="0.7" class="apn"/>
+          <line x1="54" y1="42" x2="62" y2="21" class="apl" pathLength="1"/><circle cx="62" cy="21" r="0.7" class="apn"/>
+          <line x1="62" y1="50" x2="72" y2="49" class="apl" pathLength="1"/><circle cx="72" cy="49" r="0.7" class="apn"/>
+          <line x1="54" y1="59" x2="59" y2="79" class="apl" pathLength="1"/><circle cx="59" cy="79" r="0.7" class="apn"/>
         </svg>
         <div class="ap-brain"><canvas id="chrome-canvas"></canvas></div>
         <div class="ap-label a1"><b>Авторская система «Бенефактор»</b><span>Соединяет Высшее Я, сознание и подсознание</span></div>
@@ -485,7 +488,7 @@ const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 /* cursor: trailing sine-dots (his site's movement) + iridescent look */
 if(fine){
   const cursor=document.getElementById('cursor');
-  const amount=20, sineDots=Math.floor(amount*0.3), width=26, idleTimeout=150;
+  const amount=18, sineDots=Math.floor(amount*0.3), width=14, idleTimeout=150;
   let mouse={x:innerWidth/2,y:innerHeight/2}, dots=[], idle=false, timeoutID;
   class Dot{
     constructor(i){this.index=i;this.anglespeed=0.05;this.x=0;this.y=0;this.scale=1-0.05*i;
@@ -526,11 +529,11 @@ if(fine){
 
 /* brain-scene scatter bubbles */
 const problems=[
-  {t:"выгораю",x:47,y:46},{t:"хочу, но не решаюсь",x:60,y:44},
-  {t:"проживаю не свою жизнь",x:36,y:50},{t:"мои границы нарушаются",x:63,y:52},
-  {t:"пашу как проклятый",x:45,y:56},{t:"застрял и не знаю как дальше",x:62,y:60},
-  {t:"не могу найти любовь",x:38,y:62},{t:"я ревную и боюсь расставания",x:59,y:66},
-  {t:"партнёр меня не понимает",x:47,y:68},{t:"не могу принять себя",x:52,y:58}
+  {t:"выгораю",x:47,y:44},{t:"хочу, но не решаюсь",x:64,y:44},
+  {t:"проживаю не свою жизнь",x:33,y:50},{t:"мои границы нарушаются",x:67,y:51},
+  {t:"пашу как проклятый",x:43,y:57},{t:"не могу принять себя",x:59,y:57},
+  {t:"не могу найти любовь",x:35,y:63},{t:"застрял и не знаю как дальше",x:66,y:63},
+  {t:"партнёр меня не понимает",x:46,y:70},{t:"я ревную и боюсь расставания",x:61,y:70}
 ];
 const bc=document.getElementById('bubbles');
 const cx=50, cy=56;
@@ -555,6 +558,21 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   const hi=document.getElementById('headImg'); if(hi) hi.style.transform=`scale(${1+fly*0.05})`;
   resolve.style.opacity=smooth(0.6,0.95,p).toFixed(3);
   requestAnimationFrame(render);
+})();
+
+/* approach diagram: reveal line+label one at a time, looping */
+(function(){
+  const lines=[...document.querySelectorAll('.ap-svg .apl')];
+  const nodes=[...document.querySelectorAll('.ap-svg .apn')];
+  const labels=[...document.querySelectorAll('.ap-label')];
+  if(lines.length<3) return;
+  let i=-1;
+  function step(){ i=(i+1)%3;
+    lines.forEach((l,k)=>l.classList.toggle('on',k===i));
+    nodes.forEach((n,k)=>n.classList.toggle('on',k===i));
+    labels.forEach((l,k)=>l.classList.toggle('on',k===i));
+  }
+  step(); setInterval(step,2800);
 })();
 
 document.querySelectorAll('.qa').forEach(qa=>{

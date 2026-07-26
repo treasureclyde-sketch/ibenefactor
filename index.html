@@ -33,10 +33,9 @@
   main,header,footer{position:relative;z-index:3}
 
   /* difference cursor */
-  #cursor{position:fixed;top:0;left:0;z-index:99999;pointer-events:none;mix-blend-mode:screen}
-  #cursor span{position:fixed;top:0;left:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;
-    background:radial-gradient(circle at 40% 36%,rgba(255,255,255,.9),rgba(240,171,252,.55) 55%,rgba(139,92,246,0));
-    will-change:transform;animation:hue 13s linear infinite}
+  #cursor{position:fixed;top:0;left:0;z-index:99999;pointer-events:none;mix-blend-mode:difference}
+  #cursor span{position:fixed;top:0;left:0;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;
+    background:radial-gradient(circle at 40% 36%,#ffffff,#f5d0fe 72%);will-change:transform;animation:hue 12s linear infinite}
   @keyframes hue{to{filter:hue-rotate(360deg)}}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
@@ -69,11 +68,11 @@
   .hero h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
   .hero .sub{margin-top:22px;font-size:clamp(16px,2vw,19px);color:var(--ink-d);max-width:38ch}
   .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
-  .hero-photo{position:relative;align-self:end;justify-self:center;max-width:520px;width:100%}
-  .hero-photo img{width:100%;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.55))}
-  .hero-photo::before{content:"";position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:118%;height:80%;
-    background:radial-gradient(circle,rgba(139,92,246,.4),transparent 66%);filter:blur(30px);z-index:-1}
-  @media(max-width:900px){.hero-photo{max-width:340px}}
+  .hero-photo{position:relative;align-self:center;justify-self:center;max-width:430px;width:100%;aspect-ratio:4/5;border-radius:24px;overflow:hidden;border:1px solid rgba(242,236,251,.14);box-shadow:0 40px 90px -34px rgba(139,92,246,.6)}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 52%,rgba(6,3,16,.55)),linear-gradient(120deg,rgba(139,92,246,.14),transparent 60%)}
+  .hero-photo::before{content:"";position:absolute;inset:-14px;z-index:-1;border-radius:30px;background:radial-gradient(circle,rgba(217,70,239,.4),transparent 68%);filter:blur(26px)}
+  @media(max-width:900px){.hero-photo{max-width:320px}}
 
   section.blk{padding:120px 0;position:relative}
   .sec-head{max-width:720px;margin-bottom:52px}
@@ -263,7 +262,7 @@
         <a href="#approach" class="btn btn-ghost">Как это работает</a>
       </div>
     </div>
-    <div class="hero-photo"><img src="assets/igor.webp" alt="Игорь Стрельников"></div>
+    <div class="hero-photo"><img src="assets/igor1.webp" alt="Игорь Стрельников"></div>
   </section>
 
   <!-- PAINS -->
@@ -295,12 +294,12 @@
         <p class="rv d2">Методика помогает даже тем, кому не дала результата работа с коучами, психологами и другими специалистами.</p>
       </div>
       <div class="vids">
-        <a class="vid rv" href="https://youtu.be/5B2XWrPDgqE" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev1.webp" alt=""><div class="play"></div></div><div class="vmeta"><p>Почему специалисты переходят на метод «Бенефактор»</p></div></a>
-        <a class="vid rv d1" href="https://youtu.be/yn-MF5jZgUs" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev2.webp" alt=""><div class="play"></div></div><div class="vmeta"><p>История исцеления: псориаз и артрит</p></div></a>
-        <a class="vid rv d2" href="https://youtu.be/NFNA1cBLlwk" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev3.webp" alt=""><div class="play"></div></div><div class="vmeta"><p>Более $5000 в месяц и счастливые отношения</p></div></a>
-        <a class="vid rv" href="https://youtu.be/PwNk5n9sFX8" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev4.webp" alt=""><div class="play"></div></div><div class="vmeta"><p>Год в Benefactor Academy — истории людей</p></div></a>
-        <a class="vid rv d1" href="https://youtu.be/3q99IMHoGAQ" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev5.webp" alt=""><div class="play"></div></div><div class="vmeta"><p>«Это спасло мне жизнь»</p></div></a>
-        <a class="vid rv d2" href="https://youtu.be/dyVn0Q_xu08" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev6.webp" alt=""><div class="play"></div></div><div class="vmeta"><p>Разбор и результаты работы</p></div></a>
+        <a class="vid rv" href="https://youtu.be/UmyTeVeDapA" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev1.webp" alt=""><div class="play"></div></div><div class="vmeta"><div class="who">Отзыв Александры</div><p>Установили причину срыва запуска бизнеса и различных неудач.</p></div></a>
+        <a class="vid rv d1" href="https://youtu.be/Nk93oxBmGdU" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev2.webp" alt=""><div class="play"></div></div><div class="vmeta"><div class="who">Отзыв Владислава</div><p>Внутренняя причина неудач устранена — цена ×2, продажи выросли.</p></div></a>
+        <a class="vid rv d2" href="https://youtu.be/fajaAJjMUJc" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev3.webp" alt=""><div class="play"></div></div><div class="vmeta"><div class="who">Отзыв Игоря</div><p>Сменили установки должника и жертвы на собственные интересы.</p></div></a>
+        <a class="vid rv" href="https://youtu.be/Hjyt-PQTe50" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev4.webp" alt=""><div class="play"></div></div><div class="vmeta"><div class="who">Отзыв Владислава</div><p>Выросла прибыль и наладились отношения в семье.</p></div></a>
+        <a class="vid rv d1" href="https://youtu.be/F8AYi08cFG8" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev5.webp" alt=""><div class="play"></div></div><div class="vmeta"><div class="who">Отзыв Александра</div><p>Как найти призвание и кардинально изменить жизнь.</p></div></a>
+        <a class="vid rv d2" href="https://youtu.be/HOg8mJo1Rl8" target="_blank" rel="noopener"><div class="vthumb"><img src="assets/rev6.webp" alt=""><div class="play"></div></div><div class="vmeta"><div class="who">Отзыв Жени</div><p>Эффективность выросла в разы за короткий срок.</p></div></a>
       </div>
       <p style="margin-top:22px;font-size:13px;color:var(--ink-dd)" class="rv">* Реальные видео с YouTube-канала <a href="https://youtube.com/@iBenefactor" target="_blank" rel="noopener" style="color:var(--violet-2)">@iBenefactor</a> — обложки кликабельны.</p>
     </div>
@@ -351,7 +350,7 @@
   <!-- ABOUT -->
   <section class="blk" id="about">
     <div class="wrap cred">
-      <div class="portrait rv"><img src="assets/igor-about.webp" alt="Игорь Стрельников"></div>
+      <div class="portrait rv"><img src="assets/igor2.webp" alt="Игорь Стрельников"></div>
       <div class="cred-right">
         <span class="eyebrow rv">Обо мне</span>
         <h2 class="rv d1">Проводник к Вашему сверхсознанию, Высшему&nbsp;Я, гипнолог, нейрокоуч</h2>
@@ -485,30 +484,21 @@ function makeEnv(R){
 <script>
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 
-/* cursor: trailing sine-dots (his site's movement) + iridescent look */
+/* cursor: smooth comet trail + difference invert (white text -> black) + shimmer */
 if(fine){
   const cursor=document.getElementById('cursor');
-  const amount=18, sineDots=Math.floor(amount*0.3), width=14, idleTimeout=150;
-  let mouse={x:innerWidth/2,y:innerHeight/2}, dots=[], idle=false, timeoutID;
+  const amount=9, width=22;
+  let mouse={x:innerWidth/2,y:innerHeight/2}, dots=[];
   class Dot{
-    constructor(i){this.index=i;this.anglespeed=0.05;this.x=0;this.y=0;this.scale=1-0.05*i;
-      this.range=width/2-width/2*this.scale+2;
+    constructor(i){this.index=i;this.x=0;this.y=0;this.scale=1-0.09*i;
       this.el=document.createElement('span');this.el.style.transform=`scale(${this.scale})`;cursor.appendChild(this.el);}
-    lock(){this.lockX=this.x;this.lockY=this.y;this.angleX=Math.PI*2*Math.random();this.angleY=Math.PI*2*Math.random();}
-    draw(){if(!idle||this.index<=sineDots){this.el.style.transform=`translate(${this.x}px,${this.y}px) scale(${this.scale})`;}
-      else{this.angleX+=this.anglespeed;this.angleY+=this.anglespeed;
-        this.y=this.lockY+Math.sin(this.angleY)*this.range;this.x=this.lockX+Math.sin(this.angleX)*this.range;
-        this.el.style.transform=`translate(${this.x}px,${this.y}px) scale(${this.scale})`;}}
+    draw(){this.el.style.transform=`translate(${this.x}px,${this.y}px) scale(${this.scale})`;}
   }
   for(let i=0;i<amount;i++)dots.push(new Dot(i));
-  function startIdle(){timeoutID=setTimeout(()=>{idle=true;for(const d of dots)d.lock();},idleTimeout);idle=false;}
-  function resetIdle(){clearTimeout(timeoutID);startIdle();}
-  addEventListener('mousemove',e=>{mouse.x=e.clientX-width/2;mouse.y=e.clientY-width/2;resetIdle();},{passive:true});
+  addEventListener('mousemove',e=>{mouse.x=e.clientX-width/2;mouse.y=e.clientY-width/2;},{passive:true});
   (function render(){let x=mouse.x,y=mouse.y;
-    dots.forEach((dot,i)=>{const next=dots[i+1]||dots[0];dot.x=x;dot.y=y;dot.draw();
-      if(!idle||i<=sineDots){x+=(next.x-dot.x)*0.35;y+=(next.y-dot.y)*0.35;}});
+    dots.forEach((dot,i)=>{const next=dots[i+1]||dots[0];dot.x=x;dot.y=y;dot.draw();x+=(next.x-dot.x)*0.35;y+=(next.y-dot.y)*0.35;});
     requestAnimationFrame(render);})();
-  startIdle();
 }
 
 /* plexus background */
@@ -529,19 +519,19 @@ if(fine){
 
 /* brain-scene scatter bubbles */
 const problems=[
-  {t:"выгораю",x:47,y:44},{t:"хочу, но не решаюсь",x:64,y:44},
-  {t:"проживаю не свою жизнь",x:33,y:50},{t:"мои границы нарушаются",x:67,y:51},
-  {t:"пашу как проклятый",x:43,y:57},{t:"не могу принять себя",x:59,y:57},
-  {t:"не могу найти любовь",x:35,y:63},{t:"застрял и не знаю как дальше",x:66,y:63},
-  {t:"партнёр меня не понимает",x:46,y:70},{t:"я ревную и боюсь расставания",x:61,y:70}
+  {t:"выгораю",x:44,y:41,r:-8},{t:"хочу, но не решаюсь",x:60,y:39,r:6},
+  {t:"проживаю не свою жизнь",x:36,y:49,r:-6},{t:"мои границы нарушаются",x:63,y:49,r:7},
+  {t:"пашу как проклятый",x:45,y:54,r:-9},{t:"не могу принять себя",x:57,y:55,r:5},
+  {t:"не могу найти любовь",x:39,y:60,r:-5},{t:"застрял и не знаю как дальше",x:62,y:60,r:8},
+  {t:"партнёр меня не понимает",x:47,y:64,r:-7},{t:"я ревную и боюсь расставания",x:56,y:65,r:6}
 ];
 const bc=document.getElementById('bubbles');
-const cx=50, cy=56;
+const cx=50, cy=53;
 const bubbles=problems.map((p,i)=>{
-  const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%';
+  const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%'; b.style.zIndex=10+i;
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.5)+'s'; bc.appendChild(b);
   let ax=p.x-cx, ay=p.y-cy; const len=Math.hypot(ax,ay)||1; ax/=len; ay/=len;
-  return {el:b, dx:ax, dy:ay, rot:(i%2?1:-1)*(14+i*2)};
+  return {el:b, dx:ax, dy:ay, tilt:p.r, rot:(i%2?1:-1)*(16+i*2)};
 });
 const sceneEl=document.getElementById('approach-scene'), resolve=document.getElementById('resolve');
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)); const smooth=(a,b,x)=>{x=clamp((x-a)/(b-a),0,1);return x*x*(3-2*x);};
@@ -552,7 +542,7 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   pC+=(pT-pC)*0.1; const p=pC; const fly=smooth(0.05,0.9,p);
   bubbles.forEach(b=>{
     const tx=b.dx*fly*innerWidth*0.55, ty=b.dy*fly*innerHeight*0.5;
-    b.el.style.transform=`translate(-50%,-50%) translate(${tx}px,${ty}px) rotate(${b.rot*fly}deg) scale(${1-0.25*fly})`;
+    b.el.style.transform=`translate(-50%,-50%) translate(${tx}px,${ty}px) rotate(${b.tilt+b.rot*fly}deg) scale(${1-0.25*fly})`;
     b.el.style.opacity=(1-smooth(0.2,0.7,p)).toFixed(3);
   });
   const hi=document.getElementById('headImg'); if(hi) hi.style.transform=`scale(${1+fly*0.05})`;

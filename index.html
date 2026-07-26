@@ -105,12 +105,10 @@
   .ap-copy h2{font-family:'Manrope';font-weight:800;font-size:clamp(28px,3.8vw,48px);line-height:1.04;margin-top:14px;letter-spacing:-.02em}
   .ap-copy p{color:var(--ink-d);font-size:15.5px;margin-top:18px}.ap-copy p b{color:var(--ink)}
   .ap-diagram{position:relative;height:82vh}
-  .ap-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
-  .ap-svg .apseg{stroke:url(#lg);stroke-width:3.4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:0;filter:drop-shadow(0 0 4px rgba(217,70,239,.9));transition:opacity .14s ease}
-  .ap-svg .apseg.on{opacity:.92}
-  .ap-svg .apn{fill:#f0abfc;stroke:none;opacity:0;transition:opacity .5s;filter:drop-shadow(0 0 4px rgba(240,171,252,.9))}
-  .ap-svg .apn.on{opacity:1}
-  .ap-brain{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(60vh,580px);height:min(60vh,580px);z-index:2}
+  .ap-svg{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible}
+  .ap-svg .apseg{stroke:url(#lg);stroke-width:3.4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:0;filter:drop-shadow(0 0 5px rgba(217,70,239,.9));transition:opacity .14s ease}
+  .ap-svg .apseg.on{opacity:.95}
+  .ap-brain{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(60vh,580px);height:min(60vh,580px);z-index:1}
   #chrome-canvas{width:100%;height:100%;display:block}
   .ap-label{position:absolute;z-index:3;max-width:216px;padding:13px 16px;border-radius:14px;background:rgba(18,9,32,.6);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 14px 40px -18px rgba(0,0,0,.7);opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
   .ap-label.on{opacity:1;transform:none}
@@ -314,11 +312,8 @@
       </div>
       <div class="ap-diagram rv d1">
         <svg class="ap-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f0abfc"/></linearGradient></defs>
+          <defs><linearGradient id="lg" gradientUnits="userSpaceOnUse" x1="42" y1="20" x2="66" y2="82"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f0abfc"/></linearGradient></defs>
           <g id="ap-segs"></g>
-          <circle cx="57" cy="17" r="0.7" class="apn"/>
-          <circle cx="62" cy="49" r="0.7" class="apn"/>
-          <circle cx="54" cy="79" r="0.7" class="apn"/>
         </svg>
         <div class="ap-brain"><canvas id="chrome-canvas"></canvas></div>
         <div class="ap-label a1"><b>Авторская система «Бенефактор»</b><span>Соединяет Высшее Я, сознание и подсознание</span></div>
@@ -562,11 +557,10 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
 /* approach diagram: draw each arrow segment-by-segment, then the label, looping */
 (function(){
   const holder=document.getElementById('ap-segs');
-  const nodes=[...document.querySelectorAll('.ap-svg .apn')];
   const labels=[...document.querySelectorAll('.ap-label')];
   if(!holder) return;
   const NS='http://www.w3.org/2000/svg';
-  const arrows=[[47,33,57,17],[57,50,62,49],[48,64,54,79]]; // brain edge -> node
+  const arrows=[[46,30,57,17],[48,50,62,50],[46,66,53,80]]; // из мозга -> к табличке
   const SEGS=6, DASH=0.58; // доля отрезка (остальное — зазор), чтобы видны были отдельные штрихи
   const arrowSegs=arrows.map(a=>{
     const [x0,y0,x1,y1]=a, segs=[];
@@ -583,11 +577,10 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   function step(){
     timers.forEach(clearTimeout); timers=[];
     allSegs.forEach(l=>l.classList.remove('on'));
-    nodes.forEach(n=>n.classList.remove('on'));
     labels.forEach(l=>l.classList.remove('on'));
     i=(i+1)%arrows.length; const cur=i, segs=arrowSegs[cur];
     segs.forEach((sg,k)=>timers.push(setTimeout(()=>sg.classList.add('on'),80+k*95)));  // 1) отрезки по одному, быстро
-    timers.push(setTimeout(()=>{ nodes[cur]&&nodes[cur].classList.add('on'); labels[cur]&&labels[cur].classList.add('on'); },80+SEGS*95+120)); // 2) только потом табличка
+    timers.push(setTimeout(()=>{ labels[cur]&&labels[cur].classList.add('on'); },80+SEGS*95+120)); // 2) только потом табличка
   }
   step(); setInterval(step,3200);
 })();

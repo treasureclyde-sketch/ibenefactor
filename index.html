@@ -47,7 +47,7 @@
   header#nav{position:fixed;top:0;left:0;right:0;z-index:40;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
   header#nav.scrolled{background:rgba(5,2,10,.72);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
   .nav-in{max-width:var(--maxw);margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:11px;font-family:'Manrope';font-weight:800;font-size:23px;letter-spacing:-.01em}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Manrope';font-weight:800;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
   .brand .dot{width:12px;height:12px;border-radius:50%;background:conic-gradient(from 0deg,var(--magenta),var(--violet),var(--pink),var(--magenta));box-shadow:0 0 16px 2px rgba(217,70,239,.7);animation:spin 6s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .nav-links{display:flex;gap:28px;align-items:center}
@@ -525,14 +525,14 @@ if(fine){
 
 /* brain-scene scatter bubbles */
 const problems=[
-  {t:"выгораю",x:44,y:52,r:-8},{t:"хочу, но не решаюсь",x:60,y:51,r:6},
-  {t:"проживаю не свою жизнь",x:36,y:53,r:-6},{t:"мои границы нарушаются",x:59,y:53,r:7},
-  {t:"пашу как проклятый",x:45,y:58,r:-9},{t:"не могу принять себя",x:57,y:59,r:5},
-  {t:"не могу найти любовь",x:39,y:64,r:-5},{t:"застрял и не знаю как дальше",x:62,y:64,r:8},
-  {t:"партнёр меня не понимает",x:47,y:68,r:-7},{t:"я ревную и боюсь расставания",x:56,y:69,r:6}
+  {t:"выгораю",x:45,y:20,r:-4},{t:"хочу, но не решаюсь",x:66,y:24,r:5},
+  {t:"проживаю не свою жизнь",x:30,y:30,r:-4},{t:"мои границы нарушаются",x:69,y:38,r:5},
+  {t:"пашу как проклятый",x:42,y:41,r:-5},{t:"не могу принять себя",x:66,y:49,r:4},
+  {t:"не могу найти любовь",x:29,y:53,r:-4},{t:"застрял и не знаю как дальше",x:70,y:60,r:5},
+  {t:"партнёр меня не понимает",x:38,y:65,r:-4},{t:"я ревную и боюсь расставания",x:58,y:73,r:4}
 ];
 const bc=document.getElementById('bubbles');
-const cx=50, cy=57;
+const cx=50, cy=44;
 const bubbles=problems.map((p,i)=>{
   const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%'; b.style.zIndex=10+i;
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.5)+'s'; bc.appendChild(b);
@@ -563,12 +563,15 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   const labels=[...document.querySelectorAll('.ap-label')];
   if(lines.length<3) return;
   let i=-1;
-  function step(){ i=(i+1)%3;
-    lines.forEach((l,k)=>l.classList.toggle('on',k===i));
-    nodes.forEach((n,k)=>n.classList.toggle('on',k===i));
-    labels.forEach((l,k)=>l.classList.toggle('on',k===i));
+  function step(){
+    lines.forEach(l=>l.classList.remove('on'));
+    nodes.forEach(n=>n.classList.remove('on'));
+    labels.forEach(l=>l.classList.remove('on'));
+    i=(i+1)%3; const cur=i;
+    lines[cur].classList.add('on');                       // 1) стрелка рисуется
+    setTimeout(()=>{ if(cur===i){ nodes[cur]&&nodes[cur].classList.add('on'); labels[cur]&&labels[cur].classList.add('on'); } },900); // 2) потом табличка
   }
-  step(); setInterval(step,2800);
+  step(); setInterval(step,3600);
 })();
 
 document.querySelectorAll('.qa').forEach(qa=>{

@@ -106,8 +106,8 @@
   .ap-copy p{color:var(--ink-d);font-size:15.5px;margin-top:18px}.ap-copy p b{color:var(--ink)}
   .ap-diagram{position:relative;height:82vh}
   .ap-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
-  .ap-svg .apl{stroke:url(#lg);stroke-width:2.2;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;filter:drop-shadow(0 0 3px rgba(217,70,239,.7));transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1),opacity .2s}
-  .ap-svg .apl.on{stroke-dashoffset:0;opacity:.9}
+  .ap-svg .apseg{stroke:url(#lg);stroke-width:2.4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:0;filter:drop-shadow(0 0 3px rgba(217,70,239,.8));transition:opacity .26s ease}
+  .ap-svg .apseg.on{opacity:.92}
   .ap-svg .apn{fill:#f0abfc;stroke:none;opacity:0;transition:opacity .5s;filter:drop-shadow(0 0 4px rgba(240,171,252,.9))}
   .ap-svg .apn.on{opacity:1}
   .ap-brain{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(60vh,580px);height:min(60vh,580px);z-index:2}
@@ -315,9 +315,10 @@
       <div class="ap-diagram rv d1">
         <svg class="ap-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f0abfc"/></linearGradient></defs>
-          <line x1="54" y1="42" x2="62" y2="21" class="apl" pathLength="1"/><circle cx="62" cy="21" r="0.7" class="apn"/>
-          <line x1="62" y1="50" x2="72" y2="49" class="apl" pathLength="1"/><circle cx="72" cy="49" r="0.7" class="apn"/>
-          <line x1="54" y1="59" x2="59" y2="79" class="apl" pathLength="1"/><circle cx="59" cy="79" r="0.7" class="apn"/>
+          <g id="ap-segs"></g>
+          <circle cx="62" cy="21" r="0.7" class="apn"/>
+          <circle cx="72" cy="49" r="0.7" class="apn"/>
+          <circle cx="59" cy="79" r="0.7" class="apn"/>
         </svg>
         <div class="ap-brain"><canvas id="chrome-canvas"></canvas></div>
         <div class="ap-label a1"><b>Авторская система «Бенефактор»</b><span>Соединяет Высшее Я, сознание и подсознание</span></div>
@@ -524,16 +525,17 @@ if(fine){
 })();
 
 /* brain-scene scatter bubbles */
+// координаты реально пересекают голову — плашки врезаются в неё (хаос мыслей)
 const problems=[
-  {t:"выгораю",x:45,y:14,r:-3},
-  {t:"проживаю не свою жизнь",x:32,y:26,r:-4},{t:"хочу, но не решаюсь",x:69,y:24,r:4},
-  {t:"пашу как проклятый",x:37,y:39,r:-4},{t:"мои границы нарушаются",x:70,y:38,r:4},
-  {t:"не могу найти любовь",x:32,y:52,r:-3},{t:"не могу принять себя",x:69,y:51,r:4},
-  {t:"партнёр меня не понимает",x:41,y:65,r:-4},{t:"застрял и не знаю как дальше",x:70,y:64,r:4},
-  {t:"я ревную и боюсь расставания",x:54,y:77,r:3}
+  {t:"выгораю",x:47,y:29,r:-5},
+  {t:"проживаю не свою жизнь",x:39,y:36,r:4},{t:"хочу, но не решаюсь",x:61,y:34,r:-4},
+  {t:"пашу как проклятый",x:43,y:43,r:-6},{t:"мои границы нарушаются",x:62,y:45,r:5},
+  {t:"не могу найти любовь",x:38,y:51,r:5},{t:"не могу принять себя",x:60,y:52,r:-5},
+  {t:"партнёр меня не понимает",x:45,y:59,r:-4},{t:"застрял и не знаю как дальше",x:59,y:61,r:5},
+  {t:"я ревную и боюсь расставания",x:50,y:67,r:-3}
 ];
 const bc=document.getElementById('bubbles');
-const cx=50, cy=45;
+const cx=50, cy=47;
 const bubbles=problems.map((p,i)=>{
   const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%'; b.style.zIndex=10+i;
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.5)+'s'; bc.appendChild(b);
@@ -557,22 +559,37 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   requestAnimationFrame(render);
 })();
 
-/* approach diagram: reveal line+label one at a time, looping */
+/* approach diagram: draw each arrow segment-by-segment, then the label, looping */
 (function(){
-  const lines=[...document.querySelectorAll('.ap-svg .apl')];
+  const holder=document.getElementById('ap-segs');
   const nodes=[...document.querySelectorAll('.ap-svg .apn')];
   const labels=[...document.querySelectorAll('.ap-label')];
-  if(lines.length<3) return;
-  let i=-1;
+  if(!holder) return;
+  const NS='http://www.w3.org/2000/svg';
+  const arrows=[[54,43,62,21],[57,50,72,49],[54,58,59,79]]; // brain edge -> node
+  const SEGS=5;
+  const arrowSegs=arrows.map(a=>{
+    const [x0,y0,x1,y1]=a, segs=[];
+    for(let s=0;s<SEGS;s++){
+      const t0=s/SEGS, t1=(s+1)/SEGS, ln=document.createElementNS(NS,'line');
+      ln.setAttribute('x1',(x0+(x1-x0)*t0).toFixed(2)); ln.setAttribute('y1',(y0+(y1-y0)*t0).toFixed(2));
+      ln.setAttribute('x2',(x0+(x1-x0)*t1).toFixed(2)); ln.setAttribute('y2',(y0+(y1-y0)*t1).toFixed(2));
+      ln.setAttribute('class','apseg'); holder.appendChild(ln); segs.push(ln);
+    }
+    return segs;
+  });
+  const allSegs=arrowSegs.flat();
+  let i=-1, timers=[];
   function step(){
-    lines.forEach(l=>l.classList.remove('on'));
+    timers.forEach(clearTimeout); timers=[];
+    allSegs.forEach(l=>l.classList.remove('on'));
     nodes.forEach(n=>n.classList.remove('on'));
     labels.forEach(l=>l.classList.remove('on'));
-    i=(i+1)%3; const cur=i;
-    lines[cur].classList.add('on');                        // 1) линия медленно рисуется (1.5с)
-    setTimeout(()=>{ if(cur===i){ nodes[cur]&&nodes[cur].classList.add('on'); labels[cur]&&labels[cur].classList.add('on'); } },1600); // 2) только потом табличка
+    i=(i+1)%arrows.length; const cur=i, segs=arrowSegs[cur];
+    segs.forEach((sg,k)=>timers.push(setTimeout(()=>sg.classList.add('on'),120+k*185)));  // 1) отрезки по одному
+    timers.push(setTimeout(()=>{ nodes[cur]&&nodes[cur].classList.add('on'); labels[cur]&&labels[cur].classList.add('on'); },120+SEGS*185+180)); // 2) только потом табличка
   }
-  step(); setInterval(step,4200);
+  step(); setInterval(step,3900);
 })();
 
 document.querySelectorAll('.qa').forEach(qa=>{

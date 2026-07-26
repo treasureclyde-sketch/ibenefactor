@@ -33,10 +33,8 @@
   main,header,footer{position:relative;z-index:3}
 
   /* difference cursor */
-  #cursor{position:fixed;top:0;left:0;z-index:99999;pointer-events:none;mix-blend-mode:difference}
-  #cursor span{position:fixed;top:0;left:0;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;
-    background:radial-gradient(circle at 40% 36%,#ffffff,#f5d0fe 72%);will-change:transform;animation:hue 12s linear infinite}
-  @keyframes hue{to{filter:hue-rotate(360deg)}}
+  #cursor{position:fixed;inset:0;z-index:99999;pointer-events:none;filter:url(#goo)}
+  #cursor b{position:absolute;top:0;left:0;border-radius:50%;mix-blend-mode:screen;will-change:transform;transform:translate(-50%,-50%)}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
   .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -234,6 +232,7 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo"/><feComposite in="SourceGraphic" in2="goo" operator="atop"/></filter></defs></svg>
 
 <header id="nav">
   <div class="nav-in">
@@ -484,21 +483,28 @@ function makeEnv(R){
 <script>
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 
-/* cursor: smooth comet trail + difference invert (white text -> black) + shimmer */
+/* liquid cursor: gooey colour-mixing metaballs in the site palette */
 if(fine){
   const cursor=document.getElementById('cursor');
-  const amount=9, width=22;
-  let mouse={x:innerWidth/2,y:innerHeight/2}, dots=[];
-  class Dot{
-    constructor(i){this.index=i;this.x=0;this.y=0;this.scale=1-0.09*i;
-      this.el=document.createElement('span');this.el.style.transform=`scale(${this.scale})`;cursor.appendChild(this.el);}
-    draw(){this.el.style.transform=`translate(${this.x}px,${this.y}px) scale(${this.scale})`;}
-  }
-  for(let i=0;i<amount;i++)dots.push(new Dot(i));
-  addEventListener('mousemove',e=>{mouse.x=e.clientX-width/2;mouse.y=e.clientY-width/2;},{passive:true});
-  (function render(){let x=mouse.x,y=mouse.y;
-    dots.forEach((dot,i)=>{const next=dots[i+1]||dots[0];dot.x=x;dot.y=y;dot.draw();x+=(next.x-dot.x)*0.35;y+=(next.y-dot.y)*0.35;});
-    requestAnimationFrame(render);})();
+  const cols=['#8B5CF6','#A78BFA','#D946EF','#F0ABFC','#7C3AED','#C026D3','#9F7AEA'];
+  const blobs=cols.map((c,i)=>{
+    const el=document.createElement('b'); const size=44-i*4;
+    el.style.width=el.style.height=size+'px';
+    el.style.background=`radial-gradient(circle at 42% 40%, ${c}, ${c} 56%, rgba(0,0,0,0) 74%)`;
+    cursor.appendChild(el);
+    return {el,x:innerWidth/2,y:innerHeight/2};
+  });
+  let mx=innerWidth/2,my=innerHeight/2;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
+  (function render(){
+    let lx=mx,ly=my;
+    for(let i=0;i<blobs.length;i++){const b=blobs[i]; const e=i===0?0.30:0.34;
+      b.x+=(lx-b.x)*e; b.y+=(ly-b.y)*e;
+      b.el.style.transform=`translate(${b.x}px,${b.y}px) translate(-50%,-50%)`;
+      lx=b.x; ly=b.y;
+    }
+    requestAnimationFrame(render);
+  })();
 }
 
 /* plexus background */

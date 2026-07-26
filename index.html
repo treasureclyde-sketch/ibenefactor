@@ -110,11 +110,11 @@
   .ap-svg .apseg.on{opacity:.95}
   .ap-brain{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(60vh,580px);height:min(60vh,580px);z-index:1}
   #chrome-canvas{width:100%;height:100%;display:block}
-  .ap-label{position:absolute;z-index:3;max-width:216px;padding:13px 16px;border-radius:14px;background:rgba(18,9,32,.6);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 14px 40px -18px rgba(0,0,0,.7);opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .ap-label{position:absolute;z-index:3;max-width:232px;padding:13px 16px;border-radius:14px;background:rgba(18,9,32,.6);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 14px 40px -18px rgba(0,0,0,.7);opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
   .ap-label.on{opacity:1;transform:none}
   .ap-label b{font-family:'Manrope';font-weight:800;font-size:15px;display:block;margin-bottom:3px}
   .ap-label span{font-size:12.5px;color:var(--ink-d)}
-  .ap-label.a1{left:58%;top:12%}.ap-label.a2{left:63%;top:45%}.ap-label.a3{left:54%;top:75%}
+  .ap-label.a1{left:70%;top:5%}.ap-label.a2{left:71%;top:44%}.ap-label.a3{left:2%;top:80%}
   @media(min-width:921px){.ap-copy{position:absolute;left:0;top:50%;transform:translateY(-50%);max-width:300px;z-index:5}}
   @media(max-width:920px){
     .ap-wrap{min-height:auto}
@@ -135,7 +135,7 @@
   @media(max-width:760px){.head-wrap{height:56vh}}
   .bubbles{position:absolute;inset:0;z-index:3;pointer-events:none}
   .bubble{position:absolute;transform:translate(-50%,-50%);will-change:transform,opacity}
-  .bubble .pill{display:inline-block;padding:11px 17px;border-radius:14px;background:rgba(14,7,26,.82);border:1px solid rgba(242,236,251,.16);backdrop-filter:blur(8px);font-size:14px;color:var(--ink);white-space:nowrap;box-shadow:0 10px 30px -12px rgba(0,0,0,.85);animation:float 6s var(--ease) infinite alternate}
+  .bubble .pill{display:inline-block;padding:11px 17px;border-radius:14px;background:rgba(10,5,18,.9);border:1px solid rgba(242,236,251,.2);backdrop-filter:blur(9px);font-size:14px;color:var(--ink);white-space:nowrap;box-shadow:0 12px 34px -10px rgba(0,0,0,.95);animation:float 6s var(--ease) infinite alternate}
   @keyframes float{to{transform:translateY(-9px)}}
   .resolve{position:absolute;right:28px;bottom:60px;max-width:32ch;z-index:6;opacity:0;text-align:right;pointer-events:none}
   .resolve p{font-size:14.5px;color:var(--ink-d)}.resolve p b{color:var(--pink);font-weight:600}
@@ -230,7 +230,7 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor"></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo"/><feComposite in="SourceGraphic" in2="goo" operator="atop"/></filter></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/><feComposite in="SourceGraphic" in2="goo" operator="atop"/></filter></defs></svg>
 
 <header id="nav">
   <div class="nav-in">
@@ -312,7 +312,7 @@
       </div>
       <div class="ap-diagram rv d1">
         <svg class="ap-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <defs><linearGradient id="lg" gradientUnits="userSpaceOnUse" x1="42" y1="20" x2="66" y2="82"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f0abfc"/></linearGradient></defs>
+          <defs><linearGradient id="lg" gradientUnits="userSpaceOnUse" x1="20" y1="10" x2="74" y2="84"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f0abfc"/></linearGradient></defs>
           <g id="ap-segs"></g>
         </svg>
         <div class="ap-brain"><canvas id="chrome-canvas"></canvas></div>
@@ -482,11 +482,11 @@ const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 /* liquid cursor: gooey colour-mixing metaballs in the site palette */
 if(fine){
   const cursor=document.getElementById('cursor');
-  const cols=['#8B5CF6','#A78BFA','#D946EF','#F0ABFC','#7C3AED','#C026D3','#9F7AEA'];
+  const cols=['#A78BFA','#8B5CF6','#D946EF','#C026D3','#F0ABFC','#9F7AEA'];
   const blobs=cols.map((c,i)=>{
-    const el=document.createElement('b'); const size=44-i*4;
+    const el=document.createElement('b'); const size=17-i*1.8;
     el.style.width=el.style.height=size+'px';
-    el.style.background=`radial-gradient(circle at 42% 40%, ${c}, ${c} 56%, rgba(0,0,0,0) 74%)`;
+    el.style.background=`radial-gradient(circle at 42% 40%, ${c}, ${c} 55%, rgba(0,0,0,0) 75%)`;
     cursor.appendChild(el);
     return {el,x:innerWidth/2,y:innerHeight/2};
   });
@@ -494,7 +494,7 @@ if(fine){
   addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
   (function render(){
     let lx=mx,ly=my;
-    for(let i=0;i<blobs.length;i++){const b=blobs[i]; const e=i===0?0.30:0.34;
+    for(let i=0;i<blobs.length;i++){const b=blobs[i]; const e=i===0?0.42:0.5;
       b.x+=(lx-b.x)*e; b.y+=(ly-b.y)*e;
       b.el.style.transform=`translate(${b.x}px,${b.y}px) translate(-50%,-50%)`;
       lx=b.x; ly=b.y;
@@ -522,15 +522,14 @@ if(fine){
 /* brain-scene scatter bubbles */
 // координаты реально пересекают голову — плашки врезаются в неё (хаос мыслей)
 const problems=[
-  {t:"выгораю",x:47,y:29,r:-5},
-  {t:"проживаю не свою жизнь",x:39,y:36,r:4},{t:"хочу, но не решаюсь",x:61,y:34,r:-4},
-  {t:"пашу как проклятый",x:43,y:43,r:-6},{t:"мои границы нарушаются",x:62,y:45,r:5},
-  {t:"не могу найти любовь",x:38,y:51,r:5},{t:"не могу принять себя",x:60,y:52,r:-5},
-  {t:"партнёр меня не понимает",x:45,y:59,r:-4},{t:"застрял и не знаю как дальше",x:59,y:61,r:5},
-  {t:"я ревную и боюсь расставания",x:50,y:67,r:-3}
+  {t:"выгораю",x:45,y:40,r:-4},{t:"хочу, но не решаюсь",x:60,y:39,r:3},
+  {t:"проживаю не свою жизнь",x:39,y:47,r:4},{t:"мои границы нарушаются",x:62,y:46,r:-3},
+  {t:"не могу найти любовь",x:38,y:54,r:-4},{t:"не могу принять себя",x:61,y:54,r:4},
+  {t:"пашу как проклятый",x:45,y:61,r:5},{t:"застрял и не знаю как дальше",x:60,y:61,r:-4},
+  {t:"партнёр меня не понимает",x:44,y:68,r:-3},{t:"я ревную и боюсь расставания",x:57,y:68,r:3}
 ];
 const bc=document.getElementById('bubbles');
-const cx=50, cy=47;
+const cx=50, cy=54;
 const bubbles=problems.map((p,i)=>{
   const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%'; b.style.zIndex=10+i;
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.5)+'s'; bc.appendChild(b);
@@ -560,12 +559,14 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   const labels=[...document.querySelectorAll('.ap-label')];
   if(!holder) return;
   const NS='http://www.w3.org/2000/svg';
-  const arrows=[[46,30,57,17],[48,50,62,50],[46,66,53,80]]; // из мозга -> к табличке
-  const SEGS=6, DASH=0.58; // доля отрезка (остальное — зазор), чтобы видны были отдельные штрихи
+  // линии начинаются у КРАЯ мозга и уходят НАРУЖУ к табличкам:
+  // a1 «Бенефактор» — по диагонали в правый верх; a2 «Высшее Я» — вправо; a3 «нейросвязи» — по диагонали в левый низ
+  const arrows=[[61,32,69,10],[66,49,70,48],[39,67,22,84]];
+  const STEP=3.2, DASH=0.6; // шаг штриха в единицах viewBox + доля закраски (равная плотность на всех линиях)
   const arrowSegs=arrows.map(a=>{
-    const [x0,y0,x1,y1]=a, segs=[];
-    for(let s=0;s<SEGS;s++){
-      const t0=s/SEGS, t1=t0+DASH/SEGS, ln=document.createElementNS(NS,'line');
+    const [x0,y0,x1,y1]=a, len=Math.hypot(x1-x0,y1-y0), n=Math.max(3,Math.round(len/STEP)), segs=[];
+    for(let s=0;s<n;s++){
+      const t0=s/n, t1=t0+DASH/n, ln=document.createElementNS(NS,'line');
       ln.setAttribute('x1',(x0+(x1-x0)*t0).toFixed(2)); ln.setAttribute('y1',(y0+(y1-y0)*t0).toFixed(2));
       ln.setAttribute('x2',(x0+(x1-x0)*t1).toFixed(2)); ln.setAttribute('y2',(y0+(y1-y0)*t1).toFixed(2));
       ln.setAttribute('class','apseg'); holder.appendChild(ln); segs.push(ln);
@@ -579,10 +580,10 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
     allSegs.forEach(l=>l.classList.remove('on'));
     labels.forEach(l=>l.classList.remove('on'));
     i=(i+1)%arrows.length; const cur=i, segs=arrowSegs[cur];
-    segs.forEach((sg,k)=>timers.push(setTimeout(()=>sg.classList.add('on'),80+k*95)));  // 1) отрезки по одному, быстро
-    timers.push(setTimeout(()=>{ labels[cur]&&labels[cur].classList.add('on'); },80+SEGS*95+120)); // 2) только потом табличка
+    segs.forEach((sg,k)=>timers.push(setTimeout(()=>sg.classList.add('on'),80+k*90)));  // 1) отрезки по одному, быстро
+    timers.push(setTimeout(()=>{ labels[cur]&&labels[cur].classList.add('on'); },80+segs.length*90+140)); // 2) только потом табличка
   }
-  step(); setInterval(step,3200);
+  step(); setInterval(step,3400);
 })();
 
 document.querySelectorAll('.qa').forEach(qa=>{

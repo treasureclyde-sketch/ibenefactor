@@ -106,7 +106,7 @@
   .ap-copy p{color:var(--ink-d);font-size:15.5px;margin-top:18px}.ap-copy p b{color:var(--ink)}
   .ap-diagram{position:relative;height:82vh}
   .ap-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
-  .ap-svg .apseg{stroke:url(#lg);stroke-width:2.4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:0;filter:drop-shadow(0 0 3px rgba(217,70,239,.8));transition:opacity .26s ease}
+  .ap-svg .apseg{stroke:url(#lg);stroke-width:2.6;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:0;filter:drop-shadow(0 0 3px rgba(217,70,239,.8));transition:opacity .14s ease}
   .ap-svg .apseg.on{opacity:.92}
   .ap-svg .apn{fill:#f0abfc;stroke:none;opacity:0;transition:opacity .5s;filter:drop-shadow(0 0 4px rgba(240,171,252,.9))}
   .ap-svg .apn.on{opacity:1}
@@ -567,11 +567,11 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   if(!holder) return;
   const NS='http://www.w3.org/2000/svg';
   const arrows=[[54,43,62,21],[57,50,72,49],[54,58,59,79]]; // brain edge -> node
-  const SEGS=5;
+  const SEGS=6, DASH=0.58; // доля отрезка (остальное — зазор), чтобы видны были отдельные штрихи
   const arrowSegs=arrows.map(a=>{
     const [x0,y0,x1,y1]=a, segs=[];
     for(let s=0;s<SEGS;s++){
-      const t0=s/SEGS, t1=(s+1)/SEGS, ln=document.createElementNS(NS,'line');
+      const t0=s/SEGS, t1=t0+DASH/SEGS, ln=document.createElementNS(NS,'line');
       ln.setAttribute('x1',(x0+(x1-x0)*t0).toFixed(2)); ln.setAttribute('y1',(y0+(y1-y0)*t0).toFixed(2));
       ln.setAttribute('x2',(x0+(x1-x0)*t1).toFixed(2)); ln.setAttribute('y2',(y0+(y1-y0)*t1).toFixed(2));
       ln.setAttribute('class','apseg'); holder.appendChild(ln); segs.push(ln);
@@ -586,10 +586,10 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
     nodes.forEach(n=>n.classList.remove('on'));
     labels.forEach(l=>l.classList.remove('on'));
     i=(i+1)%arrows.length; const cur=i, segs=arrowSegs[cur];
-    segs.forEach((sg,k)=>timers.push(setTimeout(()=>sg.classList.add('on'),120+k*185)));  // 1) отрезки по одному
-    timers.push(setTimeout(()=>{ nodes[cur]&&nodes[cur].classList.add('on'); labels[cur]&&labels[cur].classList.add('on'); },120+SEGS*185+180)); // 2) только потом табличка
+    segs.forEach((sg,k)=>timers.push(setTimeout(()=>sg.classList.add('on'),80+k*95)));  // 1) отрезки по одному, быстро
+    timers.push(setTimeout(()=>{ nodes[cur]&&nodes[cur].classList.add('on'); labels[cur]&&labels[cur].classList.add('on'); },80+SEGS*95+120)); // 2) только потом табличка
   }
-  step(); setInterval(step,3900);
+  step(); setInterval(step,3200);
 })();
 
 document.querySelectorAll('.qa').forEach(qa=>{

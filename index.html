@@ -230,7 +230,7 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor"></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/><feComposite in="SourceGraphic" in2="goo" operator="atop"/></filter></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -12" result="goo"/><feComposite in="SourceGraphic" in2="goo" operator="atop"/></filter></defs></svg>
 
 <header id="nav">
   <div class="nav-in">
@@ -479,25 +479,29 @@ function makeEnv(R){
 <script>
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 
-/* liquid cursor: gooey colour-mixing metaballs in the site palette */
+/* blob-cursor: короткий упругий хвост капель, слитых goo-фильтром (пружинная физика, компактный размер) */
 if(fine){
   const cursor=document.getElementById('cursor');
-  const cols=['#A78BFA','#8B5CF6','#D946EF','#C026D3','#F0ABFC','#9F7AEA'];
-  const blobs=cols.map((c,i)=>{
-    const el=document.createElement('b'); const size=17-i*1.8;
-    el.style.width=el.style.height=size+'px';
-    el.style.background=`radial-gradient(circle at 42% 40%, ${c}, ${c} 55%, rgba(0,0,0,0) 75%)`;
+  const sizes=[16,13,11,9];                                   // ведущая капля 16px — не громоздко
+  const tint=['#F5ECFF','#E9D5FF','#C4B5FD','#A78BFA'];       // мягкое лиловое переливание по хвосту
+  const lead={t:1200,f:40,m:1};                               // ведущая — быстрая (как fast в оригинале)
+  const trail={t:230,f:44,m:8};                               // хвост — тяжёлый, упругий (как slow)
+  const blobs=sizes.map((s,i)=>{
+    const el=document.createElement('b'); el.style.width=el.style.height=s+'px';
+    el.style.background=`radial-gradient(circle at 42% 40%, ${tint[i]}, ${tint[i]} 58%, rgba(0,0,0,0) 74%)`;
     cursor.appendChild(el);
-    return {el,x:innerWidth/2,y:innerHeight/2};
+    return {el,x:innerWidth/2,y:innerHeight/2,vx:0,vy:0};
   });
   let mx=innerWidth/2,my=innerHeight/2;
   addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
+  const dt=1/60;
   (function render(){
-    let lx=mx,ly=my;
-    for(let i=0;i<blobs.length;i++){const b=blobs[i]; const e=i===0?0.42:0.5;
-      b.x+=(lx-b.x)*e; b.y+=(ly-b.y)*e;
+    for(let i=0;i<blobs.length;i++){
+      const b=blobs[i], c=i===0?lead:trail;
+      const tx=i===0?mx:blobs[i-1].x, ty=i===0?my:blobs[i-1].y;   // каждая капля тянется за предыдущей
+      b.vx+=(c.t*(tx-b.x)-c.f*b.vx)/c.m*dt; b.vy+=(c.t*(ty-b.y)-c.f*b.vy)/c.m*dt;
+      b.x+=b.vx*dt; b.y+=b.vy*dt;
       b.el.style.transform=`translate(${b.x}px,${b.y}px) translate(-50%,-50%)`;
-      lx=b.x; ly=b.y;
     }
     requestAnimationFrame(render);
   })();

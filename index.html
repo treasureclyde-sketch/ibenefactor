@@ -106,17 +106,17 @@
   .ap-copy p{color:var(--ink-d);font-size:15.5px;margin-top:18px}.ap-copy p b{color:var(--ink)}
   .ap-diagram{position:relative;height:82vh}
   .ap-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
-  .ap-svg .apseg{stroke:url(#lg);stroke-width:2.6;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:0;filter:drop-shadow(0 0 3px rgba(217,70,239,.8));transition:opacity .14s ease}
+  .ap-svg .apseg{stroke:url(#lg);stroke-width:3.4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:0;filter:drop-shadow(0 0 4px rgba(217,70,239,.9));transition:opacity .14s ease}
   .ap-svg .apseg.on{opacity:.92}
   .ap-svg .apn{fill:#f0abfc;stroke:none;opacity:0;transition:opacity .5s;filter:drop-shadow(0 0 4px rgba(240,171,252,.9))}
   .ap-svg .apn.on{opacity:1}
   .ap-brain{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(60vh,580px);height:min(60vh,580px);z-index:2}
   #chrome-canvas{width:100%;height:100%;display:block}
-  .ap-label{position:absolute;z-index:3;max-width:250px;padding:14px 18px;border-radius:14px;background:rgba(18,9,32,.6);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 14px 40px -18px rgba(0,0,0,.7);opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .ap-label{position:absolute;z-index:3;max-width:216px;padding:13px 16px;border-radius:14px;background:rgba(18,9,32,.6);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 14px 40px -18px rgba(0,0,0,.7);opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
   .ap-label.on{opacity:1;transform:none}
   .ap-label b{font-family:'Manrope';font-weight:800;font-size:15px;display:block;margin-bottom:3px}
   .ap-label span{font-size:12.5px;color:var(--ink-d)}
-  .ap-label.a1{left:60%;top:9%}.ap-label.a2{left:70%;top:42%}.ap-label.a3{left:55%;top:75%}
+  .ap-label.a1{left:58%;top:12%}.ap-label.a2{left:63%;top:45%}.ap-label.a3{left:54%;top:75%}
   @media(min-width:921px){.ap-copy{position:absolute;left:0;top:50%;transform:translateY(-50%);max-width:300px;z-index:5}}
   @media(max-width:920px){
     .ap-wrap{min-height:auto}
@@ -316,9 +316,9 @@
         <svg class="ap-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f0abfc"/></linearGradient></defs>
           <g id="ap-segs"></g>
-          <circle cx="62" cy="21" r="0.7" class="apn"/>
-          <circle cx="72" cy="49" r="0.7" class="apn"/>
-          <circle cx="59" cy="79" r="0.7" class="apn"/>
+          <circle cx="57" cy="17" r="0.7" class="apn"/>
+          <circle cx="62" cy="49" r="0.7" class="apn"/>
+          <circle cx="54" cy="79" r="0.7" class="apn"/>
         </svg>
         <div class="ap-brain"><canvas id="chrome-canvas"></canvas></div>
         <div class="ap-label a1"><b>Авторская система «Бенефактор»</b><span>Соединяет Высшее Я, сознание и подсознание</span></div>
@@ -566,7 +566,7 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   const labels=[...document.querySelectorAll('.ap-label')];
   if(!holder) return;
   const NS='http://www.w3.org/2000/svg';
-  const arrows=[[54,43,62,21],[57,50,72,49],[54,58,59,79]]; // brain edge -> node
+  const arrows=[[47,33,57,17],[57,50,62,49],[48,64,54,79]]; // brain edge -> node
   const SEGS=6, DASH=0.58; // доля отрезка (остальное — зазор), чтобы видны были отдельные штрихи
   const arrowSegs=arrows.map(a=>{
     const [x0,y0,x1,y1]=a, segs=[];

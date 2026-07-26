@@ -114,7 +114,7 @@
   .ap-label.on{opacity:1;transform:none}
   .ap-label b{font-family:'Manrope';font-weight:800;font-size:15px;display:block;margin-bottom:3px}
   .ap-label span{font-size:12.5px;color:var(--ink-d)}
-  .ap-label.a1{left:70%;top:5%}.ap-label.a2{left:71%;top:44%}.ap-label.a3{left:2%;top:80%}
+  .ap-label.a1{left:66%;top:20%}.ap-label.a2{left:70%;top:44%}.ap-label.a3{left:42%;top:82%}
   @media(min-width:921px){.ap-copy{position:absolute;left:0;top:50%;transform:translateY(-50%);max-width:300px;z-index:5}}
   @media(max-width:920px){
     .ap-wrap{min-height:auto}
@@ -461,7 +461,7 @@ function makeEnv(R){
     loader.load('assets/brain.glb',(g)=>{
       brain=g.scene;
       const box=new THREE.Box3().setFromObject(brain); const sz=box.getSize(new THREE.Vector3()); const c=box.getCenter(new THREE.Vector3());
-      brain.position.sub(c); brain.scale.setScalar(1.72/Math.max(sz.x,sz.y,sz.z));
+      brain.position.sub(c); brain.scale.setScalar(1.9/Math.max(sz.x,sz.y,sz.z));
       brain.traverse(o=>{ if(o.isMesh&&o.material){ o.material.emissive=new THREE.Color(0x5b21b6); o.material.emissiveIntensity=0.3; o.material.envMapIntensity=1.2; } });
       grp.add(brain);
     });
@@ -553,36 +553,52 @@ addEventListener('scroll',measure,{passive:true}); addEventListener('resize',mea
   requestAnimationFrame(render);
 })();
 
-/* approach diagram: draw each arrow segment-by-segment, then the label, looping */
+/* approach diagram: равные линии из мозга наружу (↗ вправо-вверх, → вправо, ↓ вниз), по отрезкам, затем табличка */
 (function(){
-  const holder=document.getElementById('ap-segs');
+  const holder=document.getElementById('ap-segs'); if(!holder) return;
+  const svg=holder.closest('svg');
   const labels=[...document.querySelectorAll('.ap-label')];
-  if(!holder) return;
   const NS='http://www.w3.org/2000/svg';
-  // линии начинаются у КРАЯ мозга и уходят НАРУЖУ к табличкам:
-  // a1 «Бенефактор» — по диагонали в правый верх; a2 «Высшее Я» — вправо; a3 «нейросвязи» — по диагонали в левый низ
-  const arrows=[[61,32,69,10],[66,49,70,48],[39,67,22,84]];
-  const STEP=3.2, DASH=0.6; // шаг штриха в единицах viewBox + доля закраски (равная плотность на всех линиях)
-  const arrowSegs=arrows.map(a=>{
-    const [x0,y0,x1,y1]=a, len=Math.hypot(x1-x0,y1-y0), n=Math.max(3,Math.round(len/STEP)), segs=[];
-    for(let s=0;s<n;s++){
-      const t0=s/n, t1=t0+DASH/n, ln=document.createElementNS(NS,'line');
-      ln.setAttribute('x1',(x0+(x1-x0)*t0).toFixed(2)); ln.setAttribute('y1',(y0+(y1-y0)*t0).toFixed(2));
-      ln.setAttribute('x2',(x0+(x1-x0)*t1).toFixed(2)); ln.setAttribute('y2',(y0+(y1-y0)*t1).toFixed(2));
-      ln.setAttribute('class','apseg'); holder.appendChild(ln); segs.push(ln);
-    }
-    return segs;
-  });
-  const allSegs=arrowSegs.flat();
+  const dirs=[-48,0,90];                 // экранные углы направлений: ↗, →, ↓
+  let arrowSegs=[[],[],[]], allSegs=[];
+  function build(){
+    holder.innerHTML=''; arrowSegs=[[],[],[]]; allSegs=[];
+    labels.forEach(l=>{l.style.left=''; l.style.top='';});
+    if(innerWidth<=920) return;          // на мобилке линий нет — таблички в общем потоке
+    const r=svg.getBoundingClientRect(), W=r.width, H=r.height; if(!W||!H) return;
+    const cx=0.485*W, cy=0.5*H, rx=0.2*W, ry=0.235*H;     // центр и граница-эллипс мозга (px)
+    const L=Math.min(W,H)*0.125, GAP=12;                  // ОДИНАКОВАЯ длина линии + зазор до таблички (px)
+    dirs.forEach((deg,idx)=>{
+      const a=deg*Math.PI/180, ca=Math.cos(a), sa=Math.sin(a);
+      const sx=cx+rx*ca, sy=cy+ry*sa, ex=sx+L*ca, ey=sy+L*sa;   // старт на краю мозга, конец через L
+      const n=6, segs=[];
+      for(let s=0;s<n;s++){
+        const t0=s/n, t1=t0+0.6/n, ln=document.createElementNS(NS,'line');
+        ln.setAttribute('x1',((sx+(ex-sx)*t0)/W*100).toFixed(2)); ln.setAttribute('y1',((sy+(ey-sy)*t0)/H*100).toFixed(2));
+        ln.setAttribute('x2',((sx+(ex-sx)*t1)/W*100).toFixed(2)); ln.setAttribute('y2',((sy+(ey-sy)*t1)/H*100).toFixed(2));
+        ln.setAttribute('class','apseg'); holder.appendChild(ln); segs.push(ln);
+      }
+      arrowSegs[idx]=segs; allSegs.push(...segs);
+      const lab=labels[idx]; if(!lab) return;
+      const lw=lab.offsetWidth, lh=lab.offsetHeight; let lx, ly;
+      if(deg===90){ lx=ex-lw/2; ly=ey+GAP; }               // ↓ — табличка по центру снизу
+      else { lx=ex+GAP; ly=ey-lh/2; }                      // →/↗ — табличка справа от конца
+      lx=Math.max(8,Math.min(lx,W-lw-8)); ly=Math.max(8,Math.min(ly,H-lh-8));
+      lab.style.left=(lx/W*100).toFixed(2)+'%'; lab.style.top=(ly/H*100).toFixed(2)+'%';
+    });
+  }
   let i=-1, timers=[];
   function step(){
     timers.forEach(clearTimeout); timers=[];
     allSegs.forEach(l=>l.classList.remove('on'));
     labels.forEach(l=>l.classList.remove('on'));
-    i=(i+1)%arrows.length; const cur=i, segs=arrowSegs[cur];
-    segs.forEach((sg,k)=>timers.push(setTimeout(()=>sg.classList.add('on'),80+k*90)));  // 1) отрезки по одному, быстро
-    timers.push(setTimeout(()=>{ labels[cur]&&labels[cur].classList.add('on'); },80+segs.length*90+140)); // 2) только потом табличка
+    if(!allSegs.length) return;
+    i=(i+1)%dirs.length; const cur=i, segs=arrowSegs[cur];
+    segs.forEach((sg,k)=>timers.push(setTimeout(()=>sg.classList.add('on'),80+k*90)));  // отрезки по одному
+    timers.push(setTimeout(()=>{ labels[cur]&&labels[cur].classList.add('on'); },80+segs.length*90+140)); // потом табличка
   }
+  build(); let rt; addEventListener('resize',()=>{clearTimeout(rt); rt=setTimeout(build,180);});
+  addEventListener('load',build);
   step(); setInterval(step,3400);
 })();
 

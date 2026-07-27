@@ -32,9 +32,9 @@
   .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   main,header,footer{position:relative;z-index:3}
 
-  /* difference cursor */
-  #cursor{position:fixed;inset:0;z-index:99999;pointer-events:none;filter:url(#goo)}
-  #cursor b{position:absolute;top:0;left:0;border-radius:50%;mix-blend-mode:screen;will-change:transform;transform:translate(-50%,-50%)}
+  /* inversion cursor — белый круг с mix-blend-mode:difference: инвертирует текст/картинки под собой */
+  #cursor{position:fixed;top:0;left:0;width:22px;height:22px;border-radius:50%;background:#fff;mix-blend-mode:difference;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);will-change:transform;transition:width .24s var(--ease),height .24s var(--ease)}
+  #cursor.big{width:56px;height:56px}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
   .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -230,7 +230,6 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor"></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -12" result="goo"/><feComposite in="SourceGraphic" in2="goo" operator="atop"/></filter></defs></svg>
 
 <header id="nav">
   <div class="nav-in">
@@ -479,30 +478,18 @@ function makeEnv(R){
 <script>
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 
-/* blob-cursor: короткий упругий хвост капель, слитых goo-фильтром (пружинная физика, компактный размер) */
+/* inversion cursor: один белый круг, mix-blend-mode:difference — инвертирует то, что под ним; лёгкое сглаживание, без хвоста */
 if(fine){
   const cursor=document.getElementById('cursor');
-  const sizes=[16,13,11,9];                                   // ведущая капля 16px — не громоздко
-  const tint=['#F5ECFF','#E9D5FF','#C4B5FD','#A78BFA'];       // мягкое лиловое переливание по хвосту
-  const lead={t:1200,f:40,m:1};                               // ведущая — быстрая (как fast в оригинале)
-  const trail={t:230,f:44,m:8};                               // хвост — тяжёлый, упругий (как slow)
-  const blobs=sizes.map((s,i)=>{
-    const el=document.createElement('b'); el.style.width=el.style.height=s+'px';
-    el.style.background=`radial-gradient(circle at 42% 40%, ${tint[i]}, ${tint[i]} 58%, rgba(0,0,0,0) 74%)`;
-    cursor.appendChild(el);
-    return {el,x:innerWidth/2,y:innerHeight/2,vx:0,vy:0};
-  });
-  let mx=innerWidth/2,my=innerHeight/2;
+  let mx=innerWidth/2,my=innerHeight/2, cx=mx, cy=my;
   addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
-  const dt=1/60;
+  document.querySelectorAll('a,button,.btn,.qa .q,.vid').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cursor.classList.add('big'));
+    el.addEventListener('mouseleave',()=>cursor.classList.remove('big'));
+  });
   (function render(){
-    for(let i=0;i<blobs.length;i++){
-      const b=blobs[i], c=i===0?lead:trail;
-      const tx=i===0?mx:blobs[i-1].x, ty=i===0?my:blobs[i-1].y;   // каждая капля тянется за предыдущей
-      b.vx+=(c.t*(tx-b.x)-c.f*b.vx)/c.m*dt; b.vy+=(c.t*(ty-b.y)-c.f*b.vy)/c.m*dt;
-      b.x+=b.vx*dt; b.y+=b.vy*dt;
-      b.el.style.transform=`translate(${b.x}px,${b.y}px) translate(-50%,-50%)`;
-    }
+    cx+=(mx-cx)*0.3; cy+=(my-cy)*0.3;   // мягкое сглаживание, без инерционного хвоста
+    cursor.style.transform=`translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) translate(-50%,-50%)`;
     requestAnimationFrame(render);
   })();
 }
@@ -526,14 +513,14 @@ if(fine){
 /* brain-scene scatter bubbles */
 // координаты реально пересекают голову — плашки врезаются в неё (хаос мыслей)
 const problems=[
-  {t:"выгораю",x:45,y:40,r:-4},{t:"хочу, но не решаюсь",x:60,y:39,r:3},
-  {t:"проживаю не свою жизнь",x:39,y:47,r:4},{t:"мои границы нарушаются",x:62,y:46,r:-3},
-  {t:"не могу найти любовь",x:38,y:54,r:-4},{t:"не могу принять себя",x:61,y:54,r:4},
-  {t:"пашу как проклятый",x:45,y:61,r:5},{t:"застрял и не знаю как дальше",x:60,y:61,r:-4},
-  {t:"партнёр меня не понимает",x:44,y:68,r:-3},{t:"я ревную и боюсь расставания",x:57,y:68,r:3}
+  {t:"выгораю",x:46,y:39,r:-4},{t:"хочу, но не решаюсь",x:61,y:38,r:3},
+  {t:"проживаю не свою жизнь",x:39,y:46,r:4},{t:"мои границы нарушаются",x:62,y:45,r:-3},
+  {t:"не могу найти любовь",x:38,y:53,r:-4},{t:"не могу принять себя",x:61,y:53,r:4},
+  {t:"пашу как проклятый",x:44,y:60,r:5},{t:"застрял и не знаю как дальше",x:60,y:60,r:-4},
+  {t:"партнёр меня не понимает",x:38,y:69,r:-3},{t:"я ревную и боюсь расставания",x:62,y:67,r:3}
 ];
 const bc=document.getElementById('bubbles');
-const cx=50, cy=54;
+const cx=50, cy=53;
 const bubbles=problems.map((p,i)=>{
   const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%'; b.style.zIndex=10+i;
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.5)+'s'; bc.appendChild(b);

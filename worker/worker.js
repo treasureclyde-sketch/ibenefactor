@@ -97,8 +97,14 @@ async function handleUpdate(update, env) {
       '⏳ Давность: ' + (a.duration || '—') + '\n' +
       '📞 Связь: ' + (a.contact || '—') + '\n' +
       '💬 Профиль: ' + (s.user || s.tg || '—');
-    if (env.OWNER_CHAT_ID) await send(env, env.OWNER_CHAT_ID, summary);
+    let dbg = 'owner=' + (env.OWNER_CHAT_ID || 'НЕ ЗАДАН');
+    if (env.OWNER_CHAT_ID) {
+      const r = await send(env, env.OWNER_CHAT_ID, summary);
+      const jr = await r.json().catch(() => ({}));
+      dbg += ' | ok=' + jr.ok + ' | ' + (jr.description || '');
+    }
     await send(env, chatId, 'Спасибо! Заявка передана Игорю — он свяжется с вами лично. 🙌');
+    await send(env, chatId, '🛠 DEBUG (временно): ' + dbg); // TODO убрать после диагностики
   }
 }
 

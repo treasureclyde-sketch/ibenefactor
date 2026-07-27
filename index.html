@@ -672,7 +672,8 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   const modal=document.getElementById('booking'); if(!modal) return;
   const titleEl=document.getElementById('bk-title'), form=document.getElementById('bk-form');
   const note=form.querySelector('.bk-note');
-  const IGOR_TG=''; // ← ник Игоря в Telegram (без @) или юзернейм бота. Пусто → просто показываем «заявка принята»
+  const BOT_USER=''; // ← юзернейм бота записи (без @). Пусто → показываем «заявка принята». Задан → кнопка ведёт в бота
+  const CODE={'диагностику':'diag','8 сессий':'8','15 сессий':'15','25 сессий':'25'};
   let pkg='диагностику';
   const open=t=>{ pkg=t||'диагностику'; titleEl.textContent='Запишитесь на '+pkg; note.hidden=true; modal.classList.add('open'); document.body.style.overflow='hidden'; };
   const close=()=>{ modal.classList.remove('open'); document.body.style.overflow=''; };
@@ -687,10 +688,11 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
     if(!name) return err('Введите имя');
     if(!tg) return err('Укажите ник в Telegram');
     if(!form.querySelector('[name=privacy]').checked || !form.querySelector('[name=consent]').checked) return err('Отметьте оба согласия');
-    note.hidden=false; note.className='bk-note ok'; note.textContent='Заявка принята! Игорь свяжется с вами в Telegram.';
-    if(IGOR_TG){
-      const msg=encodeURIComponent(`Заявка с сайта\nПакет: ${pkg}\nИмя: ${name}\nTelegram: ${tg}`);
-      window.open(`https://t.me/${IGOR_TG}?text=${msg}`,'_blank','noopener');
+    if(BOT_USER){
+      note.hidden=false; note.className='bk-note ok'; note.textContent='Открываю Telegram-бота — он задаст пару вопросов…';
+      window.open(`https://t.me/${BOT_USER}?start=${CODE[pkg]||'diag'}`,'_blank','noopener');
+    } else {
+      note.hidden=false; note.className='bk-note ok'; note.textContent='Заявка принята! Игорь свяжется с вами в Telegram.';
     }
     form.reset();
     setTimeout(close,1800);

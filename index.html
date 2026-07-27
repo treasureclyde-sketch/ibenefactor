@@ -133,9 +133,9 @@
   .head-wrap{position:absolute;left:50%;bottom:-7vh;transform:translateX(-50%);height:78vh;z-index:1;pointer-events:none;display:flex;align-items:flex-end}
   .head-wrap img{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 0 50px rgba(217,70,239,.35));will-change:transform}
   @media(max-width:760px){.head-wrap{height:56vh}}
-  .bubbles{position:absolute;inset:0;z-index:3;pointer-events:none}
+  .bubbles{position:absolute;inset:0;z-index:3;pointer-events:none;visibility:hidden}
   .bubble{position:absolute;transform:translate(-50%,-50%);will-change:transform,opacity}
-  .bubble .pill{display:inline-block;padding:11px 17px;border-radius:14px;background:rgba(10,5,18,.9);border:1px solid rgba(242,236,251,.2);backdrop-filter:blur(9px);font-size:14px;color:var(--ink);white-space:nowrap;box-shadow:0 12px 34px -10px rgba(0,0,0,.95);animation:float 6s var(--ease) infinite alternate}
+  .bubble .pill{display:inline-block;padding:9px 14px;border-radius:12px;background:rgba(10,5,18,.9);border:1px solid rgba(242,236,251,.2);backdrop-filter:blur(9px);font-size:13px;color:var(--ink);white-space:nowrap;box-shadow:0 12px 34px -10px rgba(0,0,0,.95);animation:float 6s var(--ease) infinite alternate}
   @keyframes float{to{transform:translateY(-9px)}}
   .resolve{position:absolute;right:28px;bottom:60px;max-width:32ch;z-index:6;opacity:0;text-align:right;pointer-events:none}
   .resolve p{font-size:14.5px;color:var(--ink-d)}.resolve p b{color:var(--pink);font-weight:600}
@@ -510,36 +510,58 @@ if(fine){
   })();
 })();
 
-/* brain-scene scatter bubbles */
-// координаты реально пересекают голову — плашки врезаются в неё (хаос мыслей)
-const problems=[
-  {t:"выгораю",x:46,y:39,r:-4},{t:"хочу, но не решаюсь",x:61,y:38,r:3},
-  {t:"проживаю не свою жизнь",x:39,y:46,r:4},{t:"мои границы нарушаются",x:62,y:45,r:-3},
-  {t:"не могу найти любовь",x:38,y:53,r:-4},{t:"не могу принять себя",x:61,y:53,r:4},
-  {t:"пашу как проклятый",x:44,y:60,r:5},{t:"застрял и не знаю как дальше",x:60,y:60,r:-4},
-  {t:"партнёр меня не понимает",x:38,y:69,r:-3},{t:"я ревную и боюсь расставания",x:62,y:67,r:3}
-];
+/* brain-scene scatter bubbles — позиции считаются от реального прямоугольника картинки головы,
+   чтобы плашки ложились на ФИОЛЕТОВЫЙ МОЗГ (поток мыслей), а не гадались процентами */
 const bc=document.getElementById('bubbles');
-const cx=50, cy=53;
+const headImg=document.getElementById('headImg');
+// фиолетовый мозг внутри head.webp (доля от картинки 1100×1100): центр и радиусы эллипса
+const BR={cx:0.44, cy:0.355, rx:0.235, ry:0.2};
+// ox,oy — смещение центра плашки внутри эллипса мозга (−1..1). Плашки заходят на мозг «хаосом мыслей»
+const problems=[
+  {t:"выгораю",                     ox:-0.28, oy:-0.80, r:-4},
+  {t:"хочу, но не решаюсь",          ox: 0.50, oy:-0.74, r: 3},
+  {t:"проживаю не свою жизнь",       ox:-0.56, oy:-0.36, r: 4},
+  {t:"мои границы нарушаются",       ox: 0.56, oy:-0.30, r:-3},
+  {t:"не могу найти любовь",         ox:-0.58, oy: 0.08, r:-4},
+  {t:"не могу принять себя",         ox: 0.54, oy: 0.12, r: 4},
+  {t:"пашу как проклятый",           ox:-0.16, oy: 0.00, r: 5},
+  {t:"застрял и не знаю как дальше", ox: 0.40, oy: 0.52, r:-4},
+  {t:"партнёр меня не понимает",     ox:-0.40, oy: 0.62, r:-3},
+  {t:"я ревную и боюсь расставания", ox: 0.12, oy: 0.82, r: 3}
+];
 const bubbles=problems.map((p,i)=>{
-  const b=document.createElement('div'); b.className='bubble'; b.style.left=p.x+'%'; b.style.top=p.y+'%'; b.style.zIndex=10+i;
+  const b=document.createElement('div'); b.className='bubble'; b.style.zIndex=10+i;
   b.innerHTML=`<span class="pill">${p.t}</span>`; b.querySelector('.pill').style.animationDelay=(-i*0.5)+'s'; bc.appendChild(b);
-  let ax=p.x-cx, ay=p.y-cy; const len=Math.hypot(ax,ay)||1; ax/=len; ay/=len;
-  return {el:b, dx:ax, dy:ay, tilt:p.r, rot:(i%2?1:-1)*(16+i*2)};
+  const len=Math.hypot(p.ox,p.oy)||1;
+  return {el:b, ox:p.ox, oy:p.oy, dx:p.ox/len, dy:p.oy/len, tilt:p.r, rot:(i%2?1:-1)*(16+i*2)};
 });
 const sceneEl=document.getElementById('approach-scene'), resolve=document.getElementById('resolve');
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)); const smooth=(a,b,x)=>{x=clamp((x-a)/(b-a),0,1);return x*x*(3-2*x);};
+function place(){                                   // ставим плашки по реальному положению мозга в картинке
+  const r=headImg.getBoundingClientRect(), cont=bc.getBoundingClientRect();
+  if(!r.width||!cont.width) return;
+  const bcx=r.left+BR.cx*r.width, bcy=r.top+BR.cy*r.height, brx=BR.rx*r.width, bry=BR.ry*r.height;
+  bubbles.forEach(b=>{
+    const px=bcx+b.ox*brx, py=bcy+b.oy*bry;
+    b.el.style.left=((px-cont.left)/cont.width*100).toFixed(2)+'%';
+    b.el.style.top=((py-cont.top)/cont.height*100).toFixed(2)+'%';
+  });
+  bc.style.visibility='visible';
+}
 let pT=0,pC=0;
 function measure(){const r=sceneEl.getBoundingClientRect();const total=sceneEl.offsetHeight-innerHeight;pT=clamp((-r.top)/total,0,1);}
-addEventListener('scroll',measure,{passive:true}); addEventListener('resize',measure); measure();
+addEventListener('scroll',measure,{passive:true});
+addEventListener('resize',()=>{measure();place();});
+addEventListener('load',place); headImg.addEventListener('load',place);
+measure(); place();
 (function render(){
   pC+=(pT-pC)*0.1; const p=pC; const fly=smooth(0.05,0.9,p);
   bubbles.forEach(b=>{
-    const tx=b.dx*fly*innerWidth*0.55, ty=b.dy*fly*innerHeight*0.5;
+    const tx=b.dx*fly*innerWidth*0.5, ty=b.dy*fly*innerHeight*0.45;
     b.el.style.transform=`translate(-50%,-50%) translate(${tx}px,${ty}px) rotate(${b.tilt+b.rot*fly}deg) scale(${1-0.25*fly})`;
     b.el.style.opacity=(1-smooth(0.2,0.7,p)).toFixed(3);
   });
-  const hi=document.getElementById('headImg'); if(hi) hi.style.transform=`scale(${1+fly*0.05})`;
+  if(headImg) headImg.style.transform=`scale(${1+fly*0.05})`;
   resolve.style.opacity=smooth(0.6,0.95,p).toFixed(3);
   requestAnimationFrame(render);
 })();

@@ -1,0 +1,15 @@
+name = "benefactor-bot"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Хранилище сессий и заявок. Создай KV-неймспейс и вставь сюда его id (см. README, шаг 3):
+#   npx wrangler kv namespace create KV
+kv_namespaces = [
+  { binding = "KV", id = "PUT_YOUR_KV_ID_HERE" }
+]
+
+# Публичная переменная — твой chat_id (куда падают заявки).
+# Секреты BOT_TOKEN и WEBHOOK_SECRET задаются отдельно (см. README):
+#   npx wrangler secret put BOT_TOKEN
+[vars]
+OWNER_CHAT_ID = ""

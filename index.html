@@ -262,7 +262,7 @@
     <p class="modal-sub">Оставьте заявку — и я свяжусь с вами лично</p>
     <form id="bk-form" novalidate>
       <input class="fld" type="text" name="uname" placeholder="Ваше имя" autocomplete="name">
-      <input class="fld" type="text" name="utg" placeholder="Ваш ник в Telegram (@name)">
+      <input class="fld" type="text" name="utg" placeholder="Ваш ник в Telegram (необязательно)">
       <label class="chk"><input type="checkbox" name="privacy"><span>Ознакомлен(-а) с <a href="#" target="_blank" rel="noopener">Политикой конфиденциальности</a></span></label>
       <label class="chk"><input type="checkbox" name="consent"><span>Даю согласие на обработку персональных данных</span></label>
       <button class="bk-submit" type="submit">Записаться</button>
@@ -672,7 +672,9 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   const modal=document.getElementById('booking'); if(!modal) return;
   const titleEl=document.getElementById('bk-title'), form=document.getElementById('bk-form');
   const note=form.querySelector('.bk-note');
-  const BOT_USER=''; // ← юзернейм бота записи (без @). Пусто → показываем «заявка принята». Задан → кнопка ведёт в бота
+  // ↓ После деплоя воркера (см. worker/README.md) впиши сюда адрес воркера и юзернейм бота.
+  const WORKER_URL=''; // напр. 'https://benefactor-bot.xxx.workers.dev'
+  const BOT_USER='';   // юзернейм бота без @, напр. 'benefactor_zapis_bot'
   const CODE={'диагностику':'diag','8 сессий':'8','15 сессий':'15','25 сессий':'25'};
   let pkg='диагностику';
   const open=t=>{ pkg=t||'диагностику'; titleEl.textContent='Запишитесь на '+pkg; note.hidden=true; modal.classList.add('open'); document.body.style.overflow='hidden'; };
@@ -682,15 +684,20 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   modal.querySelector('.modal-x').addEventListener('click',close);
   addEventListener('keydown',e=>{ if(e.key==='Escape'&&modal.classList.contains('open')) close(); });
   const err=t=>{ note.hidden=false; note.className='bk-note err'; note.textContent=t; };
-  form.addEventListener('submit',e=>{
+  form.addEventListener('submit',async e=>{
     e.preventDefault();
     const name=form.querySelector('[name=uname]').value.trim(), tg=form.querySelector('[name=utg]').value.trim();
     if(!name) return err('Введите имя');
-    if(!tg) return err('Укажите ник в Telegram');
     if(!form.querySelector('[name=privacy]').checked || !form.querySelector('[name=consent]').checked) return err('Отметьте оба согласия');
-    if(BOT_USER){
+    if(WORKER_URL && BOT_USER){
+      const w=window.open('','_blank');   // открываем вкладку в пределах клика, чтобы не блокировал попап
       note.hidden=false; note.className='bk-note ok'; note.textContent='Открываю Telegram-бота — он задаст пару вопросов…';
-      window.open(`https://t.me/${BOT_USER}?start=${CODE[pkg]||'diag'}`,'_blank','noopener');
+      try{
+        const r=await fetch(WORKER_URL.replace(/\/$/,'')+'/lead',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,tg,pkg:CODE[pkg]||'diag'})});
+        const {code}=await r.json();
+        const link=`https://t.me/${BOT_USER}?start=${code}`;
+        if(w) w.location.href=link; else location.href=link;
+      }catch(_){ if(w) w.close(); return err('Не получилось открыть бота — попробуйте ещё раз'); }
     } else {
       note.hidden=false; note.className='bk-note ok'; note.textContent='Заявка принята! Игорь свяжется с вами в Telegram.';
     }

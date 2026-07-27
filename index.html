@@ -222,6 +222,28 @@
   .rv.in{opacity:1;transform:none}
   .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
   @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.bubble .pill{animation:none}}
+
+  /* booking modal */
+  .modal{position:fixed;inset:0;z-index:90000;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal.open{display:flex}
+  .modal-back{position:absolute;inset:0;background:rgba(2,1,6,.74);backdrop-filter:blur(5px)}
+  .modal-card{position:relative;width:min(640px,100%);max-height:92vh;overflow:auto;background:#f4f2f6;color:#140813;border-radius:26px;padding:clamp(28px,4vw,46px);box-shadow:0 50px 130px -30px rgba(0,0,0,.85);animation:bkIn .32s var(--ease)}
+  @keyframes bkIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+  .modal-x{position:absolute;top:16px;right:18px;width:36px;height:36px;border:none;background:transparent;font-size:26px;line-height:1;color:#6b6570;cursor:pointer;border-radius:50%;transition:background .2s}
+  .modal-x:hover{background:rgba(0,0,0,.07);color:#140813}
+  .modal-card h3{font-family:'Manrope';font-weight:800;font-size:clamp(23px,3.2vw,34px);letter-spacing:-.02em;line-height:1.08;margin-bottom:8px}
+  .modal-sub{color:#6b6570;font-size:15px;margin-bottom:26px}
+  #bk-form .fld{width:100%;padding:16px 20px;margin-bottom:14px;border:1px solid #d6d2db;border-radius:14px;background:#fff;font-family:inherit;font-size:15px;color:#140813;outline:none;transition:border-color .2s,box-shadow .2s}
+  #bk-form .fld:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(139,92,246,.15)}
+  #bk-form .fld::placeholder{color:#9b95a3}
+  .chk{display:flex;gap:11px;align-items:flex-start;margin:12px 0;font-size:14px;color:#3d3643;cursor:pointer;line-height:1.35}
+  .chk input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--violet);cursor:pointer}
+  .chk a{color:#7c3aed;text-decoration:underline}
+  .bk-submit{width:100%;margin-top:20px;padding:18px;border:none;border-radius:14px;font-family:'Manrope';font-weight:700;font-size:16px;color:#fff;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(100deg,#171019,#2c2233)}
+  .bk-submit::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:26%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:bkShine 3.6s ease-in-out infinite}
+  @keyframes bkShine{0%,58%{left:-40%}100%{left:135%}}
+  .bk-note{margin-top:14px;font-size:14px;text-align:center}
+  .bk-note.err{color:#c0392b}.bk-note.ok{color:#158a56}
 </style>
 </head>
 <body>
@@ -230,6 +252,24 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor"></div>
+
+<!-- booking modal -->
+<div id="booking" class="modal" aria-hidden="true">
+  <div class="modal-back"></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="bk-title">
+    <button class="modal-x" type="button" aria-label="Закрыть">&times;</button>
+    <h3 id="bk-title">Запишитесь на диагностику</h3>
+    <p class="modal-sub">Оставьте заявку — и я свяжусь с вами лично</p>
+    <form id="bk-form" novalidate>
+      <input class="fld" type="text" name="uname" placeholder="Ваше имя" autocomplete="name">
+      <input class="fld" type="text" name="utg" placeholder="Ваш ник в Telegram (@name)">
+      <label class="chk"><input type="checkbox" name="privacy"><span>Ознакомлен(-а) с <a href="#" target="_blank" rel="noopener">Политикой конфиденциальности</a></span></label>
+      <label class="chk"><input type="checkbox" name="consent"><span>Даю согласие на обработку персональных данных</span></label>
+      <button class="bk-submit" type="submit">Записаться</button>
+      <p class="bk-note" hidden></p>
+    </form>
+  </div>
+</div>
 
 <header id="nav">
   <div class="nav-in">
@@ -240,7 +280,7 @@
       <a href="#approach">Подход</a>
       <a href="#about">Обо мне</a>
       <a href="#prices">Стоимость</a>
-      <a href="#book" class="btn btn-primary nav-cta">Записаться</a>
+      <a href="#book" class="btn btn-primary nav-cta" data-book="диагностику">Записаться</a>
     </nav>
   </div>
 </header>
@@ -254,7 +294,7 @@
       <h1>Помогаю выйти из негативных сценариев — стать <em>счастливее и богаче</em></h1>
       <p class="sub">Работа с подсознанием, гипноз и нейрокоучинг. Меняем внутренние программы там, где разговорная терапия не помогает.</p>
       <div class="hero-cta">
-        <a href="#book" class="btn btn-primary">Записаться на диагностику <span class="arw">→</span></a>
+        <a href="#book" class="btn btn-primary" data-book="диагностику">Записаться на диагностику <span class="arw">→</span></a>
         <a href="#approach" class="btn btn-ghost">Как это работает</a>
       </div>
     </div>
@@ -371,9 +411,9 @@
         <div class="plead guar rv d1"><span class="tag">Гарантия</span><h3>Работа с гарантией результата</h3><div class="amt">Возврат 100%</div><p>Если мы не получаем результат, который обговорили на старте, — я возвращаю 100% суммы. Цена зависит от итогов диагностики.</p><ul><li><span class="b">✦</span> Диагностика</li><li><span class="b">✦</span> Ежедневное сопровождение по плану</li><li><span class="b">✦</span> Небольшие домашние задания</li></ul></div>
       </div>
       <div class="prices">
-        <div class="price rv"><div class="pfig"><img src="assets/gfig1.webp" alt=""></div><span class="tag">Пакет 8 сессий</span><h3>Точечный запрос</h3><div class="amt">$2 000</div><div class="per">2 месяца · 1 сессия в неделю</div><ul><li><span class="b">✦</span> Кардинальные изменения в выбранной сфере (деньги, здоровье, отношения)</li><li><span class="b">✦</span> Эффект косвенно затронет остальные сферы</li></ul><a href="#book" class="btn btn-ghost">Записаться на 8 сессий</a></div>
-        <div class="price feat rv d1"><div class="pfig"><img src="assets/gfig2.webp" alt=""></div><span class="tag">Оптимальный выбор</span><h3>Пакет 15 сессий</h3><div class="amt">$3 500</div><div class="per">4 месяца · 1 сессия в неделю</div><ul><li><span class="b">✦</span> При большом количестве негативных чувств в сфере жизни</li><li><span class="b">✦</span> Промежуточная диагностика</li></ul><a href="#book" class="btn btn-primary">Записаться на 15 сессий</a></div>
-        <div class="price rv d2"><div class="pfig"><img src="assets/gfig3.webp" alt=""></div><span class="tag">Максимум</span><h3>Пакет 25 сессий</h3><div class="amt">$5 600</div><div class="per">7 месяцев · 1 сессия в неделю</div><ul><li><span class="b">✦</span> Самая выгодная инвестиция — результат во многих сферах жизни</li><li><span class="b">✦</span> 2 промежуточные диагностики</li></ul><a href="#book" class="btn btn-ghost">Записаться на 25 сессий</a></div>
+        <div class="price rv"><div class="pfig"><img src="assets/gfig1.webp" alt=""></div><span class="tag">Пакет 8 сессий</span><h3>Точечный запрос</h3><div class="amt">$2 000</div><div class="per">2 месяца · 1 сессия в неделю</div><ul><li><span class="b">✦</span> Кардинальные изменения в выбранной сфере (деньги, здоровье, отношения)</li><li><span class="b">✦</span> Эффект косвенно затронет остальные сферы</li></ul><a href="#book" class="btn btn-ghost" data-book="8 сессий">Записаться на 8 сессий</a></div>
+        <div class="price feat rv d1"><div class="pfig"><img src="assets/gfig2.webp" alt=""></div><span class="tag">Оптимальный выбор</span><h3>Пакет 15 сессий</h3><div class="amt">$3 500</div><div class="per">4 месяца · 1 сессия в неделю</div><ul><li><span class="b">✦</span> При большом количестве негативных чувств в сфере жизни</li><li><span class="b">✦</span> Промежуточная диагностика</li></ul><a href="#book" class="btn btn-primary" data-book="15 сессий">Записаться на 15 сессий</a></div>
+        <div class="price rv d2"><div class="pfig"><img src="assets/gfig3.webp" alt=""></div><span class="tag">Максимум</span><h3>Пакет 25 сессий</h3><div class="amt">$5 600</div><div class="per">7 месяцев · 1 сессия в неделю</div><ul><li><span class="b">✦</span> Самая выгодная инвестиция — результат во многих сферах жизни</li><li><span class="b">✦</span> 2 промежуточные диагностики</li></ul><a href="#book" class="btn btn-ghost" data-book="25 сессий">Записаться на 25 сессий</a></div>
       </div>
     </div>
   </section>
@@ -400,7 +440,7 @@
       <span class="eyebrow rv" style="justify-content:center">Первый шаг</span>
       <h2 class="rv d1">Запишитесь на <em>диагностику</em> — увидите корень, а не симптом</h2>
       <p class="rv d2">Два часа, которые показывают, что на самом деле удерживает вас в сценарии — и как из него выйти.</p>
-      <a href="mailto:2578577@gmail.com?subject=Запись%20на%20диагностику" class="btn btn-primary rv d3">Записаться на диагностику <span class="arw">→</span></a>
+      <a href="mailto:2578577@gmail.com?subject=Запись%20на%20диагностику" class="btn btn-primary rv d3" data-book="диагностику">Записаться на диагностику <span class="arw">→</span></a>
     </div>
   </section>
 
@@ -626,6 +666,36 @@ const nav=document.getElementById('nav'); const ns=()=>nav.classList.toggle('scr
 addEventListener('scroll',ns,{passive:true}); ns();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* booking modal */
+(function(){
+  const modal=document.getElementById('booking'); if(!modal) return;
+  const titleEl=document.getElementById('bk-title'), form=document.getElementById('bk-form');
+  const note=form.querySelector('.bk-note');
+  const IGOR_TG=''; // ← ник Игоря в Telegram (без @) или юзернейм бота. Пусто → просто показываем «заявка принята»
+  let pkg='диагностику';
+  const open=t=>{ pkg=t||'диагностику'; titleEl.textContent='Запишитесь на '+pkg; note.hidden=true; modal.classList.add('open'); document.body.style.overflow='hidden'; };
+  const close=()=>{ modal.classList.remove('open'); document.body.style.overflow=''; };
+  document.querySelectorAll('[data-book]').forEach(b=>b.addEventListener('click',e=>{ e.preventDefault(); open(b.getAttribute('data-book')); }));
+  modal.querySelector('.modal-back').addEventListener('click',close);
+  modal.querySelector('.modal-x').addEventListener('click',close);
+  addEventListener('keydown',e=>{ if(e.key==='Escape'&&modal.classList.contains('open')) close(); });
+  const err=t=>{ note.hidden=false; note.className='bk-note err'; note.textContent=t; };
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=form.querySelector('[name=uname]').value.trim(), tg=form.querySelector('[name=utg]').value.trim();
+    if(!name) return err('Введите имя');
+    if(!tg) return err('Укажите ник в Telegram');
+    if(!form.querySelector('[name=privacy]').checked || !form.querySelector('[name=consent]').checked) return err('Отметьте оба согласия');
+    note.hidden=false; note.className='bk-note ok'; note.textContent='Заявка принята! Игорь свяжется с вами в Telegram.';
+    if(IGOR_TG){
+      const msg=encodeURIComponent(`Заявка с сайта\nПакет: ${pkg}\nИмя: ${name}\nTelegram: ${tg}`);
+      window.open(`https://t.me/${IGOR_TG}?text=${msg}`,'_blank','noopener');
+    }
+    form.reset();
+    setTimeout(close,1800);
+  });
+})();
 </script>
 </body>
 </html>

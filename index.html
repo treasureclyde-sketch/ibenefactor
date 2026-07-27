@@ -673,8 +673,8 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   const titleEl=document.getElementById('bk-title'), form=document.getElementById('bk-form');
   const note=form.querySelector('.bk-note');
   // ↓ После деплоя воркера (см. worker/README.md) впиши сюда адрес воркера и юзернейм бота.
-  const WORKER_URL=''; // напр. 'https://benefactor-bot.xxx.workers.dev'
-  const BOT_USER='';   // юзернейм бота без @, напр. 'benefactor_zapis_bot'
+  const WORKER_URL='https://benefactor-bot.treasureclyde.workers.dev';
+  const BOT_USER='Ibenefactor_bot';
   const CODE={'диагностику':'diag','8 сессий':'8','15 сессий':'15','25 сессий':'25'};
   let pkg='диагностику';
   const open=t=>{ pkg=t||'диагностику'; titleEl.textContent='Запишитесь на '+pkg; note.hidden=true; modal.classList.add('open'); document.body.style.overflow='hidden'; };

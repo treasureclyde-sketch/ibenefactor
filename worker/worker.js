@@ -103,14 +103,8 @@ async function handleUpdate(update, env) {
       '📞 Связь: ' + (a.contact || '—') + '\n' +
       '💬 Профиль: ' + (s.user || s.tg || '—');
     const owner = env.OWNER_CHAT_ID || OWNER_ID_FALLBACK;
-    let dbg = 'owner=' + (owner || 'НЕ ЗАДАН');
-    if (owner) {
-      const r = await send(env, owner, summary);
-      const jr = await r.json().catch(() => ({}));
-      dbg += ' | ok=' + jr.ok + ' | ' + (jr.description || '');
-    }
+    if (owner) await send(env, owner, summary);
     await send(env, chatId, 'Спасибо! Заявка передана Игорю — он свяжется с вами лично. 🙌');
-    await send(env, chatId, '🛠 DEBUG (временно): ' + dbg); // TODO убрать после диагностики
   }
 }
 

@@ -22,6 +22,11 @@ const QUESTIONS = [
 const KEYS = ['problem', 'age', 'city', 'duration', 'contact'];
 const PKG = { diag: 'Диагностика', '8': 'Пакет 8 сессий', '15': 'Пакет 15 сессий', '25': 'Пакет 25 сессий' };
 
+// Куда слать заявки. Если переменная OWNER_CHAT_ID из Cloudflare не подхватывается —
+// впиши id аккаунта-получателя ПРЯМО СЮДА (это не секрет, обычный номер чата).
+// Этот аккаунт должен один раз нажать Start у бота.
+const OWNER_ID_FALLBACK = ''; // напр. '8857726398'
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -97,9 +102,10 @@ async function handleUpdate(update, env) {
       '⏳ Давность: ' + (a.duration || '—') + '\n' +
       '📞 Связь: ' + (a.contact || '—') + '\n' +
       '💬 Профиль: ' + (s.user || s.tg || '—');
-    let dbg = 'owner=' + (env.OWNER_CHAT_ID || 'НЕ ЗАДАН');
-    if (env.OWNER_CHAT_ID) {
-      const r = await send(env, env.OWNER_CHAT_ID, summary);
+    const owner = env.OWNER_CHAT_ID || OWNER_ID_FALLBACK;
+    let dbg = 'owner=' + (owner || 'НЕ ЗАДАН');
+    if (owner) {
+      const r = await send(env, owner, summary);
       const jr = await r.json().catch(() => ({}));
       dbg += ' | ok=' + jr.ok + ' | ' + (jr.description || '');
     }

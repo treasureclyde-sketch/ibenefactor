@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ЗЕРНО — кофейня</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1A1210; --surface:#241814; --surface-2:#2C1E18;
+    --cream:#F3E7D6; --muted:#B79E88; --amber:#D89A4E; --amber-2:#E8B968;
+    --line:rgba(243,231,214,.12);
+    --disp:'Playfair Display',serif; --body:'Montserrat',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--cream);font-family:var(--body);line-height:1.55;
+    background-image:radial-gradient(70% 45% at 80% 0%,rgba(216,154,78,.16),transparent 60%);}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 26px}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0;font-size:14px;letter-spacing:.02em}
+  .logo{font-family:var(--disp);font-weight:700;font-size:26px;letter-spacing:.02em}
+  .nav-links{display:flex;gap:32px;color:var(--muted)}
+  .nav-links a{color:inherit;text-decoration:none}
+  .book{border:1px solid var(--amber);color:var(--amber-2);padding:9px 18px;border-radius:30px;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+
+  .hero{text-align:center;padding:60px 0 20px}
+  .hero .ey{color:var(--amber-2);letter-spacing:.28em;text-transform:uppercase;font-size:12.5px;margin-bottom:22px}
+  .hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(44px,8vw,84px);line-height:1.03;letter-spacing:.01em}
+  .hero h1 em{color:var(--amber-2)}
+  .hero p{color:var(--muted);font-size:18px;max-width:52ch;margin:24px auto 0;font-style:italic;font-family:var(--disp)}
+  .beans{display:flex;justify-content:center;gap:26px;margin:34px 0 8px;font-size:22px;color:var(--amber);opacity:.7}
+
+  .menu-h{text-align:center;margin:56px 0 26px}
+  .menu-h span{color:var(--amber-2);letter-spacing:.2em;text-transform:uppercase;font-size:12px}
+  .menu-h h2{font-family:var(--disp);font-weight:700;font-size:36px;margin-top:8px}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:14px 44px}
+  @media(max-width:820px){.menu{grid-template-columns:1fr}.nav-links{display:none}}
+  .item{display:flex;align-items:baseline;gap:12px;padding:15px 0;border-bottom:1px dashed var(--line)}
+  .item .ic{font-size:26px;line-height:1}
+  .item .info{flex:1}
+  .item .nm{font-family:var(--disp);font-weight:600;font-size:19px}
+  .item .ds{color:var(--muted);font-size:13px;margin-top:3px}
+  .item .pr{font-family:var(--disp);font-weight:700;font-size:19px;color:var(--amber-2);white-space:nowrap}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:56px 0}
+  @media(max-width:820px){.cards{grid-template-columns:1fr}}
+  .c{background:linear-gradient(165deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:18px;padding:26px;text-align:center}
+  .c .big{font-size:44px}
+  .c h3{font-family:var(--disp);font-weight:700;font-size:22px;margin:14px 0 8px}
+  .c p{color:var(--muted);font-size:13.5px}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;color:var(--muted);font-size:13.5px}
+  footer .lg{font-family:var(--disp);font-size:22px;color:var(--cream);margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">ЗЕРНО</div>
+    <div class="nav-links"><a>Меню</a><a>О нас</a><a>Обжарка</a><a>Доставка</a></div>
+    <a class="book" href="#">Забронировать</a>
+  </nav>
+
+  <section class="hero">
+    <p class="ey">Спешелти-кофейня · с 2019</p>
+    <h1>Кофе, ради которого<br><em>стоит проснуться</em></h1>
+    <p>«Обжариваем зерно сами, каждую неделю. Заваривает бариста-чемпион — и это чувствуется в первом глотке.»</p>
+    <div class="beans">✦ &nbsp; ✦ &nbsp; ✦</div>
+  </section>
+
+  <div class="menu-h"><span>Наше меню</span><h2>Авторская карта</h2></div>
+  <div class="menu">
+    <div class="item"><div class="ic">☕</div><div class="info"><div class="nm">Флэт уайт</div><div class="ds">Двойной эспрессо, бархатное молоко</div></div><div class="pr">280 ₽</div></div>
+    <div class="item"><div class="ic">🍵</div><div class="info"><div class="nm">Раф на фильтре</div><div class="ds">Наш фирменный, со сливками и ванилью</div></div><div class="pr">320 ₽</div></div>
+    <div class="item"><div class="ic">🧊</div><div class="info"><div class="nm">Айс-латте</div><div class="ds">Холодный, на альтернативном молоке</div></div><div class="pr">310 ₽</div></div>
+    <div class="item"><div class="ic">🫖</div><div class="info"><div class="nm">V60 пуровер</div><div class="ds">Зерно недели, ручная заварка</div></div><div class="pr">350 ₽</div></div>
+    <div class="item"><div class="ic">🥐</div><div class="info"><div class="nm">Круассан</div><div class="ds">Слоёный, на французском масле</div></div><div class="pr">190 ₽</div></div>
+    <div class="item"><div class="ic">🍰</div><div class="info"><div class="nm">Чизкейк Сан-Себастьян</div><div class="ds">Карамельная корочка, нежная текстура</div></div><div class="pr">340 ₽</div></div>
+  </div>
+
+  <div class="cards">
+    <div class="c"><div class="big">🔥</div><h3>Своя обжарка</h3><p>Ростерим зерно каждую неделю — только свежее в чашке.</p></div>
+    <div class="c"><div class="big">🏆</div><h3>Бариста-чемпион</h3><p>Команда с призами городских соревнований по кофе.</p></div>
+    <div class="c"><div class="big">📦</div><h3>Зерно домой</h3><p>Заберите пачку любимой обжарки или оформите подписку.</p></div>
+  </div>
+
+  <footer>
+    <div class="lg">ЗЕРНО</div>
+    <div>ул. Кофейная, 12 · ежедневно 8:00–22:00 · @zerno.coffee</div>
+  </footer>
+</div>
+</body>
+</html>

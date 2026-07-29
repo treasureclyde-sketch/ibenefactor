@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VOLT — магазин техники</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07090F; --surface:#0F131C; --surface-2:#151A26;
+    --ink:#EAF0FA; --muted:#93A0B8; --faint:#5C6880;
+    --cyan:#22D3EE; --blue:#3B82F6; --line:rgba(255,255,255,.08);
+    --disp:'Manrope',sans-serif; --body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5;
+    background-image:radial-gradient(80% 50% at 85% -5%,rgba(34,211,238,.14),transparent 60%),radial-gradient(60% 40% at 0% 10%,rgba(59,130,246,.12),transparent 55%);}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 26px}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+  .logo{font-family:var(--disp);font-weight:800;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+  .logo b{width:11px;height:11px;background:var(--cyan);border-radius:3px;box-shadow:0 0 14px var(--cyan)}
+  .nav-links{display:flex;gap:30px;font-size:14.5px;color:var(--muted)}
+  .nav-links a{color:inherit;text-decoration:none}
+  .cart{background:var(--surface-2);border:1px solid var(--line);padding:9px 16px;border-radius:10px;font-size:14px;font-weight:600}
+
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:56px 0 40px}
+  .hero .ey{font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}
+  .hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(38px,5.6vw,66px);line-height:1.02;letter-spacing:-.03em}
+  .hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--cyan),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);font-size:18px;margin:20px 0 28px;max-width:44ch}
+  .cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(100deg,var(--cyan),var(--blue));color:#04121a;font-weight:700;padding:15px 26px;border-radius:12px;font-size:16px;text-decoration:none;box-shadow:0 16px 40px -14px rgba(34,211,238,.6)}
+  .hero-card{background:linear-gradient(160deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:24px;padding:34px;text-align:center;position:relative;overflow:hidden}
+  .hero-card::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 20%,rgba(34,211,238,.18),transparent 70%)}
+  .hero-card .big{font-size:120px;line-height:1;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5));position:relative}
+  .hero-card .pt{font-family:var(--disp);font-weight:700;font-size:20px;margin-top:18px;position:relative}
+  .hero-card .pp{color:var(--cyan);font-weight:700;font-size:26px;margin-top:6px;font-family:var(--disp);position:relative}
+
+  .sec-h{display:flex;align-items:flex-end;justify-content:space-between;margin:48px 0 22px}
+  .sec-h h2{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.02em}
+  .sec-h a{color:var(--muted);text-decoration:none;font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.nav-links{display:none}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr 1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;transition:transform .2s,border-color .2s}
+  .card:hover{transform:translateY(-4px);border-color:rgba(34,211,238,.4)}
+  .thumb{aspect-ratio:1/1;border-radius:13px;background:radial-gradient(70% 70% at 50% 30%,rgba(34,211,238,.16),transparent),linear-gradient(160deg,#141a26,#0d121b);display:grid;place-items:center;font-size:56px;position:relative;margin-bottom:14px}
+  .tag{position:absolute;top:10px;left:10px;background:var(--cyan);color:#04121a;font-size:11px;font-weight:700;padding:4px 9px;border-radius:7px;font-family:var(--disp)}
+  .card .nm{font-weight:600;font-size:15px;margin-bottom:5px}
+  .card .rt{color:var(--muted);font-size:12.5px;margin-bottom:12px}
+  .card .rt b{color:#FBBF24}
+  .card .buy{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .card .pr{font-family:var(--disp);font-weight:800;font-size:19px}
+  .card .add{background:var(--surface-2);border:1px solid var(--line);color:var(--ink);width:40px;height:40px;border-radius:11px;font-size:20px;cursor:pointer;flex:none}
+  .card:hover .add{background:var(--cyan);color:#04121a;border-color:var(--cyan)}
+
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:44px 0}
+  @media(max-width:780px){.strip{grid-template-columns:1fr}}
+  .feat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;gap:14px;align-items:flex-start}
+  .feat .ic{font-size:26px}
+  .feat b{font-family:var(--disp);display:block;margin-bottom:4px}
+  .feat span{color:var(--muted);font-size:13.5px}
+  footer{border-top:1px solid var(--line);margin-top:20px;padding:30px 0;color:var(--faint);font-size:13.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo"><b></b>VOLT</div>
+    <div class="nav-links"><a>Смартфоны</a><a>Ноутбуки</a><a>Аудио</a><a>Гаджеты</a><a>Скидки</a></div>
+    <div class="cart">Корзина · 2</div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <p class="ey">Новинки 2026</p>
+      <h1>Техника, которая <em>опережает</em> время</h1>
+      <p>Флагманы, аудио и гаджеты с official-гарантией. Доставим за 2 часа по городу.</p>
+      <a class="cta" href="#">В каталог →</a>
+    </div>
+    <div class="hero-card">
+      <div class="big">🎧</div>
+      <div class="pt">VOLT Pods Ultra</div>
+      <div class="pp">14 990 ₽</div>
+    </div>
+  </section>
+
+  <div class="sec-h"><h2>Хиты продаж</h2><a>Смотреть всё →</a></div>
+  <div class="grid">
+    <div class="card"><div class="thumb"><span class="tag">−20%</span>📱</div><div class="nm">Смартфон Aura X Pro</div><div class="rt"><b>★ 4.9</b> · 320 отзывов</div><div class="buy"><span class="pr">89 990 ₽</span><button class="add">+</button></div></div>
+    <div class="card"><div class="thumb">💻</div><div class="nm">Ноутбук Volt Book 16"</div><div class="rt"><b>★ 4.8</b> · 154 отзыва</div><div class="buy"><span class="pr">124 500 ₽</span><button class="add">+</button></div></div>
+    <div class="card"><div class="thumb"><span class="tag">Хит</span>⌚</div><div class="nm">Смарт-часы Pulse 3</div><div class="rt"><b>★ 4.7</b> · 512 отзывов</div><div class="buy"><span class="pr">27 990 ₽</span><button class="add">+</button></div></div>
+    <div class="card"><div class="thumb">🔊</div><div class="nm">Колонка BassOne 360</div><div class="rt"><b>★ 4.9</b> · 208 отзывов</div><div class="buy"><span class="pr">18 490 ₽</span><button class="add">+</button></div></div>
+    <div class="card"><div class="thumb">🎮</div><div class="nm">Геймпад Volt Grip</div><div class="rt"><b>★ 4.6</b> · 97 отзывов</div><div class="buy"><span class="pr">6 990 ₽</span><button class="add">+</button></div></div>
+    <div class="card"><div class="thumb"><span class="tag">−15%</span>📷</div><div class="nm">Экшн-камера Volt Go</div><div class="rt"><b>★ 4.8</b> · 143 отзыва</div><div class="buy"><span class="pr">32 900 ₽</span><button class="add">+</button></div></div>
+    <div class="card"><div class="thumb">🖥️</div><div class="nm">Монитор Volt View 27"</div><div class="rt"><b>★ 4.9</b> · 61 отзыв</div><div class="buy"><span class="pr">41 200 ₽</span><button class="add">+</button></div></div>
+    <div class="card"><div class="thumb">⌨️</div><div class="nm">Клавиатура Mech Pro</div><div class="rt"><b>★ 4.7</b> · 189 отзывов</div><div class="buy"><span class="pr">9 490 ₽</span><button class="add">+</button></div></div>
+  </div>
+
+  <div class="strip">
+    <div class="feat"><div class="ic">🚀</div><div><b>Доставка за 2 часа</b><span>Курьером по городу или самовывоз из 12 точек</span></div></div>
+    <div class="feat"><div class="ic">🛡️</div><div><b>Гарантия и trade-in</b><span>Официальная гарантия, обмен старого на новое</span></div></div>
+    <div class="feat"><div class="ic">💳</div><div><b>Рассрочка 0%</b><span>До 24 месяцев без переплат и первого взноса</span></div></div>
+  </div>
+
+  <footer><span>© 2026 VOLT · Магазин техники</span><span>Москва · ежедневно 9:00–22:00 · +7 495 000-00-00</span></footer>
+</div>
+</body>
+</html>

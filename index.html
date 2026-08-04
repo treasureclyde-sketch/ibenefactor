@@ -55,38 +55,21 @@
   .nav-cta{padding:11px 20px;font-size:14px !important}
   @media(max-width:1000px){.nav-links a:not(.nav-cta){display:none}}
 
-  /* HERO — cinematic cut-out figure emerging from the mind-field */
-  .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px 0 40px;overflow:hidden}
-  .hero-aura{position:absolute;z-index:0;width:min(74vw,820px);height:min(74vw,820px);right:-2%;top:50%;transform:translateY(-50%);pointer-events:none;
-    background:radial-gradient(circle,rgba(139,92,246,.4),rgba(217,70,239,.13) 42%,transparent 68%);filter:blur(14px);will-change:transform}
-  .hero-side{position:absolute;left:16px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;transform-origin:center;rotate:180deg;
-    font-family:'Manrope';font-weight:700;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink-dd);z-index:4;white-space:nowrap}
-  .hero-in{position:relative;z-index:3;max-width:640px}
-  .hero-kick{display:inline-flex;align-items:center;gap:13px;margin-bottom:22px;font-family:'Manrope';font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-d)}
-  .hero-kick::before{content:"";width:40px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--violet),var(--magenta))}
-  .hero h1{font-family:'Manrope';font-weight:800;font-size:clamp(38px,6.4vw,82px);line-height:.98;letter-spacing:-.035em;max-width:15ch}
+  /* HERO */
+  .hero{min-height:100svh;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:130px 0 60px}
+  @media(max-width:900px){.hero{grid-template-columns:1fr;padding:120px 0 40px}}
+  .cred-card{display:inline-block;padding:16px 20px;border-radius:16px;border:1px solid var(--line);background:rgba(12,6,26,.5);backdrop-filter:blur(10px);max-width:40ch;margin-bottom:26px}
+  .cred-card b{font-family:'Manrope';font-weight:700;font-size:15px;display:block;margin-bottom:4px}
+  .cred-card span{font-size:13px;color:var(--ink-d)}
+  .hero h1{font-family:'Manrope';font-weight:800;font-size:clamp(32px,5vw,62px);line-height:1.03;letter-spacing:-.02em;max-width:16ch}
   .hero h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
-  .hero .sub{margin-top:24px;font-size:clamp(16px,2vw,19px);color:var(--ink-d);max-width:40ch}
-  .hero-cta{display:flex;align-items:center;gap:26px;margin-top:38px;flex-wrap:wrap}
-  .hero-link{font-family:'Manrope';font-weight:700;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px;transition:border-color .2s,color .2s}
-  .hero-link:hover{border-color:var(--violet-2);color:var(--violet-2)}
-  .hero-figure{position:absolute;right:2%;bottom:0;height:94%;z-index:2;pointer-events:none;display:flex;align-items:flex-end}
-  .hero-figure img{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 26px 60px rgba(0,0,0,.6));
-    -webkit-mask-image:linear-gradient(180deg,#000 84%,transparent);mask-image:linear-gradient(180deg,#000 84%,transparent);will-change:transform}
-  .hero-chip{position:absolute;z-index:4;right:5%;bottom:22%;background:rgba(18,9,32,.6);border:1px solid var(--line);backdrop-filter:blur(10px);
-    border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:11px;box-shadow:0 18px 44px -20px rgba(0,0,0,.85)}
-  .hero-chip .pdot{width:9px;height:9px;border-radius:50%;flex:none;background:#34d399;box-shadow:0 0 10px #34d399}
-  .hero-chip b{font-family:'Manrope';font-weight:800;font-size:14px;display:block}
-  .hero-chip span{font-size:12px;color:var(--ink-d)}
-  @media(max-width:900px){
-    .hero{flex-direction:column;justify-content:flex-start;text-align:left;padding-top:96px;min-height:auto}
-    .hero-side{display:none}
-    .hero-in{max-width:none;order:1}
-    .hero-figure{position:relative;right:auto;bottom:auto;height:auto;max-width:300px;margin:26px auto 0;order:2}
-    .hero-figure img{height:auto;width:100%}
-    .hero-aura{right:50%;transform:translate(50%,-50%);top:62%}
-    .hero-chip{display:none}
-  }
+  .hero .sub{margin-top:22px;font-size:clamp(16px,2vw,19px);color:var(--ink-d);max-width:38ch}
+  .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
+  .hero-photo{position:relative;align-self:center;justify-self:center;max-width:430px;width:100%;aspect-ratio:4/5;border-radius:24px;overflow:hidden;border:1px solid rgba(242,236,251,.14);box-shadow:0 40px 90px -34px rgba(139,92,246,.6)}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 52%,rgba(6,3,16,.55)),linear-gradient(120deg,rgba(139,92,246,.14),transparent 60%)}
+  .hero-photo::before{content:"";position:absolute;inset:-14px;z-index:-1;border-radius:30px;background:radial-gradient(circle,rgba(217,70,239,.4),transparent 68%);filter:blur(26px)}
+  @media(max-width:900px){.hero-photo{max-width:320px}}
 
   section.blk{padding:120px 0;position:relative}
   .sec-head{max-width:720px;margin-bottom:52px}
@@ -304,20 +287,17 @@
 <main id="top">
 
   <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-aura" id="heroAura"></div>
-    <span class="hero-side">Гипноз · Нейрокоучинг · Высшее Я</span>
-    <div class="wrap hero-in">
-      <div class="hero-kick">Игорь Стрельников · система «Бенефактор»</div>
-      <h1>Выйти из негативных сценариев — и стать <em>счастливее и богаче</em></h1>
-      <p class="sub">Работа с подсознанием, гипноз и нейрокоучинг — там, где разговорная терапия уже не помогает.</p>
+  <section class="wrap hero" id="hero">
+    <div>
+      <div class="cred-card"><b>Игорь Стрельников — эксперт по работе с подсознанием</b><span>проводник к Высшему Я, гипнолог, нейрокоуч и создатель уникальной системы «Бенефактор»</span></div>
+      <h1>Помогаю выйти из негативных сценариев — стать <em>счастливее и богаче</em></h1>
+      <p class="sub">Работа с подсознанием, гипноз и нейрокоучинг. Меняем внутренние программы там, где разговорная терапия не помогает.</p>
       <div class="hero-cta">
         <a href="#book" class="btn btn-primary" data-book="диагностику">Записаться на диагностику <span class="arw">→</span></a>
-        <a href="#approach" class="hero-link">Как это работает ↓</a>
+        <a href="#approach" class="btn btn-ghost">Как это работает</a>
       </div>
     </div>
-    <div class="hero-figure" id="heroFig"><img src="assets/igor-cut.webp" alt="Игорь Стрельников"></div>
-    <div class="hero-chip"><span class="pdot"></span><div><b>Диагностика 2 часа</b><span>по видеосвязи, лично</span></div></div>
+    <div class="hero-photo"><img src="assets/igor1.webp" alt="Игорь Стрельников"></div>
   </section>
 
   <!-- PAINS -->
@@ -723,18 +703,6 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
     form.reset();
     setTimeout(close,1800);
   });
-})();
-
-/* hero parallax — фигура и свечение мягко реагируют на курсор */
-(function(){
-  const fig=document.getElementById('heroFig'), aura=document.getElementById('heroAura');
-  if(!fig||!matchMedia('(hover:hover) and (pointer:fine)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  let tx=0,ty=0,cx=0,cy=0;
-  addEventListener('mousemove',e=>{ tx=(e.clientX/innerWidth-.5); ty=(e.clientY/innerHeight-.5); },{passive:true});
-  (function loop(){ cx+=(tx-cx)*.06; cy+=(ty-cy)*.06;
-    fig.style.transform=`translate(${cx*-22}px,${cy*-12}px)`;
-    if(aura) aura.style.transform=`translateY(-50%) translate(${cx*24}px,${cy*16}px)`;
-    requestAnimationFrame(loop); })();
 })();
 </script>
 </body>

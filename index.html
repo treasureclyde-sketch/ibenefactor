@@ -243,9 +243,42 @@
   @keyframes bkShine{0%,58%{left:-40%}100%{left:135%}}
   .bk-note{margin-top:14px;font-size:14px;text-align:center}
   .bk-note.err{color:#c0392b}.bk-note.ok{color:#158a56}
+
+  /* intro «Погружение» */
+  #intro{position:fixed;inset:0;z-index:100001;background:#050208;display:grid;place-items:center;overflow:hidden;cursor:pointer;
+    transition:opacity .8s var(--ease),visibility .8s;animation:i-safety .7s 3.4s forwards}
+  #intro.done{opacity:0;visibility:hidden;pointer-events:none}
+  #intro .iglow{position:absolute;width:62vmin;height:62vmin;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(139,92,246,.5),rgba(217,70,239,.12) 45%,transparent 70%);filter:blur(8px);animation:i-breath 2.8s ease-in-out infinite}
+  #intro .iring{position:absolute;width:22vmin;height:22vmin;border:1px solid rgba(167,139,250,.55);border-radius:50%;pointer-events:none;opacity:0;
+    animation:i-ripple 2.6s cubic-bezier(.2,.6,.3,1) .35s forwards}
+  #intro .iwrap{position:relative;z-index:2;text-align:center;padding:0 24px}
+  #intro .ibrand{font-family:'Manrope';font-weight:800;font-size:clamp(30px,7vw,66px);letter-spacing:.16em;line-height:1;color:transparent;
+    background:linear-gradient(100deg,#E9D5FF,#A78BFA 42%,#D946EF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    opacity:0;transform:translateY(16px);animation:i-up 1s .3s var(--ease) forwards;filter:drop-shadow(0 0 26px rgba(167,139,250,.35))}
+  #intro .itag{margin-top:18px;font-size:clamp(11px,2.2vw,14px);letter-spacing:.34em;text-transform:uppercase;color:var(--ink-dd);opacity:0;animation:i-fade 1.1s 1s ease forwards}
+  #intro .iskip{position:absolute;bottom:24px;right:26px;background:none;border:none;font-family:inherit;font-size:12px;letter-spacing:.12em;color:var(--ink-dd);cursor:pointer;opacity:0;animation:i-fade 1s 1.6s ease forwards;transition:color .2s}
+  #intro .iskip:hover{color:var(--ink)}
+  @keyframes i-breath{0%,100%{transform:scale(.9);opacity:.7}50%{transform:scale(1.1);opacity:1}}
+  @keyframes i-ripple{0%{transform:scale(.4);opacity:.85}100%{transform:scale(7);opacity:0}}
+  @keyframes i-up{to{opacity:1;transform:none}}
+  @keyframes i-fade{to{opacity:1}}
+  @keyframes i-safety{to{opacity:0;visibility:hidden;pointer-events:none}}
+  @media(prefers-reduced-motion:reduce){#intro .iglow,#intro .iring{animation:none}#intro .ibrand,#intro .itag,#intro .iskip{animation:none;opacity:1;transform:none}}
 </style>
 </head>
 <body>
+
+<!-- intro «Погружение» -->
+<div id="intro" aria-hidden="true">
+  <span class="iglow"></span>
+  <span class="iring"></span>
+  <div class="iwrap">
+    <div class="ibrand">BENEFACTOR</div>
+    <div class="itag">Изменения начинаются внутри</div>
+  </div>
+  <button class="iskip" id="iskip" type="button">пропустить →</button>
+</div>
 
 <canvas id="plexus"></canvas>
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
@@ -515,6 +548,18 @@ function makeEnv(R){
 </script>
 
 <script>
+/* intro «Погружение» — играет 1 раз при загрузке, клик/пробел/Esc/«пропустить» закрывает */
+(function(){
+  const intro=document.getElementById('intro'); if(!intro) return;
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  document.documentElement.style.overflow='hidden';
+  let done=false;
+  const finish=()=>{ if(done)return; done=true; intro.classList.add('done'); document.documentElement.style.overflow=''; setTimeout(()=>intro.remove(),820); };
+  intro.addEventListener('click',finish);
+  addEventListener('keydown',e=>{ if(e.key==='Escape'||e.key===' '||e.key==='Enter') finish(); });
+  setTimeout(finish, reduce?400:2700);
+})();
+
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 
 /* inversion cursor: один белый круг, mix-blend-mode:difference — инвертирует то, что под ним; лёгкое сглаживание, без хвоста */

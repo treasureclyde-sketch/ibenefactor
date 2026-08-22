@@ -519,7 +519,7 @@ function makeEnv(R){
   const cvs=document.getElementById('chrome-canvas'); const stage=cvs.parentElement;
   try{
     const R=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true});
-    R.setPixelRatio(Math.min(devicePixelRatio,2)); R.toneMapping=THREE.ACESFilmicToneMapping; R.outputColorSpace=THREE.SRGBColorSpace;
+    R.setPixelRatio(Math.min(devicePixelRatio,1.5)); R.toneMapping=THREE.ACESFilmicToneMapping; R.outputColorSpace=THREE.SRGBColorSpace;
     const scene=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(38,1,0.1,100); cam.position.set(0,0,3.6);
     scene.environment=makeEnv(R);
     scene.add(new THREE.AmbientLight(0xffffff,.9));
@@ -539,9 +539,15 @@ function makeEnv(R){
     function size(){const r=stage.getBoundingClientRect();R.setSize(r.width,r.height,false);cam.aspect=r.width/r.height;cam.updateProjectionMatrix();}
     size(); addEventListener('resize',size);
     const cl=new THREE.Clock();
-    (function loop(){const t=cl.getElapsedTime();
+    let vis=true;
+    if('IntersectionObserver' in window){ new IntersectionObserver(es=>{vis=es[0].isIntersecting;},{rootMargin:'160px'}).observe(cvs); }
+    (function loop(){
+      requestAnimationFrame(loop);
+      if(!vis||document.hidden) return;                 // не рендерим, пока мозг вне экрана / вкладка неактивна
+      const t=cl.getElapsedTime();
       if(grp&&!reduce){grp.rotation.y=t*.28; grp.rotation.x=Math.sin(t*.25)*.08;}
-      R.render(scene,cam);requestAnimationFrame(loop);})();
+      R.render(scene,cam);
+    })();
   }catch(e){cvs.style.display='none';}
 })();
 
@@ -581,17 +587,22 @@ if(fine){
 /* plexus background */
 (function(){
   const cvs=document.getElementById('plexus'); const ctx=cvs.getContext('2d'); let W,H,pts;
-  const N=Math.min(90,Math.floor(innerWidth/18)); const R=140;
+  const N=Math.min(64,Math.floor(innerWidth/26)); const R=140, R2=R*R;   // меньше точек
   function init(){W=cvs.width=innerWidth;H=cvs.height=innerHeight;pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28}));}
-  init(); addEventListener('resize',init);
-  if(!matchMedia('(prefers-reduced-motion:reduce)').matches)(function loop(){
+  init(); let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(init,200);});
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  let last=0;
+  (function loop(now){
+    requestAnimationFrame(loop);
+    if(document.hidden) return;                 // пауза, когда вкладка неактивна
+    if(now-last<32) return; last=now;           // ~30 fps достаточно для фона
     ctx.clearRect(0,0,W,H);
     for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;}
-    for(let i=0;i<N;i++){for(let j=i+1;j<N;j++){const a=pts[i],b=pts[j];const dx=a.x-b.x,dy=a.y-b.y;const d=Math.hypot(dx,dy);
-      if(d<R){ctx.strokeStyle=`rgba(163,124,248,${(1-d/R)*0.24})`;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}}
-    for(const p of pts){ctx.fillStyle='rgba(200,172,255,.62)';ctx.beginPath();ctx.arc(p.x,p.y,1.6,0,7);ctx.fill();}
-    requestAnimationFrame(loop);
-  })();
+    for(let i=0;i<N;i++){const a=pts[i];for(let j=i+1;j<N;j++){const b=pts[j];const dx=a.x-b.x,dy=a.y-b.y;const d2=dx*dx+dy*dy;
+      if(d2<R2){ctx.strokeStyle='rgba(163,124,248,'+((1-Math.sqrt(d2)/R)*0.24)+')';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}}
+    ctx.fillStyle='rgba(200,172,255,.62)';
+    for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,1.6,0,7);ctx.fill();}
+  })(0);
 })();
 
 /* brain-scene scatter bubbles — позиции считаются от реального прямоугольника картинки головы,
@@ -638,7 +649,11 @@ addEventListener('scroll',measure,{passive:true});
 addEventListener('resize',()=>{measure();place();});
 addEventListener('load',place); headImg.addEventListener('load',place);
 measure(); place();
+let scv=true;
+if('IntersectionObserver' in window){ new IntersectionObserver(es=>{scv=es[0].isIntersecting;},{rootMargin:'200px'}).observe(sceneEl); }
 (function render(){
+  requestAnimationFrame(render);
+  if(document.hidden||!scv) return;               // считаем только когда сцена рядом с экраном
   pC+=(pT-pC)*0.1; const p=pC; const fly=smooth(0.05,0.9,p);
   bubbles.forEach(b=>{
     const tx=b.dx*fly*innerWidth*0.5, ty=b.dy*fly*innerHeight*0.45;
@@ -647,7 +662,6 @@ measure(); place();
   });
   if(headImg) headImg.style.transform=`scale(${1+fly*0.05})`;
   resolve.style.opacity=smooth(0.6,0.95,p).toFixed(3);
-  requestAnimationFrame(render);
 })();
 
 /* approach diagram: равные линии из мозга наружу (↗ вправо-вверх, → вправо, ↓ вниз), по отрезкам, затем табличка */

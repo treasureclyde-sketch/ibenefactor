@@ -36,9 +36,9 @@
   #cursor{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;pointer-events:none;mix-blend-mode:difference;filter:url(#goo);opacity:1;transition:opacity .22s var(--ease)}
   #cursor.hide{opacity:0}
   #cursor .blob{position:absolute;top:0;left:0;border-radius:50%;background:#fff;transform:translate3d(-50%,-50%,0);will-change:transform}
-  #cursor .b1{width:58px;height:58px}
-  #cursor .b2{width:120px;height:120px}
-  #cursor .b3{width:74px;height:74px}
+  #cursor .b1{width:22px;height:22px}
+  #cursor .b2{width:46px;height:46px}
+  #cursor .b3{width:28px;height:28px}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
   .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -288,7 +288,7 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="26" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 32 -10" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
 
 <!-- booking modal -->
 <div id="booking" class="modal" aria-hidden="true">

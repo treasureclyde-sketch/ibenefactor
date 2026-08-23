@@ -599,13 +599,12 @@ if(fine){
     requestAnimationFrame(render);
     const t=now/1000;
     const idle=reduce?0:Math.max(0,Math.min(1,(now-lastMove-350)/500));  // 0 в движении → 1 через ~0.85с покоя
-    // в покое вся капля дышит как единое целое: общий мягкий дрейф + синхронная пульсация, без разлетающихся точек
-    const dx=Math.sin(t*0.8)*3.5*idle, dy=Math.cos(t*0.62)*3.5*idle;
-    const sc=1+Math.sin(t*1.5)*0.10*idle;
+    // в покое вся капля мягко плавает на месте как единое целое (без изменения размера, без разлетающихся точек)
+    const dx=Math.sin(t*0.7)*4*idle, dy=Math.cos(t*0.52)*4*idle;
     for(let i=0;i<blobs.length;i++){
       pos[i].x+=(mx+dx-pos[i].x)*speed[i];
       pos[i].y+=(my+dy-pos[i].y)*speed[i];
-      blobs[i].style.transform=`translate(${pos[i].x.toFixed(1)}px,${pos[i].y.toFixed(1)}px) translate(-50%,-50%) scale(${sc.toFixed(3)})`;
+      blobs[i].style.transform=`translate(${pos[i].x.toFixed(1)}px,${pos[i].y.toFixed(1)}px) translate(-50%,-50%)`;
     }
   })(performance.now());
 }

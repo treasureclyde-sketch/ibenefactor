@@ -35,13 +35,10 @@
   /* inversion cursor — белый круг с mix-blend-mode:difference: инвертирует текст/картинки под собой */
   #cursor{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;pointer-events:none;mix-blend-mode:difference;filter:url(#goo);opacity:1;transition:opacity .22s var(--ease)}
   #cursor.hide{opacity:0}
-  #cursor .blob{position:absolute;top:0;left:0;border-radius:50%;background:#fff;transform:translate(-50%,-50%);will-change:transform;transition:width .26s var(--ease),height .26s var(--ease)}
-  #cursor .b1{width:22px;height:22px}
-  #cursor .b2{width:15px;height:15px}
-  #cursor .b3{width:10px;height:10px}
-  #cursor.big .b1{width:54px;height:54px}
-  #cursor.big .b2{width:34px;height:34px}
-  #cursor.big .b3{width:22px;height:22px}
+  #cursor .blob{position:absolute;top:0;left:0;border-radius:50%;background:#fff;transform:translate3d(-50%,-50%,0);will-change:transform}
+  #cursor .b1{width:58px;height:58px}
+  #cursor .b2{width:120px;height:120px}
+  #cursor .b3{width:74px;height:74px}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
   .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -291,7 +288,7 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="26" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 32 -10" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
 
 <!-- booking modal -->
 <div id="booking" class="modal" aria-hidden="true">
@@ -582,29 +579,27 @@ if(fine){
   const cursor=document.getElementById('cursor');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const blobs=[...cursor.querySelectorAll('.blob')];
-  const speed=[0.34,0.24,0.18];        // насколько быстро каждая капля догоняет курсор
+  // пружина на каждую каплю: ведущая почти без задержки, крупная и третья — тяжёлые, тянутся с перелётом (тягучий goo-хвост)
+  const cfg=[{k:0.26,d:0.62},{k:0.085,d:0.80},{k:0.12,d:0.78}]; // жёсткость k, затухание d
   let mx=innerWidth/2,my=innerHeight/2;
-  const pos=blobs.map(()=>({x:mx,y:my}));
+  const st=blobs.map(()=>({x:mx,y:my,vx:0,vy:0}));
   let lastMove=performance.now();
   addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;lastMove=performance.now();cursor.classList.remove('hide');},{passive:true});
   // прячем курсор, когда мышь уходит за пределы окна, и возвращаем при входе
   document.addEventListener('mouseleave',e=>{if(!e.relatedTarget&&!e.toElement)cursor.classList.add('hide');});
   document.addEventListener('mouseenter',()=>cursor.classList.remove('hide'));
   addEventListener('blur',()=>cursor.classList.add('hide'));
-  document.querySelectorAll('a,button,.btn,.qa .q,.vid').forEach(el=>{
-    el.addEventListener('mouseenter',()=>cursor.classList.add('big'));
-    el.addEventListener('mouseleave',()=>cursor.classList.remove('big'));
-  });
   (function render(now){
     requestAnimationFrame(render);
     const t=now/1000;
     const idle=reduce?0:Math.max(0,Math.min(1,(now-lastMove-350)/500));  // 0 в движении → 1 через ~0.85с покоя
     // в покое вся капля мягко плавает на месте как единое целое (без изменения размера, без разлетающихся точек)
-    const dx=Math.sin(t*0.7)*4*idle, dy=Math.cos(t*0.52)*4*idle;
+    const tx=mx+Math.sin(t*0.7)*4*idle, ty=my+Math.cos(t*0.52)*4*idle;
     for(let i=0;i<blobs.length;i++){
-      pos[i].x+=(mx+dx-pos[i].x)*speed[i];
-      pos[i].y+=(my+dy-pos[i].y)*speed[i];
-      blobs[i].style.transform=`translate(${pos[i].x.toFixed(1)}px,${pos[i].y.toFixed(1)}px) translate(-50%,-50%)`;
+      const s=st[i],c=cfg[i];
+      s.vx=s.vx*c.d+(tx-s.x)*c.k; s.x+=s.vx;
+      s.vy=s.vy*c.d+(ty-s.y)*c.k; s.y+=s.vy;
+      blobs[i].style.transform=`translate3d(${s.x.toFixed(1)}px,${s.y.toFixed(1)}px,0) translate(-50%,-50%)`;
     }
   })(performance.now());
 }

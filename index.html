@@ -33,13 +33,18 @@
   main,header,footer{position:relative;z-index:3}
 
   /* inversion cursor — белый круг с mix-blend-mode:difference: инвертирует текст/картинки под собой */
-  #cursor{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;pointer-events:none;mix-blend-mode:difference;filter:url(#goo);opacity:1;transition:opacity .22s var(--ease)}
+  /* небольшой контейнер едет за курсором → goo-фильтр считается на площади 260px, а не на весь экран (важно для FPS) */
+  #cursor{position:fixed;top:0;left:0;width:260px;height:260px;z-index:99999;pointer-events:none;mix-blend-mode:difference;filter:url(#goo);opacity:1;transition:opacity .22s var(--ease);will-change:transform}
   #cursor.hide{opacity:0}
-  #cursor .blob{position:absolute;top:0;left:0;border-radius:50%;background:#fff;transform:translate3d(-50%,-50%,0);will-change:transform}
+  #cursor .blob{position:absolute;top:0;left:0;border-radius:50%;background:#fff;will-change:transform}
   #cursor .b1{width:19px;height:19px}
   #cursor .b2{width:40px;height:40px}
   #cursor .b3{width:25px;height:25px}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
+  /* пока открыта модалка — прячем blob-курсор и возвращаем обычную стрелку внутри окна */
+  body.modal-open #cursor{opacity:0}
+  body.modal-open *{cursor:auto}
+  body.modal-open a,body.modal-open button,body.modal-open .btn,body.modal-open label,body.modal-open .modal-x{cursor:pointer}
 
   .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
   .btn .arw{transition:transform .3s var(--ease)}.btn:hover .arw{transform:translateX(4px)}
@@ -231,6 +236,13 @@
   .modal.open{display:flex}
   .modal-back{position:absolute;inset:0;background:rgba(2,1,6,.74);backdrop-filter:blur(5px)}
   .modal-card{position:relative;width:min(640px,100%);max-height:92vh;overflow:auto;background:#f4f2f6;color:#140813;border-radius:26px;padding:clamp(28px,4vw,46px);box-shadow:0 50px 130px -30px rgba(0,0,0,.85);animation:bkIn .32s var(--ease)}
+  /* «живой свет» как на экране пароля Telegram: мягкие фиолетовые пятна, что переезжают с каждым введённым символом */
+  .mglow{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+  .mglow .mg{position:absolute;top:0;left:0;width:300px;height:300px;border-radius:50%;filter:blur(56px);opacity:.5;transition:transform 1.1s cubic-bezier(.22,1,.36,1),opacity 1.1s ease}
+  .mglow .mg1{background:radial-gradient(circle,rgba(139,92,246,.95),transparent 62%)}
+  .mglow .mg2{background:radial-gradient(circle,rgba(168,85,247,.9),transparent 62%)}
+  .mglow .mg3{background:radial-gradient(circle,rgba(196,181,253,.95),transparent 62%)}
+  .modal-card>*:not(.mglow){position:relative;z-index:1}
   @keyframes bkIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
   .modal-x{position:absolute;top:16px;right:18px;width:36px;height:36px;border:none;background:transparent;font-size:26px;line-height:1;color:#6b6570;cursor:pointer;border-radius:50%;transition:background .2s}
   .modal-x:hover{background:rgba(0,0,0,.07);color:#140813}
@@ -294,6 +306,7 @@
 <div id="booking" class="modal" aria-hidden="true">
   <div class="modal-back"></div>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="bk-title">
+    <div class="mglow" aria-hidden="true"><span class="mg mg1"></span><span class="mg mg2"></span><span class="mg mg3"></span></div>
     <button class="modal-x" type="button" aria-label="Закрыть">&times;</button>
     <h3 id="bk-title">Запишитесь на диагностику</h3>
     <p class="modal-sub">Оставьте заявку — и я свяжусь с вами лично</p>
@@ -611,8 +624,10 @@ if(fine){
       const b=st[i],p=st[i-1],dx=b.x-p.x,dy=b.y-p.y,d=Math.hypot(dx,dy);
       if(d>maxLag){const k=maxLag/d;b.x=p.x+dx*k;b.y=p.y+dy*k;b.vx*=0.5;b.vy*=0.5;}
     }
+    // контейнер ставим по ведущей капле, капли — локально относительно его центра (260/2=130)
+    cursor.style.transform=`translate3d(${(st[0].x-130).toFixed(1)}px,${(st[0].y-130).toFixed(1)}px,0)`;
     for(let i=0;i<blobs.length;i++)
-      blobs[i].style.transform=`translate3d(${st[i].x.toFixed(1)}px,${st[i].y.toFixed(1)}px,0) translate3d(-50%,-50%,0)`;
+      blobs[i].style.transform=`translate3d(${(st[i].x-st[0].x+130).toFixed(1)}px,${(st[i].y-st[0].y+130).toFixed(1)}px,0) translate3d(-50%,-50%,0)`;
   })(performance.now());
 }
 
@@ -765,8 +780,25 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   const BOT_USER='Ibenefactor_bot';
   const CODE={'диагностику':'diag','8 сессий':'8','15 сессий':'15','25 сессий':'25'};
   let pkg='диагностику';
-  const open=t=>{ pkg=t||'диагностику'; titleEl.textContent='Запишитесь на '+pkg; note.hidden=true; modal.classList.add('open'); document.body.style.overflow='hidden'; };
-  const close=()=>{ modal.classList.remove('open'); document.body.style.overflow=''; };
+  // «живой свет» как на экране пароля Telegram: пятна переезжают на новую позицию с каждым введённым символом
+  const glow=modal.querySelector('.mglow');
+  const mgs=glow?[...glow.querySelectorAll('.mg')]:[];
+  const GP=[
+    [[-40,-40],[420,40],[180,320]],
+    [[260,-30],[-30,180],[430,300]],
+    [[40,220],[380,-40],[220,60]],
+    [[420,180],[120,300],[-30,-20]],
+    [[150,-20],[440,240],[40,300]],
+    [[-30,120],[300,40],[420,320]]
+  ];
+  let gi=0;
+  const paintGlow=()=>{ const p=GP[gi%GP.length]; for(let i=0;i<mgs.length;i++) mgs[i].style.transform=`translate(${p[i][0]}px,${p[i][1]}px)`; };
+  const stepGlow=()=>{ gi++; paintGlow(); };
+  paintGlow();
+  form.querySelectorAll('input[type=text]').forEach(f=>f.addEventListener('input',stepGlow));
+
+  const open=t=>{ pkg=t||'диагностику'; titleEl.textContent='Запишитесь на '+pkg; note.hidden=true; modal.classList.add('open'); document.body.classList.add('modal-open'); document.body.style.overflow='hidden'; };
+  const close=()=>{ modal.classList.remove('open'); document.body.classList.remove('modal-open'); document.body.style.overflow=''; };
   document.querySelectorAll('[data-book]').forEach(b=>b.addEventListener('click',e=>{ e.preventDefault(); open(b.getAttribute('data-book')); }));
   modal.querySelector('.modal-back').addEventListener('click',close);
   modal.querySelector('.modal-x').addEventListener('click',close);

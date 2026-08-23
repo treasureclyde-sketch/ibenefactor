@@ -33,8 +33,9 @@
   main,header,footer{position:relative;z-index:3}
 
   /* inversion cursor — белый круг с mix-blend-mode:difference: инвертирует текст/картинки под собой */
-  #cursor{position:fixed;top:0;left:0;width:22px;height:22px;border-radius:50%;background:#fff;mix-blend-mode:difference;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);will-change:transform;transition:width .24s var(--ease),height .24s var(--ease)}
+  #cursor{position:fixed;top:0;left:0;width:22px;height:22px;border-radius:50%;background:#fff;mix-blend-mode:difference;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);will-change:transform;opacity:1;transition:width .24s var(--ease),height .24s var(--ease),opacity .22s var(--ease)}
   #cursor.big{width:56px;height:56px}
+  #cursor.hide{opacity:0}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
   .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -572,7 +573,11 @@ const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 if(fine){
   const cursor=document.getElementById('cursor');
   let mx=innerWidth/2,my=innerHeight/2, cx=mx, cy=my;
-  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.classList.remove('hide');},{passive:true});
+  // прячем курсор, когда мышь уходит за пределы окна, и возвращаем при входе
+  document.addEventListener('mouseleave',e=>{if(!e.relatedTarget&&!e.toElement)cursor.classList.add('hide');});
+  document.addEventListener('mouseenter',()=>cursor.classList.remove('hide'));
+  addEventListener('blur',()=>cursor.classList.add('hide'));
   document.querySelectorAll('a,button,.btn,.qa .q,.vid').forEach(el=>{
     el.addEventListener('mouseenter',()=>cursor.classList.add('big'));
     el.addEventListener('mouseleave',()=>cursor.classList.remove('big'));

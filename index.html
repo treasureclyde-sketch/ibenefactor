@@ -36,9 +36,9 @@
   #cursor{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;pointer-events:none;mix-blend-mode:difference;filter:url(#goo);opacity:1;transition:opacity .22s var(--ease)}
   #cursor.hide{opacity:0}
   #cursor .blob{position:absolute;top:0;left:0;border-radius:50%;background:#fff;transform:translate3d(-50%,-50%,0);will-change:transform}
-  #cursor .b1{width:22px;height:22px}
-  #cursor .b2{width:46px;height:46px}
-  #cursor .b3{width:28px;height:28px}
+  #cursor .b1{width:38px;height:38px}
+  #cursor .b2{width:78px;height:78px}
+  #cursor .b3{width:50px;height:50px}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
   .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -288,7 +288,7 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="11" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -9" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -9" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
 
 <!-- booking modal -->
 <div id="booking" class="modal" aria-hidden="true">
@@ -579,8 +579,8 @@ if(fine){
   const cursor=document.getElementById('cursor');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const blobs=[...cursor.querySelectorAll('.blob')];
-  // как react-spring useTrail: ведущая капля летит за мышью (fast), остальные тяжёлые (mass:10) и тянутся ЦЕПОЧКОЙ друг за другом → тягучее желе
-  const cfg=[{m:1,t:1200,f:40},{m:10,t:200,f:50},{m:10,t:200,f:50}];
+  // как react-spring useTrail: ведущая летит за мышью (fast), остальные тяжёлые и тянутся ЦЕПОЧКОЙ → желе тянется при любом движении
+  const cfg=[{m:1,t:1200,f:40},{m:14,t:180,f:44},{m:14,t:180,f:44}];
   let mx=innerWidth/2,my=innerHeight/2;
   const st=blobs.map(()=>({x:mx,y:my,vx:0,vy:0}));
   let lastMove=performance.now(), prev=lastMove;
@@ -594,12 +594,12 @@ if(fine){
     let dt=(now-prev)/1000; prev=now; if(dt>0.05) dt=0.05;   // защита от рывка после неактивной вкладки
     const tsec=now/1000;
     const idle=reduce?0:Math.max(0,Math.min(1,(now-lastMove-350)/500));  // 0 в движении → 1 через ~0.85с покоя
-    // цель ведущей — курсор + лёгкое «дыхание» на месте в покое
-    const lx=mx+Math.sin(tsec*0.7)*3*idle, ly=my+Math.cos(tsec*0.52)*3*idle;
+    const lx=mx+Math.sin(tsec*0.7)*3*idle, ly=my+Math.cos(tsec*0.52)*3*idle;  // цель ведущей + лёгкое дыхание в покое
+    const px=st.map(b=>b.x), py=st.map(b=>b.y);              // снимок на начало кадра → хвост отстаёт заметнее
     const sub=3, h=dt/sub;                                    // подшаги для устойчивости жёсткой пружины
     for(let s=0;s<sub;s++){
       for(let i=0;i<blobs.length;i++){
-        const tx=i===0?lx:st[i-1].x, ty=i===0?ly:st[i-1].y;  // цепочка: каждая тянется за предыдущей
+        const tx=i===0?lx:px[i-1], ty=i===0?ly:py[i-1];      // цепочка: каждая тянется за предыдущей (позиция на начало кадра)
         const c=cfg[i], b=st[i];
         b.vx+=((c.t*(tx-b.x)-c.f*b.vx)/c.m)*h; b.x+=b.vx*h;
         b.vy+=((c.t*(ty-b.y)-c.f*b.vy)/c.m)*h; b.y+=b.vy*h;

@@ -288,7 +288,7 @@
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
 <div id="cursor" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="11" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -9" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
 
 <!-- booking modal -->
 <div id="booking" class="modal" aria-hidden="true">
@@ -579,11 +579,11 @@ if(fine){
   const cursor=document.getElementById('cursor');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const blobs=[...cursor.querySelectorAll('.blob')];
-  // пружина на каждую каплю: ведущая почти без задержки, крупная и третья — тяжёлые, тянутся с перелётом (тягучий goo-хвост)
-  const cfg=[{k:0.26,d:0.62},{k:0.085,d:0.80},{k:0.12,d:0.78}]; // жёсткость k, затухание d
+  // как react-spring useTrail: ведущая капля летит за мышью (fast), остальные тяжёлые (mass:10) и тянутся ЦЕПОЧКОЙ друг за другом → тягучее желе
+  const cfg=[{m:1,t:1200,f:40},{m:10,t:200,f:50},{m:10,t:200,f:50}];
   let mx=innerWidth/2,my=innerHeight/2;
   const st=blobs.map(()=>({x:mx,y:my,vx:0,vy:0}));
-  let lastMove=performance.now();
+  let lastMove=performance.now(), prev=lastMove;
   addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;lastMove=performance.now();cursor.classList.remove('hide');},{passive:true});
   // прячем курсор, когда мышь уходит за пределы окна, и возвращаем при входе
   document.addEventListener('mouseleave',e=>{if(!e.relatedTarget&&!e.toElement)cursor.classList.add('hide');});
@@ -591,16 +591,22 @@ if(fine){
   addEventListener('blur',()=>cursor.classList.add('hide'));
   (function render(now){
     requestAnimationFrame(render);
-    const t=now/1000;
+    let dt=(now-prev)/1000; prev=now; if(dt>0.05) dt=0.05;   // защита от рывка после неактивной вкладки
+    const tsec=now/1000;
     const idle=reduce?0:Math.max(0,Math.min(1,(now-lastMove-350)/500));  // 0 в движении → 1 через ~0.85с покоя
-    // в покое вся капля мягко плавает на месте как единое целое (без изменения размера, без разлетающихся точек)
-    const tx=mx+Math.sin(t*0.7)*4*idle, ty=my+Math.cos(t*0.52)*4*idle;
-    for(let i=0;i<blobs.length;i++){
-      const s=st[i],c=cfg[i];
-      s.vx=s.vx*c.d+(tx-s.x)*c.k; s.x+=s.vx;
-      s.vy=s.vy*c.d+(ty-s.y)*c.k; s.y+=s.vy;
-      blobs[i].style.transform=`translate3d(${s.x.toFixed(1)}px,${s.y.toFixed(1)}px,0) translate(-50%,-50%)`;
+    // цель ведущей — курсор + лёгкое «дыхание» на месте в покое
+    const lx=mx+Math.sin(tsec*0.7)*3*idle, ly=my+Math.cos(tsec*0.52)*3*idle;
+    const sub=3, h=dt/sub;                                    // подшаги для устойчивости жёсткой пружины
+    for(let s=0;s<sub;s++){
+      for(let i=0;i<blobs.length;i++){
+        const tx=i===0?lx:st[i-1].x, ty=i===0?ly:st[i-1].y;  // цепочка: каждая тянется за предыдущей
+        const c=cfg[i], b=st[i];
+        b.vx+=((c.t*(tx-b.x)-c.f*b.vx)/c.m)*h; b.x+=b.vx*h;
+        b.vy+=((c.t*(ty-b.y)-c.f*b.vy)/c.m)*h; b.y+=b.vy*h;
+      }
     }
+    for(let i=0;i<blobs.length;i++)
+      blobs[i].style.transform=`translate3d(${st[i].x.toFixed(1)}px,${st[i].y.toFixed(1)}px,0) translate3d(-50%,-50%,0)`;
   })(performance.now());
 }
 

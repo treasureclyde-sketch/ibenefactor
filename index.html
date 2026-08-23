@@ -587,22 +587,20 @@ if(fine){
 /* plexus background */
 (function(){
   const cvs=document.getElementById('plexus'); const ctx=cvs.getContext('2d'); let W,H,pts;
-  const N=Math.min(64,Math.floor(innerWidth/26)); const R=140, R2=R*R;   // меньше точек
+  const N=Math.min(90,Math.floor(innerWidth/18)); const R=140, R2=R*R;
   function init(){W=cvs.width=innerWidth;H=cvs.height=innerHeight;pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28}));}
   init(); let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(init,200);});
   if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  let last=0;
-  (function loop(now){
+  (function loop(){
     requestAnimationFrame(loop);
     if(document.hidden) return;                 // пауза, когда вкладка неактивна
-    if(now-last<32) return; last=now;           // ~30 fps достаточно для фона
     ctx.clearRect(0,0,W,H);
     for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;}
     for(let i=0;i<N;i++){const a=pts[i];for(let j=i+1;j<N;j++){const b=pts[j];const dx=a.x-b.x,dy=a.y-b.y;const d2=dx*dx+dy*dy;
       if(d2<R2){ctx.strokeStyle='rgba(163,124,248,'+((1-Math.sqrt(d2)/R)*0.24)+')';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}}
     ctx.fillStyle='rgba(200,172,255,.62)';
     for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,1.6,0,7);ctx.fill();}
-  })(0);
+  })();
 })();
 
 /* brain-scene scatter bubbles — позиции считаются от реального прямоугольника картинки головы,

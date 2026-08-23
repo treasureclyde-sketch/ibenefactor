@@ -33,9 +33,15 @@
   main,header,footer{position:relative;z-index:3}
 
   /* inversion cursor — белый круг с mix-blend-mode:difference: инвертирует текст/картинки под собой */
-  #cursor{position:fixed;top:0;left:0;width:22px;height:22px;border-radius:50%;background:#fff;mix-blend-mode:difference;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);will-change:transform;opacity:1;transition:width .24s var(--ease),height .24s var(--ease),opacity .22s var(--ease)}
-  #cursor.big{width:56px;height:56px}
+  #cursor{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;pointer-events:none;mix-blend-mode:difference;filter:url(#goo);opacity:1;transition:opacity .22s var(--ease)}
   #cursor.hide{opacity:0}
+  #cursor .blob{position:absolute;top:0;left:0;border-radius:50%;background:#fff;transform:translate(-50%,-50%);will-change:transform;transition:width .26s var(--ease),height .26s var(--ease)}
+  #cursor .b1{width:22px;height:22px}
+  #cursor .b2{width:15px;height:15px}
+  #cursor .b3{width:10px;height:10px}
+  #cursor.big .b1{width:54px;height:54px}
+  #cursor.big .b2{width:34px;height:34px}
+  #cursor.big .b3{width:22px;height:22px}
   @media(hover:none),(pointer:coarse){#cursor{display:none}}
 
   .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -284,7 +290,8 @@
 <canvas id="plexus"></canvas>
 <div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
 <div class="grain"></div>
-<div id="cursor"></div>
+<div id="cursor" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
 
 <!-- booking modal -->
 <div id="booking" class="modal" aria-hidden="true">
@@ -569,11 +576,18 @@ function makeEnv(R){
 
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 
-/* inversion cursor: один белый круг, mix-blend-mode:difference — инвертирует то, что под ним; лёгкое сглаживание, без хвоста */
+/* blob-курсор: три капли слипаются goo-фильтром, mix-blend-mode:difference даёт «рентген».
+   Тянутся за мышью с разной задержкой → тягучий хвост; в покое внутри живёт мелкое движение. */
 if(fine){
   const cursor=document.getElementById('cursor');
-  let mx=innerWidth/2,my=innerHeight/2, cx=mx, cy=my;
-  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.classList.remove('hide');},{passive:true});
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const blobs=[...cursor.querySelectorAll('.blob')];
+  const speed=[0.34,0.22,0.15];        // насколько быстро каждая капля догоняет курсор
+  const amp=[3,5,6.5], frq=[1.15,0.9,0.72];  // амплитуда/частота «живого» дрожания в покое
+  let mx=innerWidth/2,my=innerHeight/2;
+  const pos=blobs.map(()=>({x:mx,y:my}));
+  let lastMove=performance.now();
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;lastMove=performance.now();cursor.classList.remove('hide');},{passive:true});
   // прячем курсор, когда мышь уходит за пределы окна, и возвращаем при входе
   document.addEventListener('mouseleave',e=>{if(!e.relatedTarget&&!e.toElement)cursor.classList.add('hide');});
   document.addEventListener('mouseenter',()=>cursor.classList.remove('hide'));
@@ -582,11 +596,21 @@ if(fine){
     el.addEventListener('mouseenter',()=>cursor.classList.add('big'));
     el.addEventListener('mouseleave',()=>cursor.classList.remove('big'));
   });
-  (function render(){
-    cx+=(mx-cx)*0.3; cy+=(my-cy)*0.3;   // мягкое сглаживание, без инерционного хвоста
-    cursor.style.transform=`translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) translate(-50%,-50%)`;
+  (function render(now){
     requestAnimationFrame(render);
-  })();
+    const t=now/1000;
+    const idle=reduce?0:Math.max(0,Math.min(1,(now-lastMove-350)/500));  // 0 в движении → 1 через ~0.85с покоя
+    for(let i=0;i<blobs.length;i++){
+      let tx=mx, ty=my;
+      if(idle>0){                        // едва заметное дыхание/дрейф, будто живой
+        tx+=Math.sin(t*frq[i]+i*1.7)*amp[i]*idle;
+        ty+=Math.cos(t*frq[i]*0.8+i*2.3)*amp[i]*idle;
+      }
+      pos[i].x+=(tx-pos[i].x)*speed[i];
+      pos[i].y+=(ty-pos[i].y)*speed[i];
+      blobs[i].style.transform=`translate(${pos[i].x.toFixed(1)}px,${pos[i].y.toFixed(1)}px) translate(-50%,-50%)`;
+    }
+  })(performance.now());
 }
 
 /* plexus background */

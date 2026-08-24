@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Поддержать проект · Benefactor — Игорь Стрельников</title>
+<meta name="description" content="Поддержите автора системы «Бенефактор». Карта РФ, международный перевод, PayPal, USDT и Bitcoin — любой удобный способ.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%238B5CF6'/%3E%3Ctext x='50' y='70' font-size='62' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3E%D0%91%3C/text%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+  :root{
+    --bg:#050208;--bg2:#0A0518;--ink:#F2ECFB;--ink-d:rgba(242,236,251,.6);--ink-dd:rgba(242,236,251,.4);
+    --line:rgba(242,236,251,.1);--violet:#8B5CF6;--violet-2:#A78BFA;--magenta:#D946EF;--pink:#F0ABFC;--chrome:#E9D5FF;
+    --ease:cubic-bezier(.22,.61,.36,1);--maxw:1220px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--violet-2);font-weight:600}
+  .eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--magenta),transparent)}
+
+  #plexus{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .glowbg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .glowbg b{position:absolute;border-radius:50%;filter:blur(120px);opacity:.32;mix-blend-mode:screen}
+  .glowbg .g1{width:44vw;height:44vw;left:-12vw;top:-8vw;background:radial-gradient(circle,#6d28d9,transparent 62%)}
+  .glowbg .g2{width:40vw;height:40vw;right:-10vw;top:58vh;background:radial-gradient(circle,#c026d3,transparent 62%)}
+  .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  main,header,footer{position:relative;z-index:3}
+
+  #cursor{position:fixed;top:0;left:0;width:260px;height:260px;z-index:99999;pointer-events:none;mix-blend-mode:difference;filter:url(#goo);opacity:1;transition:opacity .22s var(--ease);will-change:transform}
+  #cursor.hide{opacity:0}
+  #cursor .blob{position:absolute;top:0;left:0;border-radius:50%;background:#fff;will-change:transform}
+  #cursor .b1{width:19px;height:19px}
+  #cursor .b2{width:40px;height:40px}
+  #cursor .b3{width:25px;height:25px}
+  @media(hover:none),(pointer:coarse){#cursor{display:none}}
+  @media(hover:hover) and (pointer:fine){body,a,button,.btn,.copy{cursor:none}}
+
+  .btn{display:inline-flex;align-items:center;gap:11px;border:none;font-family:'Manrope';font-size:15px;font-weight:700;border-radius:999px;padding:15px 28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+  .btn .arw{transition:transform .3s var(--ease)}.btn:hover .arw{transform:translateX(4px)}
+  .btn-primary{background:linear-gradient(105deg,var(--violet),var(--magenta));color:#fff;box-shadow:0 12px 38px -12px rgba(217,70,239,.6)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 50px -14px rgba(217,70,239,.7)}
+  .btn-ghost{background:rgba(242,236,251,.05);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{background:rgba(242,236,251,.09);transform:translateY(-2px)}
+
+  header#nav{position:fixed;top:0;left:0;right:0;z-index:40;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+  header#nav.scrolled{background:rgba(5,2,10,.72);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+  .nav-in{max-width:var(--maxw);margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Manrope';font-weight:800;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{font-size:14.5px;color:var(--ink-d);transition:color .25s;font-weight:500}
+  .nav-links a:hover,.nav-links a.active{color:var(--ink)}
+  .nav-cta{padding:11px 20px;font-size:14px !important;color:#fff}
+  @media(max-width:1000px){.nav-links a:not(.nav-cta){display:none}}
+
+  .dhero{padding:150px 0 40px;text-align:center}
+  .dhero h1{font-family:'Manrope';font-weight:800;font-size:clamp(34px,6vw,66px);letter-spacing:-.02em;line-height:1.03;margin-top:18px}
+  .dhero h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
+  .dhero p{max-width:54ch;margin:22px auto 0;color:var(--ink-d);font-size:clamp(15px,2vw,18px)}
+
+  .pay-sec{padding:34px 0 120px}
+  .pay-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  @media(max-width:820px){.pay-grid{grid-template-columns:1fr}}
+  .pay-card{position:relative;padding:26px;border-radius:20px;border:1px solid rgba(242,236,251,.14);background:linear-gradient(160deg,rgba(139,92,246,.12),rgba(18,9,32,.34));backdrop-filter:blur(8px);box-shadow:0 26px 60px -34px rgba(0,0,0,.8);transition:border-color .4s,transform .4s var(--ease)}
+  .pay-card:hover{border-color:rgba(240,171,252,.45);transform:translateY(-4px)}
+  .pay-card.span2{grid-column:1/-1}
+  .pay-card .tag{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet-2);font-weight:600}
+  .pay-card h3{font-family:'Manrope';font-weight:800;font-size:19px;margin:9px 0 3px}
+  .pay-card .meta{font-size:13px;color:var(--ink-dd);margin-bottom:16px}
+  .pay-vals{display:flex;flex-direction:column;gap:10px}
+  .pay-val{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 15px;border-radius:12px;background:rgba(6,3,16,.5);border:1px solid var(--line)}
+  .pay-val code{font-family:'Manrope';font-weight:600;font-size:15px;letter-spacing:.02em;word-break:break-all}
+  .copy{flex:none;display:inline-flex;align-items:center;gap:6px;font-family:'Manrope';font-weight:600;font-size:12.5px;color:var(--violet-2);background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);border-radius:999px;padding:8px 13px;cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+  .copy:hover{background:rgba(139,92,246,.22);color:#fff}
+  .copy.copied{color:#7CF5B0;border-color:rgba(124,245,176,.4);background:rgba(124,245,176,.12)}
+  .req{margin-top:30px;padding:22px 26px;border-radius:16px;border:1px solid var(--line);background:rgba(10,5,24,.5);font-size:14px;color:var(--ink-d);text-align:center;line-height:1.9}
+  .req b{color:var(--ink);font-weight:600}
+  .thanks{margin-top:30px;text-align:center;color:var(--ink-dd);font-size:14px}
+
+  footer{border-top:1px solid var(--line);padding:60px 0 40px;background:rgba(10,5,24,.6)}
+  .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}.foot .brand{font-size:24px}
+  .foot .col h5{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dd);margin-bottom:14px}
+  .foot .col a,.foot .col p{display:block;color:var(--ink-d);font-size:14.5px;margin-bottom:9px;transition:color .25s}
+  .foot .col a:hover{color:var(--ink)}.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
+  .legal{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-dd)}
+
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<canvas id="plexus"></canvas>
+<div class="glowbg"><b class="g1"></b><b class="g2"></b></div>
+<div class="grain"></div>
+<div id="cursor" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -9" result="goo"/><feBlend in="SourceGraphic" in2="goo"/></filter></defs></svg>
+
+<header id="nav">
+  <div class="nav-in">
+    <a href="index.html" class="brand">Benefactor</a>
+    <nav class="nav-links">
+      <a href="index.html">Индивидуальная работа</a>
+      <a href="academy.html">Обучение</a>
+      <a href="donat.html" class="active">Поддержать</a>
+      <a href="index.html#contacts">Контакты</a>
+      <a href="index.html#book" class="btn btn-primary nav-cta">Записаться</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="wrap dhero">
+    <span class="eyebrow rv">Поддержка проекта</span>
+    <h1 class="rv d1">Поддержать <em>Бенефактор</em></h1>
+    <p class="rv d2">Если система «Бенефактор», видео и бесплатные материалы Игоря были вам полезны — вы можете отблагодарить автора любым удобным способом. Любая сумма помогает продолжать делиться знанием и развивать проект.</p>
+  </section>
+
+  <section class="wrap pay-sec">
+    <div class="pay-grid">
+
+      <div class="pay-card rv">
+        <span class="tag">Карта · Россия</span>
+        <h3>Сбербанк</h3>
+        <p class="meta">Игорь Стрельников · рубли ₽</p>
+        <div class="pay-vals">
+          <div class="pay-val"><code>2202 2061 5787 5902</code><button class="copy" type="button" data-copy="2202206157875902"><span class="ct">Копировать</span></button></div>
+        </div>
+      </div>
+
+      <div class="pay-card rv">
+        <span class="tag">Международный перевод</span>
+        <h3>Freedom Finance · Казахстан</h3>
+        <p class="meta">Igor Strelnikov · USD · EUR · RUB · KZT</p>
+        <div class="pay-vals">
+          <div class="pay-val"><code>5269 8800 0762 3788</code><button class="copy" type="button" data-copy="5269880007623788"><span class="ct">Копировать</span></button></div>
+        </div>
+      </div>
+
+      <div class="pay-card rv">
+        <span class="tag">PayPal</span>
+        <h3>Онлайн-перевод</h3>
+        <p class="meta">Игорь Стрельников</p>
+        <div class="pay-vals">
+          <div class="pay-val"><code>a9270888860@icloud.com</code><button class="copy" type="button" data-copy="a9270888860@icloud.com"><span class="ct">Копировать</span></button></div>
+          <div class="pay-val"><code>@igorStrelnikov465</code><button class="copy" type="button" data-copy="@igorStrelnikov465"><span class="ct">Копировать</span></button></div>
+        </div>
+      </div>
+
+      <div class="pay-card rv">
+        <span class="tag">Криптовалюта · USDT</span>
+        <h3>Сеть TRC-20</h3>
+        <p class="meta">Tether · USDT</p>
+        <div class="pay-vals">
+          <div class="pay-val"><code>TSq5G5Ry8cypncE3DBNHxZbgKJ2cAVZVQk</code><button class="copy" type="button" data-copy="TSq5G5Ry8cypncE3DBNHxZbgKJ2cAVZVQk"><span class="ct">Копировать</span></button></div>
+        </div>
+      </div>
+
+      <div class="pay-card span2 rv">
+        <span class="tag">Криптовалюта · Bitcoin</span>
+        <h3>Сеть BTC</h3>
+        <p class="meta">Bitcoin</p>
+        <div class="pay-vals">
+          <div class="pay-val"><code>17P5xYdd1wVynpnKDDTArwABpz7MpCXCcz</code><button class="copy" type="button" data-copy="17P5xYdd1wVynpnKDDTArwABpz7MpCXCcz"><span class="ct">Копировать</span></button></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="req rv">
+      <b>ИП Стрельников Игорь Константинович</b> · ИНН 027805204281<br>
+      По вопросам: <a href="mailto:2578577@gmail.com" style="color:var(--violet-2)">2578577@gmail.com</a>
+    </div>
+    <p class="thanks">Спасибо, что цените эту работу. 🙏</p>
+  </section>
+</main>
+
+<footer id="contacts">
+  <div class="wrap">
+    <div class="foot">
+      <div><a href="index.html" class="brand">Benefactor</a><p style="color:var(--ink-d);font-size:14px;margin-top:14px;max-width:34ch">Работа с подсознанием, гипноз и нейрокоучинг. Игорь Стрельников.</p></div>
+      <div class="foot-cols">
+        <div class="col"><h5>Разделы</h5><a href="index.html">Индивидуальная работа</a><a href="academy.html">Обучение</a><a href="donat.html">Поддержать</a></div>
+        <div class="col"><h5>Контакты</h5><a href="mailto:2578577@gmail.com">2578577@gmail.com</a><p>Пн–Сб · 8:00–20:00</p><a href="index.html#book">Записаться на диагностику</a></div>
+      </div>
+    </div>
+    <div class="legal"><span>© 2026 Игорь Стрельников · Система «Бенефактор»</span><span>Все переводы — добровольная поддержка автора</span></div>
+  </div>
+</footer>
+
+<script>
+/* nav bg on scroll */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10),{passive:true});
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.14});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* copy to clipboard */
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+  const val=b.getAttribute('data-copy'), t=b.querySelector('.ct');
+  navigator.clipboard.writeText(val).then(()=>{ const o=t.textContent; b.classList.add('copied'); t.textContent='Скопировано ✓'; setTimeout(()=>{t.textContent=o;b.classList.remove('copied');},1400); })
+  .catch(()=>{ const o=t.textContent; t.textContent='Выделите вручную'; setTimeout(()=>t.textContent=o,1400); });
+}));
+
+/* plexus background */
+(function(){
+  const cvs=document.getElementById('plexus'); const ctx=cvs.getContext('2d'); let W,H,pts;
+  const N=Math.min(90,Math.floor(innerWidth/18)); const R=140, R2=R*R;
+  function init(){W=cvs.width=innerWidth;H=cvs.height=innerHeight;pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28}));}
+  init(); let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(init,200);});
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(document.hidden) return;
+    ctx.clearRect(0,0,W,H);
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;}
+    for(let i=0;i<N;i++){const a=pts[i];for(let j=i+1;j<N;j++){const b=pts[j];const dx=a.x-b.x,dy=a.y-b.y;const d2=dx*dx+dy*dy;
+      if(d2<R2){ctx.strokeStyle='rgba(163,124,248,'+((1-Math.sqrt(d2)/R)*0.24)+')';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}}
+    ctx.fillStyle='rgba(200,172,255,.62)';
+    for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,1.6,0,7);ctx.fill();}
+  })();
+})();
+
+/* blob cursor */
+const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+if(fine){
+  const cursor=document.getElementById('cursor');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const blobs=[...cursor.querySelectorAll('.blob')];
+  const cfg=[{m:1,t:1200,f:40},{m:14,t:180,f:44},{m:14,t:180,f:44}];
+  let mx=innerWidth/2,my=innerHeight/2;
+  const st=blobs.map(()=>({x:mx,y:my,vx:0,vy:0}));
+  let lastMove=performance.now(), prev=lastMove;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;lastMove=performance.now();cursor.classList.remove('hide');},{passive:true});
+  document.addEventListener('mouseleave',e=>{if(!e.relatedTarget&&!e.toElement)cursor.classList.add('hide');});
+  document.addEventListener('mouseenter',()=>cursor.classList.remove('hide'));
+  addEventListener('blur',()=>cursor.classList.add('hide'));
+  (function render(now){
+    requestAnimationFrame(render);
+    let dt=(now-prev)/1000; prev=now; if(dt>0.05) dt=0.05;
+    const tsec=now/1000;
+    const idle=reduce?0:Math.max(0,Math.min(1,(now-lastMove-350)/500));
+    const lx=mx+Math.sin(tsec*0.7)*3*idle, ly=my+Math.cos(tsec*0.52)*3*idle;
+    const px=st.map(b=>b.x), py=st.map(b=>b.y);
+    const sub=3, h=dt/sub;
+    for(let s=0;s<sub;s++){
+      for(let i=0;i<blobs.length;i++){
+        const tx=i===0?lx:px[i-1], ty=i===0?ly:py[i-1];
+        const c=cfg[i], b=st[i];
+        b.vx+=((c.t*(tx-b.x)-c.f*b.vx)/c.m)*h; b.x+=b.vx*h;
+        b.vy+=((c.t*(ty-b.y)-c.f*b.vy)/c.m)*h; b.y+=b.vy*h;
+      }
+    }
+    const maxLag=24;
+    for(let i=1;i<blobs.length;i++){
+      const b=st[i],p=st[i-1],dx=b.x-p.x,dy=b.y-p.y,d=Math.hypot(dx,dy);
+      if(d>maxLag){const k=maxLag/d;b.x=p.x+dx*k;b.y=p.y+dy*k;b.vx*=0.5;b.vy*=0.5;}
+    }
+    cursor.style.transform=`translate3d(${(st[0].x-130).toFixed(1)}px,${(st[0].y-130).toFixed(1)}px,0)`;
+    for(let i=0;i<blobs.length;i++)
+      blobs[i].style.transform=`translate3d(${(st[i].x-st[0].x+130).toFixed(1)}px,${(st[i].y-st[0].y+130).toFixed(1)}px,0) translate3d(-50%,-50%,0)`;
+  })(performance.now());
+}
+</script>
+</body>
+</html>

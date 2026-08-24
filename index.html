@@ -62,6 +62,9 @@
   .nav-links a{font-size:14.5px;color:var(--ink-d);transition:color .25s;font-weight:500}
   .nav-links a:hover{color:var(--ink)}
   .nav-cta{padding:11px 20px;font-size:14px !important}
+  .nav-links a:not(.nav-cta){position:relative}
+  .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--violet),var(--magenta));transform:scaleX(0);transform-origin:left;transition:transform .28s var(--ease)}
+  .nav-links a:not(.nav-cta):hover::after{transform:scaleX(1)}
   @media(max-width:1000px){.nav-links a:not(.nav-cta){display:none}}
 
   /* HERO */

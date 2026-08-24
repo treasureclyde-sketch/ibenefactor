@@ -53,6 +53,9 @@
   .nav-links a{font-size:14.5px;color:var(--ink-d);transition:color .25s;font-weight:500}
   .nav-links a:hover,.nav-links a.active{color:var(--ink)}
   .nav-cta{padding:11px 20px;font-size:14px !important;color:#fff}
+  .nav-links a:not(.nav-cta){position:relative}
+  .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--violet),var(--magenta));transform:scaleX(0);transform-origin:left;transition:transform .28s var(--ease)}
+  .nav-links a:not(.nav-cta):hover::after,.nav-links a.active:not(.nav-cta)::after{transform:scaleX(1)}
   @media(max-width:1000px){.nav-links a:not(.nav-cta){display:none}}
 
   .dhero{padding:150px 0 40px;text-align:center}
@@ -122,6 +125,13 @@
   <section class="wrap pay-sec">
     <div class="pay-grid">
 
+      <div class="pay-card span2 rv" style="text-align:center">
+        <span class="tag">Проще всего · картой онлайн</span>
+        <h3>CloudTips</h3>
+        <p class="meta">Любая карта · разовый перевод в пару кликов, без реквизитов</p>
+        <a href="https://pay.cloudtips.ru/p/d3c4d8d0" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:2px">Перейти в CloudTips <span class="arw">→</span></a>
+      </div>
+
       <div class="pay-card rv">
         <span class="tag">Карта · Россия</span>
         <h3>Сбербанк</h3>
@@ -171,7 +181,8 @@
     </div>
 
     <div class="req rv">
-      <b>ИП Стрельников Игорь Константинович</b> · ИНН 027805204281<br>
+      <b>ИП Стрельников Игорь Константинович</b><br>
+      ИНН 027805204281 · ОГРНИП 324028000227556<br>
       По вопросам: <a href="mailto:2578577@gmail.com" style="color:var(--violet-2)">2578577@gmail.com</a>
     </div>
     <p class="thanks">Спасибо, что цените эту работу. 🙏</p>

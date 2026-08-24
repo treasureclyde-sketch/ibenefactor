@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Обучение · Benefactor Academy — Игорь Стрельников</title>
-<meta name="description" content="Станьте нейрокоучем за 3 месяца по авторской системе «Бенефактор». Три уровня обучения: Специалист, Эксперт, VIP. Метод, практика и продажи.">
+<meta name="description" content="Станьте нейрокоучем за 3 месяца по авторской запатентованной системе «Бенефактор». Метод, живая практика и продажи. Три уровня: Специалист, Эксперт, VIP.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%238B5CF6'/%3E%3Ctext x='50' y='70' font-size='62' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3E%D0%91%3C/text%3E%3C/svg%3E">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
@@ -53,6 +53,9 @@
   .nav-links a{font-size:14.5px;color:var(--ink-d);transition:color .25s;font-weight:500}
   .nav-links a:hover,.nav-links a.active{color:var(--ink)}
   .nav-cta{padding:11px 20px;font-size:14px !important;color:#fff}
+  .nav-links a:not(.nav-cta){position:relative}
+  .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--violet),var(--magenta));transform:scaleX(0);transform-origin:left;transition:transform .28s var(--ease)}
+  .nav-links a:not(.nav-cta):hover::after,.nav-links a.active:not(.nav-cta)::after{transform:scaleX(1)}
   @media(max-width:1000px){.nav-links a:not(.nav-cta){display:none}}
 
   .ahero{padding:150px 0 60px;text-align:center}
@@ -61,18 +64,41 @@
   .ahero h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
   .ahero p{max-width:52ch;margin:22px auto 0;color:var(--ink-d);font-size:clamp(16px,2vw,19px)}
   .cta{display:flex;gap:14px;justify-content:center;margin-top:34px;flex-wrap:wrap}
+  .ahero .mini{margin-top:20px;font-size:13px;color:var(--ink-dd)}
 
-  section.blk{padding:96px 0;position:relative}
-  .sec-head{max-width:720px;margin:0 auto 50px;text-align:center}
+  section.blk{padding:92px 0;position:relative}
+  .sec-head{max-width:760px;margin:0 auto 50px;text-align:center}
   .sec-head h2{font-family:'Manrope';font-weight:800;font-size:clamp(28px,4.4vw,50px);line-height:1.05;margin-top:14px;letter-spacing:-.02em}
   .sec-head p{margin-top:14px;color:var(--ink-d);font-size:17px}
 
+  /* method / features */
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.feat-grid{grid-template-columns:1fr}}
+  .fcard{padding:26px;border-radius:18px;border:1px solid var(--line);background:rgba(18,9,32,.3);transition:transform .4s var(--ease),border-color .4s}
+  .fcard:hover{transform:translateY(-5px);border-color:rgba(167,139,250,.45)}
+  .fcard h4{font-family:'Manrope';font-weight:800;font-size:17px;margin-bottom:9px}
+  .fcard p{font-size:14px;color:var(--ink-d)}
+  .patent{margin:26px auto 0;max-width:560px;text-align:center;padding:16px 22px;border-radius:14px;border:1px solid rgba(217,70,239,.3);background:rgba(217,70,239,.08);font-family:'Manrope';font-weight:700;font-size:15px}
+
+  /* learn */
   .learn{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:920px;margin:0 auto}
   @media(max-width:760px){.learn{grid-template-columns:1fr}}
   .litem{display:flex;gap:14px;align-items:flex-start;padding:20px 22px;border-radius:16px;border:1px solid var(--line);background:rgba(18,9,32,.3)}
   .litem .ic{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--violet),var(--magenta));font-weight:800;color:#fff;font-family:'Manrope';font-size:15px}
   .litem p{font-size:14.5px;color:var(--ink-d)}.litem p b{color:var(--ink);font-weight:700;display:block;margin-bottom:3px;font-family:'Manrope'}
 
+  /* audience */
+  .aud-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:980px;margin:0 auto}
+  @media(max-width:760px){.aud-grid{grid-template-columns:1fr}}
+  .aud{padding:26px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(139,92,246,.1),rgba(18,9,32,.32))}
+  .aud .who2{font-family:'Manrope';font-weight:800;font-size:18px;margin-bottom:9px;color:var(--violet-2)}
+  .aud p{font-size:14px;color:var(--ink-d)}
+  .tg-list{max-width:760px;margin:44px auto 0;list-style:none;display:flex;flex-direction:column;gap:12px}
+  .tg-list .tt{font-family:'Manrope';font-weight:800;font-size:18px;color:var(--ink);text-align:center;margin-bottom:6px}
+  .tg-list li{position:relative;padding-left:30px;font-size:15px;color:var(--ink-d)}
+  .tg-list li.pt::before{content:"→";position:absolute;left:0;top:0;color:var(--magenta);font-weight:800}
+
+  /* tariffs */
   .tariffs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
   @media(max-width:900px){.tariffs{grid-template-columns:1fr;max-width:460px;margin:0 auto}}
   .tcard{position:relative;padding:32px 26px;border-radius:22px;border:1px solid rgba(242,236,251,.14);background:linear-gradient(160deg,rgba(139,92,246,.1),rgba(18,9,32,.34));backdrop-filter:blur(8px);transition:transform .4s var(--ease),border-color .4s}
@@ -80,24 +106,51 @@
   .tcard.pop{border-color:rgba(217,70,239,.5);box-shadow:0 30px 70px -30px rgba(217,70,239,.4)}
   .tcard .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#fff;background:linear-gradient(105deg,var(--violet),var(--magenta));padding:6px 14px;border-radius:999px;white-space:nowrap}
   .tcard h3{font-family:'Manrope';font-weight:800;font-size:24px;margin-bottom:4px}
-  .tcard .lvl{font-size:12px;color:var(--violet-2);text-transform:uppercase;letter-spacing:.14em;font-weight:600;margin-bottom:20px}
+  .tcard .lvl{font-size:12px;color:var(--violet-2);text-transform:uppercase;letter-spacing:.14em;font-weight:600;margin-bottom:14px}
+  .tcard .for{font-size:13.5px;color:var(--ink-dd);margin-bottom:18px;line-height:1.5}
   .tcard ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px}
   .tcard li{font-size:14px;color:var(--ink-d);padding-left:26px;position:relative;line-height:1.5}
   .tcard li::before{content:"✓";position:absolute;left:0;top:0;color:var(--violet-2);font-weight:800}
+  .tcard li b{color:var(--ink);font-weight:600}
   .tcard .btn{width:100%;justify-content:center}
   .tnote{text-align:center;margin-top:28px;color:var(--ink-dd);font-size:14px}
 
+  /* reviews */
+  .revs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:900px){.revs{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.revs{grid-template-columns:1fr}}
+  .rev{padding:24px 22px;border-radius:16px;border:1px solid var(--line);background:rgba(18,9,32,.3);transition:transform .4s var(--ease),border-color .4s}
+  .rev:hover{transform:translateY(-4px);border-color:rgba(167,139,250,.4)}
+  .rev .stars{color:#F0ABFC;font-size:13px;letter-spacing:2px;margin-bottom:12px}
+  .rev q{font-family:'Manrope';font-weight:700;font-size:15px;display:block;margin-bottom:12px;line-height:1.35}
+  .rev q::before{content:"«"}.rev q::after{content:"»"}
+  .rev .rn{font-size:13px;color:var(--ink-dd)}
+  .revmore{text-align:center;margin-top:30px}
+
+  /* authors */
   .authors{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:940px;margin:0 auto}
   @media(max-width:760px){.authors{grid-template-columns:1fr}}
   .acard{padding:30px;border-radius:20px;border:1px solid var(--line);background:rgba(18,9,32,.32)}
   .acard .an{font-family:'Manrope';font-weight:800;font-size:21px}
   .acard .ar{color:var(--violet-2);font-size:13px;margin:5px 0 14px;font-weight:600}
   .acard p{font-size:14.5px;color:var(--ink-d)}
+  .amiss{max-width:820px;margin:30px auto 0;text-align:center;color:var(--ink-d);font-size:15.5px;font-style:italic;line-height:1.7}
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;max-width:940px;margin:0 auto}
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;max-width:960px;margin:0 auto}
   @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
-  .stat .num{font-family:'Manrope';font-weight:800;font-size:clamp(30px,4vw,46px);color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text;line-height:1}
+  .stat .num{font-family:'Manrope';font-weight:800;font-size:clamp(28px,4vw,44px);color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text;line-height:1}
   .stat .lab{font-size:13.5px;color:var(--ink-d);margin-top:8px}
+
+  /* faq */
+  .faq{max-width:840px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .qa{border:1px solid var(--line);border-radius:16px;background:rgba(18,9,32,.3);overflow:hidden;transition:border-color .3s}
+  .qa.open{border-color:rgba(167,139,250,.4)}
+  .qa .q{width:100%;text-align:left;background:none;border:none;color:var(--ink);font-family:'Manrope';font-weight:700;font-size:16px;padding:20px 22px;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center}
+  .qa .q .qi{flex:none;font-size:22px;line-height:1;transition:transform .3s var(--ease);color:var(--violet-2)}
+  .qa.open .q .qi{transform:rotate(45deg)}
+  .qa .a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease)}
+  .qa .a p{padding:0 22px 20px;font-size:14.5px;color:var(--ink-d)}
 
   .finale2{text-align:center;padding:110px 0}
   .finale2 h2{font-family:'Manrope';font-weight:800;font-size:clamp(28px,4.6vw,52px);letter-spacing:-.02em;line-height:1.06;max-width:20ch;margin:0 auto}
@@ -107,8 +160,9 @@
   .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}.foot .brand{font-size:24px}
   .foot .col h5{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dd);margin-bottom:14px}
   .foot .col a,.foot .col p{display:block;color:var(--ink-d);font-size:14.5px;margin-bottom:9px;transition:color .25s}
-  .foot .col a:hover{color:var(--ink)}.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
+  .foot .col a:hover{color:var(--ink)}.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
   .legal{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-dd)}
+  .legal .req2{max-width:60ch}
 
   .rv{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
   .rv.in{opacity:1;transform:none}
@@ -128,9 +182,10 @@
     <a href="index.html" class="brand">Benefactor</a>
     <nav class="nav-links">
       <a href="index.html">Индивидуальная работа</a>
-      <a href="academy.html" class="active">Обучение</a>
+      <a href="#method">Метод</a>
+      <a href="#tariffs">Тарифы</a>
+      <a href="#faq">Вопросы</a>
       <a href="donat.html">Поддержать</a>
-      <a href="#contacts">Контакты</a>
       <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-primary nav-cta">Записаться</a>
     </nav>
   </div>
@@ -141,10 +196,27 @@
   <section class="wrap ahero">
     <span class="eyebrow rv">Benefactor Academy</span>
     <h1 class="rv d1">Станьте <em>нейрокоучем</em> за 3 месяца</h1>
-    <p class="rv d2">И зарабатывайте от 5 000 $ в месяц удалённо. Обучение от Игоря Стрельникова и Максима Кучерова — авторский метод, живая практика и продажи.</p>
+    <p class="rv d2">И зарабатывайте от 5 000 $ в месяц удалённо. Обучение от Игоря Стрельникова и Максима Кучерова с акцентом на профессионализм и продажи.</p>
     <div class="cta rv d3">
       <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-primary">Записаться на обучение <span class="arw">→</span></a>
       <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-ghost">Бесплатная консультация</a>
+    </div>
+    <p class="mini rv d3">Наставники с опытом 5+ лет · много практики · проработка своих запросов</p>
+  </section>
+
+  <!-- МЕТОД / ОТЛИЧИЯ -->
+  <section class="blk" id="method">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Метод</span><h2 class="rv d1">Как это работает и чем отличается</h2><p class="rv d2">Методика эффективнее обычного коучинга и гипноза: эффект уже с первой сессии, за один сеанс отключается несколько чувств.</p></div>
+      <div class="feat-grid">
+        <div class="fcard rv"><h4>Это не гипноз</h4><p>Методика комфортно воспринимается клиентами — без транса и страха потерять контроль.</p></div>
+        <div class="fcard rv"><h4>Доступ к подсознанию</h4><p>Появляется доступ к подсознанию, где вы обнаруживаете скрытые страхи и глубинные запросы клиента.</p></div>
+        <div class="fcard rv"><h4>Разделение событий и чувств</h4><p>Отделяем факт от осознания и эмоций к нему — видно, как убеждения управляют поведением.</p></div>
+        <div class="fcard rv"><h4>Раз и навсегда</h4><p>Прорабатываем всю нейронную цепь проблемы и убираем её насовсем, а не маскируем.</p></div>
+        <div class="fcard rv"><h4>Корень, а не симптом</h4><p>Работаем с причиной, а не бесконечно гасим поверхностные следствия.</p></div>
+        <div class="fcard rv"><h4>Фокус на будущем</h4><p>В отличие от психотерапии, нейрокоучинг ведёт к целям и движению вперёд.</p></div>
+      </div>
+      <div class="patent rv">Система «Бенефактор» — запатентована</div>
     </div>
   </section>
 
@@ -153,13 +225,65 @@
     <div class="wrap">
       <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Программа</span><h2 class="rv d1">Чему вы научитесь</h2><p class="rv d2">Не только методу — но и тому, как превратить его в удалённую профессию с доходом.</p></div>
       <div class="learn">
-        <div class="litem rv"><div class="ic">1</div><p><b>Авторский метод «Бенефактор»</b>Работа с подсознанием, гипноз и запатентованная система изменений.</p></div>
-        <div class="litem rv"><div class="ic">2</div><p><b>Связь с Высшим Я</b>Доступ к сверхсознанию и глубинным структурам психики клиента.</p></div>
+        <div class="litem rv"><div class="ic">1</div><p><b>Авторский метод «Бенефактор»</b>Чёткий инструмент глубокой работы с подсознанием — до корневых причин, а не следствий.</p></div>
+        <div class="litem rv"><div class="ic">2</div><p><b>Связь с «Высшим Я»</b>Проводите клиента к его источнику мудрости и устойчивости — где скрыты силы и ответы.</p></div>
         <div class="litem rv"><div class="ic">3</div><p><b>Живая практика</b>Реальные сессии с участниками и личный разбор от наставников.</p></div>
-        <div class="litem rv"><div class="ic">4</div><p><b>Проработка себя</b>Параллельно с обучением закрываете собственные запросы.</p></div>
-        <div class="litem rv"><div class="ic">5</div><p><b>Продажи дорогих пакетов</b>Техники, которые закрывают 9 клиентов из 10.</p></div>
-        <div class="litem rv"><div class="ic">6</div><p><b>Нейро-воронки и ИИ</b>Маркетинг и генерация контента для соцсетей с помощью ИИ.</p></div>
+        <div class="litem rv"><div class="ic">4</div><p><b>Проработка себя</b>Параллельно с обучением закрываете собственные запросы и барьеры.</p></div>
+        <div class="litem rv"><div class="ic">5</div><p><b>Продажи без впаривания</b>Структура консультации, после которой 9 из 10 клиентов сами хотят купить.</p></div>
+        <div class="litem rv"><div class="ic">6</div><p><b>Нейро-воронки и ИИ</b>Экологичный маркетинг и генерация контента для соцсетей с помощью ИИ.</p></div>
       </div>
+    </div>
+  </section>
+
+  <!-- КОМУ ПОДХОДИТ -->
+  <section class="blk" id="whom">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Кому подходит</span><h2 class="rv d1">Справится даже новичок</h2><p class="rv d2">Главное — ваше желание. Программа выстроена под любой стартовый уровень.</p></div>
+      <div class="aud-grid">
+        <div class="aud rv"><div class="who2">Совсем новичок</div><p>Ничего не знаете о нейрокоучинге, но хотите освоить, быстро выйти на заработок и проработать свои проблемы — дадим все инструменты для твёрдого навыка и стабильных продаж.</p></div>
+        <div class="aud rv d1"><div class="who2">Начинающий</div><p>Уже прошли какие-то курсы, но не понимаете, что делать дальше, где искать клиентов и как продавать — выстроим фундамент в профессионализме, личном бренде и продажах.</p></div>
+        <div class="aud rv"><div class="who2">Опытный</div><p>Хотите больше уверенности как эксперт, углубить знания и вырасти в доходе, видя результат каждой сессии — усилите экспертность и увеличите прибыль.</p></div>
+        <div class="aud rv d1"><div class="who2">Из смежных областей</div><p>Есть опыт в духовной работе — расширите зону компетенций и уровень продаж, предлагая более комплексную услугу.</p></div>
+      </div>
+      <ul class="tg-list">
+        <li class="tt rv">Программа для вас, если вы хотите:</li>
+        <li class="pt rv">эффективно помогать людям и исцелять раз и навсегда;</li>
+        <li class="pt rv">получать хороший доход, оказывая помощь;</li>
+        <li class="pt rv">узнавать новое о мире, о себе и о том, что вокруг;</li>
+        <li class="pt rv">обладать знаниями, недоступными 99% людей на планете;</li>
+        <li class="pt rv">лучше понять себя и разрешить внутренние противоречия.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- РЕЗУЛЬТАТЫ -->
+  <section class="blk" id="results">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Результаты</span><h2 class="rv d1">Почему это работает</h2></div>
+      <div class="stats">
+        <div class="stat rv"><div class="num">9/10</div><div class="lab">клиентов покупают после диагностики</div></div>
+        <div class="stat rv d1"><div class="num">70%</div><div class="lab">продлевают сессии</div></div>
+        <div class="stat rv d2"><div class="num">5+</div><div class="lab">лет опыта у авторов</div></div>
+        <div class="stat rv d3"><div class="num">3 мес</div><div class="lab">до новой профессии</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ОТЗЫВЫ -->
+  <section class="blk" id="reviews">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Отзывы</span><h2 class="rv d1">Результаты учеников</h2></div>
+      <div class="revs">
+        <div class="rev rv"><div class="stars">★★★★★</div><q>Система, которая точно работает!</q><div class="rn">Алексей</div></div>
+        <div class="rev rv"><div class="stars">★★★★★</div><q>Мне повезло попасть сюда!</q><div class="rn">Юлия</div></div>
+        <div class="rev rv"><div class="stars">★★★★★</div><q>Система, которой пользуются даже опытные мастера!</q><div class="rn">Елена</div></div>
+        <div class="rev rv"><div class="stars">★★★★★</div><q>Результат через месяц!</q><div class="rn">Александр</div></div>
+        <div class="rev rv"><div class="stars">★★★★★</div><q>10 000 $ через 2 недели</q><div class="rn">Евгения</div></div>
+        <div class="rev rv"><div class="stars">★★★★★</div><q>Я нашёл то, что искал!</q><div class="rn">Андрей</div></div>
+        <div class="rev rv"><div class="stars">★★★★★</div><q>Путь к радости и гармонии!</q><div class="rn">Мария</div></div>
+        <div class="rev rv"><div class="stars">★★★★★</div><q>Результат, который меня поразил!</q><div class="rn">Владислав</div></div>
+      </div>
+      <div class="revmore rv"><a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-ghost">Больше отзывов в Telegram</a></div>
     </div>
   </section>
 
@@ -172,12 +296,13 @@
         <div class="tcard rv">
           <div class="lvl">Уровень 1</div>
           <h3>Специалист</h3>
+          <p class="for">Для тех, кто готов начать трансформацию и получить работающий инструмент помощи клиентам.</p>
           <ul>
-            <li>Обучение методу «Бенефактор»</li>
-            <li>Инструкция по связи с Высшим Я</li>
-            <li>Понимание глубинных структур психики</li>
-            <li>Практические тренировочные сессии</li>
-            <li>База, чтобы начать и выйти на первый доход</li>
+            <li><b>Обучение методу «Бенефактор»</b> — глубокая работа с подсознанием, до корневых причин</li>
+            <li>Соединение клиента с «Высшим Я»</li>
+            <li>Понимание устройства «Высшего Я»</li>
+            <li>Доступ к практическим обучающим сессиям</li>
+            <li>Прочный фундамент для работы с первыми клиентами</li>
           </ul>
           <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-ghost">Записаться</a>
         </div>
@@ -186,14 +311,15 @@
           <div class="badge">Популярный</div>
           <div class="lvl">Уровень 2</div>
           <h3>Эксперт</h3>
+          <p class="for">Для тех, кто хочет настоящих результатов и серьёзного профессионального роста.</p>
           <ul>
-            <li>Всё из тарифа «Специалист»</li>
-            <li>Доступ в группу на год</li>
-            <li>5 групповых практик с личным разбором</li>
-            <li>Еженедельные live-вебинары</li>
-            <li>Продажи пакетов: 9 клиентов из 10</li>
-            <li>Диагностики: отношения, деньги, выгорание</li>
-            <li>Нейро-воронки и ИИ-инструменты</li>
+            <li>Всё из тарифа «Специалист», плюс:</li>
+            <li><b>Годовой доступ в группу</b> (ценность 10 000 $)</li>
+            <li>5 групповых тренировок под наблюдением Игоря и Максима</li>
+            <li>Еженедельные живые вебинары</li>
+            <li>Продажи на высокие чеки: 9 из 10 клиентов</li>
+            <li>Узкопрофильная диагностика: отношения, деньги, выгорание</li>
+            <li>Маркетинг через нейроворонки и ИИ</li>
           </ul>
           <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-primary">Записаться <span class="arw">→</span></a>
         </div>
@@ -201,11 +327,11 @@
         <div class="tcard rv d2">
           <div class="lvl">Уровень 3</div>
           <h3>VIP</h3>
+          <p class="for">Индивидуальное сопровождение для самых амбициозных.</p>
           <ul>
             <li>Всё из тарифа «Эксперт»</li>
-            <li>Личные сессии-наставничество</li>
-            <li>Работа напрямую с Игорем или Максимом</li>
-            <li>Формируется по согласованию</li>
+            <li>Персональный коучинг и сессии с Игорем или Максимом</li>
+            <li>Запись только по предварительной консультации</li>
           </ul>
           <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-ghost">Обсудить</a>
         </div>
@@ -223,26 +349,29 @@
         <div class="acard rv">
           <div class="an">Игорь Стрельников</div>
           <div class="ar">Создатель системы «Бенефактор»</div>
-          <p>5+ лет практики, обучался у мастеров по всему миру и разработал авторскую методологию работы с подсознанием, гипнозом и Высшим Я.</p>
+          <p>5+ лет практики. Получал знания от мастеров по всему миру, проходя посвящения в недоступные обывателю области, и создал авторскую методологию работы с подсознанием, гипнозом и «Высшим Я».</p>
         </div>
         <div class="acard rv d1">
           <div class="an">Максим Кучеров</div>
           <div class="ar">Сооснователь · продажи и продвижение</div>
-          <p>Эксперт по продажам и упаковке. Набрал 20 000 подписчиков за 2 месяца, применяя метод — и учит студентов делать так же.</p>
+          <p>Эксперт по продажам и упаковке. По методике «Бенефактор» набрал 20 000 подписчиков за 2 месяца — и учит студентов выстраивать личный бренд и стабильные продажи.</p>
         </div>
       </div>
+      <p class="amiss rv">«Мы основали эту онлайн-школу, чтобы помочь людям перейти на другой уровень восприятия жизни, выйти из состояния жертвы и посмотреть на жизнь по-новому».</p>
     </div>
   </section>
 
-  <!-- РЕЗУЛЬТАТЫ -->
-  <section class="blk" id="results">
+  <!-- FAQ -->
+  <section class="blk" id="faq">
     <div class="wrap">
-      <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Результаты</span><h2 class="rv d1">Почему это работает</h2></div>
-      <div class="stats">
-        <div class="stat rv"><div class="num">1</div><div class="lab">результат уже с первой сессии</div></div>
-        <div class="stat rv d1"><div class="num">70%</div><div class="lab">клиентов продолжают работу</div></div>
-        <div class="stat rv d2"><div class="num">5+</div><div class="lab">лет опыта у авторов</div></div>
-        <div class="stat rv d3"><div class="num">3 мес</div><div class="lab">до новой профессии</div></div>
+      <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Вопросы</span><h2 class="rv d1">Отвечаем на частые вопросы</h2></div>
+      <div class="faq">
+        <div class="qa rv"><button class="q" type="button">А что если у меня не получится?<span class="qi">+</span></button><div class="a"><p>Страх, что «не получится», нормален — он есть почти у каждого на пути перемен. Поэтому программа построена так, чтобы вы не оставались с ним один на один: пошаговая система, постоянная поддержка наставников и сообщества, обучение в вашем темпе и отслеживание прогресса. Главное — продолжать двигаться.</p></div></div>
+        <div class="qa rv"><button class="q" type="button">Будет ли практика?<span class="qi">+</span></button><div class="a"><p>Да, это один из ключевых элементов. Много практических занятий: живые демонстрации, самостоятельные задания, сессии друг с другом и обратная связь кураторов. Настоящее понимание и уверенность приходят только через действие.</p></div></div>
+        <div class="qa rv"><button class="q" type="button">Будут ли индивидуальные разборы?<span class="qi">+</span></button><div class="a"><p>Да, обязательно. Кроме групповой работы — полноценная личная обратная связь: живые сессии, чат поддержки, супервизии и мастермайнд-группы, где можно задать вопрос и получить подробный ответ.</p></div></div>
+        <div class="qa rv"><button class="q" type="button">Не вернутся ли негативные чувства обратно?<span class="qi">+</span></button><div class="a"><p>Нет, откатов в классическом смысле «возвращения» чувства не бывает, если работа проведена правильно. Метод работает по модели «слоёного пирога»: мы убираем слои, а не маскируем чувства; если всплывает новый слой — его прорабатывают.</p></div></div>
+        <div class="qa rv"><button class="q" type="button">Метод Benefactor и «Высшее Я» — это эзотерика?<span class="qi">+</span></button><div class="a"><p>«Высшее Я» — без эзотерики. Это опора на трансперсональную психологию: доступ к внутреннему источнику устойчивости, творческой энергии и ответов. На практике мы сочетаем научный и глубинный подход — через перепрограммирование и внутренний диалог.</p></div></div>
+        <div class="qa rv"><button class="q" type="button">Я уже проходил другие методики, и это мне не помогло. Чем вы отличаетесь?<span class="qi">+</span></button><div class="a"><p>Частый вопрос, и мы ему рады. Большинство подходов снимают симптом — мы работаем с корнем проблемы, оттуда и скорость, и глубина результата. Ваш прежний опыт не потерян: он подготовил вас к настоящей трансформации, а не к очередному изучению теории.</p></div></div>
       </div>
     </div>
   </section>
@@ -252,10 +381,10 @@
     <div class="wrap">
       <span class="eyebrow rv" style="justify-content:center">Первый шаг</span>
       <h2 class="rv d1" style="margin-top:14px">Готовы освоить профессию, которая меняет жизни?</h2>
-      <p class="rv d2">Запишитесь на бесплатную консультацию — расскажем про уровни, формат и как быстро выйти на доход.</p>
+      <p class="rv d2">Если есть вопросы или сомнения — запишитесь на бесплатную консультацию. Расскажем про уровни, формат и как быстро выйти на доход.</p>
       <div class="cta rv d3">
         <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-primary">Записаться на обучение <span class="arw">→</span></a>
-        <a href="mailto:2578577@gmail.com" class="btn btn-ghost">Написать на почту</a>
+        <a href="https://wa.me/77053482902" target="_blank" rel="noopener" class="btn btn-ghost">Написать в WhatsApp</a>
       </div>
     </div>
   </section>
@@ -266,11 +395,14 @@
     <div class="foot">
       <div><a href="index.html" class="brand">Benefactor</a><p style="color:var(--ink-d);font-size:14px;margin-top:14px;max-width:34ch">Benefactor Academy — обучение нейрокоучингу по авторской системе «Бенефактор».</p></div>
       <div class="foot-cols">
-        <div class="col"><h5>Разделы</h5><a href="index.html">Индивидуальная работа</a><a href="academy.html">Обучение</a><a href="donat.html">Поддержать</a></div>
-        <div class="col"><h5>Контакты</h5><a href="https://t.me/benefactoracademy" target="_blank" rel="noopener">Telegram · @benefactoracademy</a><a href="mailto:2578577@gmail.com">2578577@gmail.com</a><p>Пн–Сб · 8:00–20:00</p></div>
+        <div class="col"><h5>Разделы</h5><a href="index.html">Индивидуальная работа</a><a href="#method">Метод</a><a href="#tariffs">Тарифы</a><a href="#faq">Вопросы</a><a href="donat.html">Поддержать</a></div>
+        <div class="col"><h5>Контакты</h5><a href="https://t.me/benefactoracademy" target="_blank" rel="noopener">Telegram · @benefactoracademy</a><a href="https://wa.me/77053482902" target="_blank" rel="noopener">WhatsApp · +7 705 348 2902</a><a href="mailto:2578577@gmail.com">2578577@gmail.com</a><p>Пн–Сб · 8:00–20:00</p></div>
       </div>
     </div>
-    <div class="legal"><span>© 2026 Игорь Стрельников · Benefactor Academy</span><span>Обучение нейрокоучингу</span></div>
+    <div class="legal">
+      <span>© 2026 Benefactor Academy</span>
+      <span class="req2">ИП Стрельников Игорь Константинович · ИНН 027805204281 · ОГРНИП 324028000227556</span>
+    </div>
   </div>
 </footer>
 
@@ -278,8 +410,15 @@
 const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10),{passive:true});
 
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.14});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* FAQ accordion */
+document.querySelectorAll('.qa .q').forEach(q=>q.addEventListener('click',()=>{
+  const qa=q.parentElement, a=qa.querySelector('.a'), open=qa.classList.contains('open');
+  document.querySelectorAll('.qa.open').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;});
+  if(!open){qa.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+}));
 
 /* plexus background */
 (function(){

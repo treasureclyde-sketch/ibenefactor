@@ -61,7 +61,12 @@
   .ahero{padding:150px 0 60px;text-align:center}
   .ahero .eyebrow{margin:0 auto}
   .ahero h1{font-family:'Manrope';font-weight:800;font-size:clamp(32px,5.4vw,62px);letter-spacing:-.02em;line-height:1.05;margin:18px auto 0;max-width:20ch}
-  .ahero h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta));-webkit-background-clip:text;background-clip:text}
+  .ahero h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--violet-2),var(--magenta),var(--violet-2));background-size:220% auto;-webkit-background-clip:text;background-clip:text;animation:shine 7s linear infinite}
+  .hero-authors{display:inline-flex;align-items:center;gap:13px;margin-top:26px}
+  .hero-authors .ha{width:46px;height:46px;border-radius:50%;overflow:hidden;border:2px solid rgba(242,236,251,.22);display:grid;place-items:center;background:#1a0b33;font-family:'Manrope';font-weight:800;font-size:14px;color:#fff}
+  .hero-authors .ha:nth-child(2){margin-left:-18px}
+  .hero-authors .ha img{width:100%;height:100%;object-fit:cover;object-position:top center}
+  .hero-authors .ha-txt{font-size:13.5px;color:var(--ink-d);text-align:left}
   .ahero p{max-width:52ch;margin:22px auto 0;color:var(--ink-d);font-size:clamp(16px,2vw,19px)}
   .cta{display:flex;gap:14px;justify-content:center;margin-top:34px;flex-wrap:wrap}
   .ahero .mini{margin-top:20px;font-size:13px;color:var(--ink-dd)}
@@ -130,10 +135,18 @@
   /* authors */
   .authors{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:940px;margin:0 auto}
   @media(max-width:760px){.authors{grid-template-columns:1fr}}
-  .acard{padding:30px;border-radius:20px;border:1px solid var(--line);background:rgba(18,9,32,.32)}
-  .acard .an{font-family:'Manrope';font-weight:800;font-size:21px}
-  .acard .ar{color:var(--violet-2);font-size:13px;margin:5px 0 14px;font-weight:600}
-  .acard p{font-size:14.5px;color:var(--ink-d)}
+  .acard{display:flex;gap:22px;align-items:center;padding:26px;border-radius:20px;border:1px solid var(--line);background:rgba(18,9,32,.32);transition:transform .4s var(--ease),border-color .4s}
+  .acard:hover{transform:translateY(-5px);border-color:rgba(167,139,250,.45)}
+  .aportrait{flex:none;width:118px;height:142px;border-radius:16px;overflow:hidden;position:relative;border:1px solid var(--line)}
+  .aportrait img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .5s var(--ease)}
+  .acard:hover .aportrait img{transform:scale(1.06)}
+  .aportrait.ph{display:grid;place-items:center;background:radial-gradient(120% 90% at 30% 10%,rgba(167,139,250,.4),transparent 55%),radial-gradient(120% 90% at 80% 100%,rgba(217,70,239,.35),transparent 55%),linear-gradient(160deg,#1a0b33,#0a0518)}
+  .aportrait .mono{font-family:'Manrope';font-weight:800;font-size:34px;color:#fff;opacity:.92;letter-spacing:.04em}
+  .aportrait::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(6,3,16,.5))}
+  .acard .atext .an{font-family:'Manrope';font-weight:800;font-size:21px}
+  .acard .atext .ar{color:var(--violet-2);font-size:13px;margin:5px 0 12px;font-weight:600}
+  .acard .atext p{font-size:14px;color:var(--ink-d)}
+  @media(max-width:480px){.acard{flex-direction:column;text-align:center}.aportrait{width:130px;height:150px}}
   .amiss{max-width:820px;margin:30px auto 0;text-align:center;color:var(--ink-d);font-size:15.5px;font-style:italic;line-height:1.7}
 
   /* stats */
@@ -164,10 +177,28 @@
   .legal{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-dd)}
   .legal .req2{max-width:60ch}
 
+  /* --- анимации --- */
+  @keyframes shine{to{background-position:220% center}}
+  @keyframes drift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(7vw,5vh) scale(1.15)}}
+  @keyframes drift2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-6vw,-4vh) scale(1.12)}}
+  .glowbg .g1{animation:drift1 26s ease-in-out infinite alternate}
+  .glowbg .g2{animation:drift2 32s ease-in-out infinite alternate}
+  @keyframes badgeShine{0%,58%{left:-60%}100%{left:170%}}
+  .tcard .badge{overflow:hidden}
+  .tcard .badge::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-18deg);animation:badgeShine 3.4s ease-in-out infinite}
+  .num .cnt{font-variant-numeric:tabular-nums}
+  .stagger>.rv:nth-child(2){transition-delay:.07s}
+  .stagger>.rv:nth-child(3){transition-delay:.14s}
+  .stagger>.rv:nth-child(4){transition-delay:.21s}
+  .stagger>.rv:nth-child(5){transition-delay:.28s}
+  .stagger>.rv:nth-child(6){transition-delay:.35s}
+  .stagger>.rv:nth-child(7){transition-delay:.42s}
+  .stagger>.rv:nth-child(8){transition-delay:.49s}
+
   .rv{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
   .rv.in{opacity:1;transform:none}
   .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
-  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.glowbg .g1,.glowbg .g2,.ahero h1 em,.tcard .badge::after{animation:none}}
 </style>
 </head>
 <body>
@@ -201,14 +232,18 @@
       <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-primary">Записаться на обучение <span class="arw">→</span></a>
       <a href="https://t.me/benefactoracademy" target="_blank" rel="noopener" class="btn btn-ghost">Бесплатная консультация</a>
     </div>
-    <p class="mini rv d3">Наставники с опытом 5+ лет · много практики · проработка своих запросов</p>
+    <div class="hero-authors rv d3">
+      <span class="ha"><img src="assets/igor2.webp" alt="Игорь Стрельников"></span>
+      <span class="ha">МК</span>
+      <span class="ha-txt">Учат Игорь Стрельников и Максим Кучеров · 5+ лет практики</span>
+    </div>
   </section>
 
   <!-- МЕТОД / ОТЛИЧИЯ -->
   <section class="blk" id="method">
     <div class="wrap">
       <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Метод</span><h2 class="rv d1">Как это работает и чем отличается</h2><p class="rv d2">Методика эффективнее обычного коучинга и гипноза: эффект уже с первой сессии, за один сеанс отключается несколько чувств.</p></div>
-      <div class="feat-grid">
+      <div class="feat-grid stagger">
         <div class="fcard rv"><h4>Это не гипноз</h4><p>Методика комфортно воспринимается клиентами — без транса и страха потерять контроль.</p></div>
         <div class="fcard rv"><h4>Доступ к подсознанию</h4><p>Появляется доступ к подсознанию, где вы обнаруживаете скрытые страхи и глубинные запросы клиента.</p></div>
         <div class="fcard rv"><h4>Разделение событий и чувств</h4><p>Отделяем факт от осознания и эмоций к нему — видно, как убеждения управляют поведением.</p></div>
@@ -224,7 +259,7 @@
   <section class="blk" id="program">
     <div class="wrap">
       <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Программа</span><h2 class="rv d1">Чему вы научитесь</h2><p class="rv d2">Не только методу — но и тому, как превратить его в удалённую профессию с доходом.</p></div>
-      <div class="learn">
+      <div class="learn stagger">
         <div class="litem rv"><div class="ic">1</div><p><b>Авторский метод «Бенефактор»</b>Чёткий инструмент глубокой работы с подсознанием — до корневых причин, а не следствий.</p></div>
         <div class="litem rv"><div class="ic">2</div><p><b>Связь с «Высшим Я»</b>Проводите клиента к его источнику мудрости и устойчивости — где скрыты силы и ответы.</p></div>
         <div class="litem rv"><div class="ic">3</div><p><b>Живая практика</b>Реальные сессии с участниками и личный разбор от наставников.</p></div>
@@ -239,7 +274,7 @@
   <section class="blk" id="whom">
     <div class="wrap">
       <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Кому подходит</span><h2 class="rv d1">Справится даже новичок</h2><p class="rv d2">Главное — ваше желание. Программа выстроена под любой стартовый уровень.</p></div>
-      <div class="aud-grid">
+      <div class="aud-grid stagger">
         <div class="aud rv"><div class="who2">Совсем новичок</div><p>Ничего не знаете о нейрокоучинге, но хотите освоить, быстро выйти на заработок и проработать свои проблемы — дадим все инструменты для твёрдого навыка и стабильных продаж.</p></div>
         <div class="aud rv d1"><div class="who2">Начинающий</div><p>Уже прошли какие-то курсы, но не понимаете, что делать дальше, где искать клиентов и как продавать — выстроим фундамент в профессионализме, личном бренде и продажах.</p></div>
         <div class="aud rv"><div class="who2">Опытный</div><p>Хотите больше уверенности как эксперт, углубить знания и вырасти в доходе, видя результат каждой сессии — усилите экспертность и увеличите прибыль.</p></div>
@@ -260,11 +295,11 @@
   <section class="blk" id="results">
     <div class="wrap">
       <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Результаты</span><h2 class="rv d1">Почему это работает</h2></div>
-      <div class="stats">
-        <div class="stat rv"><div class="num">9/10</div><div class="lab">клиентов покупают после диагностики</div></div>
-        <div class="stat rv d1"><div class="num">70%</div><div class="lab">продлевают сессии</div></div>
-        <div class="stat rv d2"><div class="num">5+</div><div class="lab">лет опыта у авторов</div></div>
-        <div class="stat rv d3"><div class="num">3 мес</div><div class="lab">до новой профессии</div></div>
+      <div class="stats stagger">
+        <div class="stat rv"><div class="num"><span class="cnt" data-to="9">0</span>/10</div><div class="lab">клиентов покупают после диагностики</div></div>
+        <div class="stat rv"><div class="num"><span class="cnt" data-to="70">0</span>%</div><div class="lab">продлевают сессии</div></div>
+        <div class="stat rv"><div class="num"><span class="cnt" data-to="5">0</span>+</div><div class="lab">лет опыта у авторов</div></div>
+        <div class="stat rv"><div class="num"><span class="cnt" data-to="3">0</span> мес</div><div class="lab">до новой профессии</div></div>
       </div>
     </div>
   </section>
@@ -273,7 +308,7 @@
   <section class="blk" id="reviews">
     <div class="wrap">
       <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Отзывы</span><h2 class="rv d1">Результаты учеников</h2></div>
-      <div class="revs">
+      <div class="revs stagger">
         <div class="rev rv"><div class="stars">★★★★★</div><q>Система, которая точно работает!</q><div class="rn">Алексей</div></div>
         <div class="rev rv"><div class="stars">★★★★★</div><q>Мне повезло попасть сюда!</q><div class="rn">Юлия</div></div>
         <div class="rev rv"><div class="stars">★★★★★</div><q>Система, которой пользуются даже опытные мастера!</q><div class="rn">Елена</div></div>
@@ -291,7 +326,7 @@
   <section class="blk" id="tariffs">
     <div class="wrap">
       <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Уровни</span><h2 class="rv d1">Три уровня обучения</h2><p class="rv d2">От базового старта до личного наставничества с авторами метода.</p></div>
-      <div class="tariffs">
+      <div class="tariffs stagger">
 
         <div class="tcard rv">
           <div class="lvl">Уровень 1</div>
@@ -345,16 +380,22 @@
   <section class="blk" id="authors">
     <div class="wrap">
       <div class="sec-head"><span class="eyebrow rv" style="justify-content:center">Авторы</span><h2 class="rv d1">Кто обучает</h2></div>
-      <div class="authors">
+      <div class="authors stagger">
         <div class="acard rv">
-          <div class="an">Игорь Стрельников</div>
-          <div class="ar">Создатель системы «Бенефактор»</div>
-          <p>5+ лет практики. Получал знания от мастеров по всему миру, проходя посвящения в недоступные обывателю области, и создал авторскую методологию работы с подсознанием, гипнозом и «Высшим Я».</p>
+          <div class="aportrait"><img src="assets/igor2.webp" alt="Игорь Стрельников"></div>
+          <div class="atext">
+            <div class="an">Игорь Стрельников</div>
+            <div class="ar">Создатель системы «Бенефактор»</div>
+            <p>5+ лет практики. Получал знания от мастеров по всему миру, проходя посвящения в недоступные обывателю области, и создал авторскую методологию работы с подсознанием, гипнозом и «Высшим Я».</p>
+          </div>
         </div>
-        <div class="acard rv d1">
-          <div class="an">Максим Кучеров</div>
-          <div class="ar">Сооснователь · продажи и продвижение</div>
-          <p>Эксперт по продажам и упаковке. По методике «Бенефактор» набрал 20 000 подписчиков за 2 месяца — и учит студентов выстраивать личный бренд и стабильные продажи.</p>
+        <div class="acard rv">
+          <div class="aportrait ph"><span class="mono">МК</span></div>
+          <div class="atext">
+            <div class="an">Максим Кучеров</div>
+            <div class="ar">Сооснователь · продажи и продвижение</div>
+            <p>Эксперт по продажам и упаковке. По методике «Бенефактор» набрал 20 000 подписчиков за 2 месяца — и учит студентов выстраивать личный бренд и стабильные продажи.</p>
+          </div>
         </div>
       </div>
       <p class="amiss rv">«Мы основали эту онлайн-школу, чтобы помочь людям перейти на другой уровень восприятия жизни, выйти из состояния жертвы и посмотреть на жизнь по-новому».</p>
@@ -412,6 +453,20 @@ addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10),{passi
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* count-up цифр в блоке результатов */
+const reduceM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function countUp(el){
+  const to=+el.dataset.to; if(reduceM){el.textContent=to;return;}
+  const dur=1100, t0=performance.now();
+  (function step(now){
+    const p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(to*e);
+    if(p<1) requestAnimationFrame(step);
+  })(t0);
+}
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){countUp(e.target);cio.unobserve(e.target);}}),{threshold:.6});
+document.querySelectorAll('.cnt').forEach(el=>cio.observe(el));
 
 /* FAQ accordion */
 document.querySelectorAll('.qa .q').forEach(q=>q.addEventListener('click',()=>{

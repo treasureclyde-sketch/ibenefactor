@@ -62,7 +62,20 @@
   .nav-links a{font-size:14.5px;color:var(--ink-d);transition:color .25s;font-weight:500}
   .nav-links a:hover{color:var(--ink)}
   .nav-cta{padding:11px 20px;font-size:14px !important}
-  @media(max-width:1000px){.nav-links a:not(.nav-cta){display:none}}
+  .nav-burger{display:none;background:none;border:none;width:42px;height:42px;position:relative;cursor:pointer}
+  .nav-burger span{position:absolute;left:10px;right:10px;height:2px;background:var(--ink);border-radius:2px;transition:transform .3s var(--ease),opacity .25s}
+  .nav-burger span:nth-child(1){top:15px}.nav-burger span:nth-child(2){top:21px}.nav-burger span:nth-child(3){top:27px}
+  header#nav.open .nav-burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+  header#nav.open .nav-burger span:nth-child(2){opacity:0}
+  header#nav.open .nav-burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+  @media(max-width:1000px){
+    .nav-burger{display:block}
+    .nav-links{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(5,2,10,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:6px 20px 18px;transform:translateY(-10px);opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+    header#nav.open .nav-links{opacity:1;transform:none;pointer-events:auto}
+    .nav-links a{display:block;padding:14px 2px;font-size:16px}
+    .nav-links a:not(:last-child){border-bottom:1px solid var(--line)}
+    .nav-cta{margin-top:14px;justify-content:center;text-align:center;font-size:15px !important}
+  }
   /* линия-подчёркивание меню отдельным слоем НАД курсором-блобом, чтобы её цвет не инвертировался (текст при этом инвертируется как обычно) */
   #navline{position:fixed;z-index:100050;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--violet),var(--magenta));opacity:0;transform:scaleX(0);transform-origin:left;transition:opacity .22s var(--ease),transform .28s var(--ease),left .3s var(--ease),width .3s var(--ease),top .3s var(--ease);pointer-events:none}
   #navline.on{opacity:1;transform:scaleX(1)}
@@ -343,6 +356,7 @@
       <a href="#contacts">Контакты</a>
       <a href="#book" class="btn btn-primary nav-cta" data-book="диагностику">Записаться</a>
     </nav>
+    <button class="nav-burger" type="button" aria-label="Меню"><span></span><span></span><span></span></button>
   </div>
 </header>
 
@@ -778,6 +792,14 @@ document.querySelectorAll('.qa').forEach(qa=>{
 });
 const nav=document.getElementById('nav'); const ns=()=>nav.classList.toggle('scrolled',scrollY>40);
 addEventListener('scroll',ns,{passive:true}); ns();
+/* бургер-меню на мобилках */
+(function(){
+  const b=nav.querySelector('.nav-burger'); if(!b) return;
+  b.addEventListener('click',e=>{e.stopPropagation();nav.classList.toggle('open');});
+  nav.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+  document.addEventListener('click',e=>{if(!nav.contains(e.target))nav.classList.remove('open');});
+  addEventListener('keydown',e=>{if(e.key==='Escape')nav.classList.remove('open');});
+})();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 

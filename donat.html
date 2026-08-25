@@ -45,7 +45,7 @@
   .btn-ghost{background:rgba(242,236,251,.05);color:var(--ink);border:1px solid var(--line)}
   .btn-ghost:hover{background:rgba(242,236,251,.09);transform:translateY(-2px)}
 
-  header#nav{position:fixed;top:0;left:0;right:0;z-index:100000;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+  header#nav{position:fixed;top:0;left:0;right:0;z-index:40;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
   header#nav.scrolled{background:rgba(5,2,10,.72);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
   .nav-in{max-width:var(--maxw);margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:11px;font-family:'Manrope';font-weight:800;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
@@ -53,10 +53,11 @@
   .nav-links a{font-size:14.5px;color:var(--ink-d);transition:color .25s;font-weight:500}
   .nav-links a:hover,.nav-links a.active{color:var(--ink)}
   .nav-cta{padding:11px 20px;font-size:14px !important;color:#fff}
-  .nav-links a:not(.nav-cta){position:relative}
-  .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--violet),var(--magenta));transform:scaleX(0);transform-origin:left;transition:transform .28s var(--ease)}
-  .nav-links a:not(.nav-cta):hover::after,.nav-links a.active:not(.nav-cta)::after{transform:scaleX(1)}
   @media(max-width:1000px){.nav-links a:not(.nav-cta){display:none}}
+  /* линия-подчёркивание меню отдельным слоем НАД курсором-блобом, чтобы цвет не инвертировался */
+  #navline{position:fixed;z-index:100050;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--violet),var(--magenta));opacity:0;transform:scaleX(0);transform-origin:left;transition:opacity .22s var(--ease),transform .28s var(--ease),left .3s var(--ease),width .3s var(--ease),top .3s var(--ease);pointer-events:none}
+  #navline.on{opacity:1;transform:scaleX(1)}
+  @media(hover:none),(pointer:coarse){#navline{display:none}}
 
   .dhero{padding:150px 0 40px;text-align:center}
   .dhero h1{font-family:'Manrope';font-weight:800;font-size:clamp(34px,6vw,66px);letter-spacing:-.02em;line-height:1.03;margin-top:18px}
@@ -210,6 +211,19 @@ addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10),{passi
 /* reveal */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.14});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* линия-подчёркивание меню — отдельный слой над блобом */
+(function(){
+  const links=[...document.querySelectorAll('.nav-links a:not(.nav-cta)')];
+  if(!links.length) return;
+  const line=document.createElement('div'); line.id='navline'; document.body.appendChild(line);
+  const restEl=document.querySelector('.nav-links a.active:not(.nav-cta)')||null;
+  function place(a){const r=a.getBoundingClientRect();line.style.left=r.left+'px';line.style.width=r.width+'px';line.style.top=(r.bottom+6)+'px';}
+  function show(a){place(a);line.classList.add('on');}
+  function rest(){ if(restEl) show(restEl); else line.classList.remove('on'); }
+  links.forEach(a=>{a.addEventListener('mouseenter',()=>show(a));a.addEventListener('mouseleave',rest);});
+  rest(); addEventListener('resize',rest,{passive:true});
+})();
 
 /* copy to clipboard */
 document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{

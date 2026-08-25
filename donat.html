@@ -90,10 +90,15 @@
   .foot .col a:hover{color:var(--ink)}.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
   .legal{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-dd)}
 
-  .rv{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-  .rv.in{opacity:1;transform:none}
+  .rv{opacity:0;transform:translateY(26px) scale(.965);filter:blur(9px);transition:opacity .7s var(--ease),transform .75s var(--ease),filter .7s var(--ease)}
+  .rv.in{opacity:1;transform:none;filter:blur(0)}
   .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
-  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+  .stagger>.rv:nth-child(2){transition-delay:.08s}
+  .stagger>.rv:nth-child(3){transition-delay:.16s}
+  .stagger>.rv:nth-child(4){transition-delay:.24s}
+  .stagger>.rv:nth-child(5){transition-delay:.32s}
+  .stagger>.rv:nth-child(6){transition-delay:.40s}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none}}
 </style>
 </head>
 <body>
@@ -124,7 +129,7 @@
   </section>
 
   <section class="wrap pay-sec">
-    <div class="pay-grid">
+    <div class="pay-grid stagger">
 
       <div class="pay-card span2 rv" style="text-align:center">
         <span class="tag">Проще всего · картой онлайн</span>
